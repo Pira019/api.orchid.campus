@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('api.orchid-campus')->group(function (){
 
     //contact form
-    Route::post('/contact-form',[ContactController::class,'ContactUs']);
+    Route::get('/contact-form',[ContactController::class,'contactUs']);
 });
 
 
