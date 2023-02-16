@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Assistance;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,12 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('questions', function (Blueprint $table) {
+            $table->comment('questions about assistance');
             $table->id();
-            $table->string('name')->unique();
-            $table->string('short_name',10)->nullable();
-            $table->string('official_name')->nullable();
-            $table->timestamps();
+            $table->foreignIdFor(Assistance::class)->constrained();
+            $table->text('question');
+            $table->text('answers')->nullable();
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('questions');
     }
 };

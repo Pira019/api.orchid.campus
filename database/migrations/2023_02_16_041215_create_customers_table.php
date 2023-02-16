@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('persons', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string("name");
             $table->string("first_name");
@@ -22,10 +22,9 @@ return new class extends Migration
             $table->integer('citizenship')->unsigned()->nullable();
             $table->string("phone",20)->nullable();
             $table->date("birth_date");
-            $table->timestamps();
-
             $table->foreign('residence_contry')->references('id')->on('countries')->onDelete('SET NULL');
             $table->foreign('citizenship')->references('id')->on('countries')->onDelete('SET NULL');
+            $table->timestamps();
         });
     }
 
@@ -36,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('customers');
     }
 };

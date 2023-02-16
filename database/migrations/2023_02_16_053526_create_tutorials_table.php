@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('tutorials', function (Blueprint $table) {
+            $table->comment('polymorph table');
             $table->id();
-            $table->string('name')->unique();
-            $table->string('short_name',10)->nullable();
-            $table->string('official_name')->nullable();
+            $table->string('title');
+            $table->integer('order');
+            $table->integer('tutorialable_id');
+            $table->string('tutorialable_type');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('tutorials');
     }
 };

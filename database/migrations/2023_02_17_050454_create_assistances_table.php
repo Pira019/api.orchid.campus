@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Customer;
+use App\Models\Service;
+use App\Models\University;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +16,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('assistances', function (Blueprint $table) { $table->foreignIdFor(Customer::class)->constrained();
             $table->id();
-            $table->string('name')->unique();
-            $table->string('short_name',10)->nullable();
-            $table->string('official_name')->nullable();
+
+            $table->foreignIdFor(Service::class)->constrained()->nullOnDelete();
+            $table->double('price')->nullable();
+            $table->string('status',10)->default('pending');
             $table->timestamps();
         });
     }
@@ -29,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('assistances');
     }
 };

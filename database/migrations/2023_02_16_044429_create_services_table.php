@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Country;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +14,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('short_name',10)->nullable();
-            $table->string('official_name')->nullable();
+            $table->foreignIdFor(Country::class)->constrained();
+            $table->double("price");
+            $table->string('currency',5)->nullable();
+            $table->string('session')->nullable();
+            $table->string('year',10);
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('services');
     }
 };
