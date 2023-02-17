@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Focuss;
 use App\Models\Program;
 use App\Models\University;
 use Illuminate\Database\Migrations\Migration;
@@ -20,8 +21,9 @@ return new class extends Migration
             $table->integer('nbrCredit');
             $table->integer('cycle');
             $table->string('duration');
-            $table->string('admissionScheme');
+            $table->string('admission_scheme');
             $table->string('languages');
+            $table->foreignIdFor(Focuss::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Program::class)->constrained()->nullOnDelete();
             $table->foreignIdFor(University::class)->constrained();
             $table->timestamps();
