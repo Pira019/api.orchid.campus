@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\CustomerController\Contact\ContactController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,13 +18,18 @@ use Illuminate\Support\Facades\Route;
 
 //CustomerController
 
-Route::prefix('api.orchid-campus')->group(function (){
+Route::prefix('orchid-campus')->group(function (){
+
+   //User routes
+    Route::post('/register',[UserController::class,'create']);
+
 
     //contact form
-    Route::get('/contact-form',[ContactController::class,'contactUs']);
+   // Route::get('/contact-form',[ContactController::class,'contactUs']);
 });
 
+/*
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
