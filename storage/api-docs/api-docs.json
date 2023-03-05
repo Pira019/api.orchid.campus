@@ -1,0 +1,32 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "ORCHID REST API",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "pireslfgl@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/orchid-campus/register": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Get list of projects lol",
+                "description": "Returns list of projects",
+                "operationId": "create",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        }
+    }
+}

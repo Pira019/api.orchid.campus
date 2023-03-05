@@ -6,12 +6,12 @@ use App\Models\User;
 use App\Service\ServiceRessource;
 
 class UserService extends ServiceRessource{
+    public function __contruct(){
 
-    public function __contruct(User $user){
-        $this->model=$user;
     }
 
     public function save($data){
+       $this->model=new User();
        $this->create($data);
     }
 
