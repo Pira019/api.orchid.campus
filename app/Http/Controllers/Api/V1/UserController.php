@@ -38,8 +38,9 @@ class UserController extends Controller
             'birth_date' => 'required|date|before:'.Carbon::now()->subYears(17), // min 17 years
             'residence_contry' => 'nullable|integer|exists:countries,id',
             'citizenship' => 'nullable|integer|exists:countries,id',
-            'email' => 'required|email:rfc,dns',
+            'email' => 'required|email:rfc,dns|unique:users',
             'password' => 'required',
+            'password_confirmation' => 'required|same:password',
 
         ]);
 
