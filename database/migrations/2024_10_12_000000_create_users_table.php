@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->string('user_name')->unique()->index();
             $table->string('email')->unique();
-            $table->foreignIdFor(Customer::class)->constrained();
+            $table->foreignIdFor(Customer::class)->constrained()->onDelete('CASCADE');
             $table->foreignIdFor(Profil::class)->constrained();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
