@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\CountryController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,9 +14,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-
-
 //CustomerController
 
 Route::prefix('orchid-campus')->group(function (){
@@ -23,9 +21,10 @@ Route::prefix('orchid-campus')->group(function (){
    //User routes
     Route::post('/register',[UserController::class,'create']);
 
-
-    //contact form
-   // Route::get('/contact-form',[ContactController::class,'contactUs']);
+    //Country routes
+    Route::controller(CountryController::class)->group(function() {
+        Route::get('/countries','getList');
+    });
 });
 
 /*
