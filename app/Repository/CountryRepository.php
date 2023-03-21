@@ -9,7 +9,7 @@ class CountryRepository extends RepositoryRessource {
         $this->model = $model;
     }
 
-    public function getCoutryList($collumn=['*']){
-        return  $this->getAll($collumn);
+    public function getCoutryList($columns=['*']){
+        return  $this->getAll($columns);
     }
 }

@@ -1,10 +1,12 @@
 <?php
 namespace App\Repository;
-class RepositoryRessource {
+class RepositoryRessource
+{
     protected $model;
 
-    protected function getAll($collumns = ['*']){
-        return $this->model::get($collumns);
+    protected function getAll($columns = ['*'])
+    {
+        return $this->model::get($columns);
     }
 
 }
