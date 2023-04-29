@@ -31,11 +31,11 @@ class UserController extends Controller
      */
     public function create(Request $request,CustomerService $customerService,UserService $userService){
 
-         $validated= $request->validate([
+         $request->validate([
             'name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'sex' => 'required|string|max:5',
-            'birth_date' => 'required|date|before:'.Carbon::now()->subYears(17), // min 17 years
+            'birth_date' => 'required|date|before:'.Carbon::now()->subYears(16), // min 17 years
             'residence_contry' => 'nullable|integer|exists:countries,id',
             'citizenship' => 'nullable|integer|exists:countries,id',
             'email' => 'required|email:rfc,dns|unique:users',
