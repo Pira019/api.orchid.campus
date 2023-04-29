@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Service\CustomerServices\CustomerService;
 use App\Service\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -39,8 +39,8 @@ class UserController extends Controller
             'residence_contry' => 'nullable|integer|exists:countries,id',
             'citizenship' => 'nullable|integer|exists:countries,id',
             'email' => 'required|email:rfc,dns|unique:users',
-            'password' => 'required',
             'password_confirmation' => 'required|same:password',
+            'password' => ['required',Password::min(8)->letters()->numbers()->uncompromised()],
 
         ]);
 
