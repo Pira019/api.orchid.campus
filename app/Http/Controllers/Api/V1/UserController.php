@@ -35,12 +35,13 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'sex' => 'required|string|max:5',
+            'phone' => 'min:10|max:20',
             'birth_date' => 'required|date|before:'.Carbon::now()->subYears(16), // min 17 years
             'residence_contry' => 'nullable|integer|exists:countries,id',
             'citizenship' => 'nullable|integer|exists:countries,id',
             'email' => 'required|email:rfc,dns|unique:users',
             'password_confirmation' => 'required|same:password',
-            'password' => ['required',Password::min(8)->letters()->numbers()->uncompromised()],
+            'password' => ['required',Password::min(8)->letters()->numbers()->symbols()->uncompromised()],
 
         ]);
 
