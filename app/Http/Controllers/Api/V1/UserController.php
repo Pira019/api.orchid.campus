@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Rules\Recaptcha;
 use App\Service\CustomerServices\CustomerService;
 use App\Service\UserService;
 use Carbon\Carbon;
@@ -29,19 +30,20 @@ class UserController extends Controller
      *       ),
      *     )
      */
-    public function create(Request $request,CustomerService $customerService,UserService $userService){
+    public function create(Request $request,CustomerService $customerService,UserService $userService,Recaptcha $recaptcha){
 
          $request->validate([
             'name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'sex' => 'required|string|max:5',
-            'phone' => 'min:10|max:20',
+            'phone' => 'nullable|min:10|max:20',
             'birth_date' => 'required|date|before:'.Carbon::now()->subYears(16), // min 17 years
             'residence_contry' => 'nullable|integer|exists:countries,id',
             'citizenship' => 'nullable|integer|exists:countries,id',
             'email' => 'required|email:rfc,dns|unique:users',
             'password_confirmation' => 'required|same:password',
             'password' => ['required',Password::min(8)->letters()->numbers()->symbols()->uncompromised()],
+            'recaptcha' => ['required',$recaptcha]
 
         ]);
 
@@ -55,7 +57,7 @@ class UserController extends Controller
 
         $userService->save($data);
 
-        return $customer;
+        return response([]);
     }
 
 
