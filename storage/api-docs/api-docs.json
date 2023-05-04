@@ -4,6 +4,7 @@
         "title": "ORCHID REST API",
         "description": "L5 Swagger OpenApi description",
         "contact": {
+            "name": "Pires Lufungula",
             "email": "pireslfgl@gmail.com"
         },
         "license": {
@@ -12,21 +13,118 @@
         },
         "version": "1.0.0"
     },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api/orchid-campus",
+            "description": "Orchid campus Server"
+        }
+    ],
     "paths": {
-        "/api/orchid-campus/register": {
+        "/register": {
             "post": {
                 "tags": [
-                    "Login"
+                    "Register"
                 ],
-                "summary": "Get list of projects lol",
-                "description": "Returns list of projects",
+                "summary": "Save new user",
                 "operationId": "create",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SaveNewUserRequest"
+                            }
+                        }
+                    }
+                },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
                     }
                 }
             }
         }
-    }
+    },
+    "components": {
+        "schemas": {
+            "SaveNewUserRequest": {
+                "title": "Update Project request",
+                "description": "Update Project request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "type": "string",
+                        "example": "LUFUNGULA"
+                    },
+                    "first_name": {
+                        "title": "first_name",
+                        "type": "string",
+                        "example": "Nico"
+                    },
+                    "sex": {
+                        "title": "sex",
+                        "description": "Choose the sex M or F",
+                        "type": "string",
+                        "example": "M"
+                    },
+                    "phone": {
+                        "title": "phone",
+                        "description": "Phone number",
+                        "type": "string",
+                        "example": "8169394833"
+                    },
+                    "birth_date": {
+                        "title": "birth_date",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2000-01-12"
+                    },
+                    "residence_contry": {
+                        "title": "residence_contry",
+                        "description": "1 => Afghanistan, 2 => Afrique du Sud",
+                        "type": "string",
+                        "example": "1"
+                    },
+                    "citizenship": {
+                        "title": "citizenship",
+                        "description": "1 => Afghanistan, 2 => Afrique du Sud",
+                        "type": "string",
+                        "example": "1"
+                    },
+                    "email": {
+                        "title": "email",
+                        "type": "string",
+                        "example": "test2@gmail.com"
+                    },
+                    "password": {
+                        "title": "password",
+                        "description": "User password",
+                        "type": "string",
+                        "format": "password",
+                        "example": "password123@P"
+                    },
+                    "password_confirmation": {
+                        "title": "password",
+                        "description": "User password_confirmation",
+                        "type": "string",
+                        "format": "password",
+                        "example": "password123@P"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "ORCHID CAMPUS PROJECT",
+            "description": "API Endpoints of Projects"
+        }
+    ]
 }

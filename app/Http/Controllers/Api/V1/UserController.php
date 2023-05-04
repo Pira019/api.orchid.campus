@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\newCustomerResource;
 use App\Rules\Recaptcha;
 use App\Service\CustomerServices\CustomerService;
 use App\Service\UserService;
@@ -18,16 +19,22 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/orchid-campus/register",
+     *      path="/register",
      *      operationId="create",
-     *      tags={"Login"},
-     *      summary="Get list of projects lol",
-     *      description="Returns list of projects",
+     *      tags={"Register"},
+     *      summary="Save new user",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/SaveNewUserRequest")
+     *      ),
      *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *
+     *          response=201,
+     *          description="Successful operation",     *
      *       ),
+     *       @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
      *     )
      */
     public function create(Request $request,CustomerService $customerService,UserService $userService,Recaptcha $recaptcha){
@@ -43,7 +50,7 @@ class UserController extends Controller
             'email' => 'required|email:rfc,dns|unique:users',
             'password_confirmation' => 'required|same:password',
             'password' => ['required',Password::min(8)->letters()->numbers()->symbols()->uncompromised()],
-            'recaptcha' => ['required',$recaptcha]
+            'recaptcha' => [$recaptcha],
 
         ]);
 
@@ -57,7 +64,7 @@ class UserController extends Controller
 
         $userService->save($data);
 
-        return response([]);
+        return new newCustomerResource($customer);
     }
 
 
