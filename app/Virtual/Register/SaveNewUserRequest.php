@@ -3,10 +3,10 @@ namespace App\Virtual\Register;
 
 /**
  * @OA\Schema(
- *      title="Update Project request",
- *      description="Update Project request body data",
+ *      title="Save NewUserRequest request",
+ *      description="Create user account request body data",
  *      type="object",
- *      required={"name"}
+ *      required={"name","first_name","sex","birth_date","residence_contry","citizenship","email","password","password_confirmation"}
  * )
  */
 
