@@ -48,7 +48,6 @@ class WelcomeMail extends Mailable implements ShouldQueue
             markdown:'emails.welcome',
             with:[
                 'name' => $this->userName,
-                'message'=> $this,
             ]
         );
     }
