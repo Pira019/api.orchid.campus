@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Core\ServiceUtils;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -20,7 +21,7 @@ class WelcomeMail extends Mailable implements ShouldQueue
      */
     public function __construct(public $userName)
     {
-        //
+        $this->afterCommit();
     }
 
     /**
@@ -31,8 +32,8 @@ class WelcomeMail extends Mailable implements ShouldQueue
     public function envelope()
     {
         return new Envelope(
-            from:new Address(env("WELCOME_MAIL_USERNAME"),"WELCOME Pires lfgl"),
-            subject: 'Welcome Mail',
+            from:new Address(env("WELCOME_MAIL_USERNAME"),config('app.name')),
+            subject: ServiceUtils::ucfirst_lower($this->userName).', bienvenue sur '.config('app.name') ,
         );
     }
 
@@ -44,7 +45,11 @@ class WelcomeMail extends Mailable implements ShouldQueue
     public function content()
     {
         return new Content(
-            view: 'mail',
+            markdown:'emails.welcome',
+            with:[
+                'name' => $this->userName,
+                'message'=> $this,
+            ]
         );
     }
 

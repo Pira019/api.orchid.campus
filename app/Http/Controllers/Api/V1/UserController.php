@@ -67,7 +67,7 @@ class UserController extends Controller
         $userService->save($data);
 
         //send welcome email
-        Mail::mailer('welcome')->to($data['email'])->send(new WelcomeMail("Exempele"));
+        Mail::mailer('welcome')->to($data['email'])->send(new WelcomeMail($customer->first_name));
 
         return new newCustomerResource($customer);
     }
