@@ -10,5 +10,5 @@ Nous espérons que vous apprécierez votre expérience sur notre site et que vou
 Nous vous souhaitons beaucoup de succès dans votre parcours d'étude à l'étranger et sommes impatients de vous accompagner tout au long du chemin.<br>
 
 Cordialement,<br>
-L'équipe {{ config('app.name') }}
+L'équipe {{ config('app.name') }}; L'avenir en commun
 </x-mail::message>
