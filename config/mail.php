@@ -45,6 +45,17 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
 
+        'welcome' => [
+            'transport' => 'smtp',
+            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+            'port' => env('MAIL_PORT', 587),
+            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'username' => env('WELCOME_MAIL_USERNAME'),
+            'password' => env('WELCOME_MAIL_PASSWORD'),
+            'timeout' => null,
+            'local_domain' => env('MAIL_EHLO_DOMAIN'),
+        ],
+
         'ses' => [
             'transport' => 'ses',
         ],
@@ -95,6 +106,8 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
+
+    'reply_to' => ['address' => 'contact@orchid-campus.com', 'name' => 'Contact orchid campus'],
 
     /*
     |--------------------------------------------------------------------------

@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\newCustomerResource;
+use App\Mail\WelcomeMail;
 use App\Rules\Recaptcha;
 use App\Service\CustomerServices\CustomerService;
 use App\Service\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -63,6 +65,9 @@ class UserController extends Controller
         $data['customer_id'] = $customer->id;
 
         $userService->save($data);
+
+        //send welcome email
+        Mail::mailer('welcome')->to($data['email'])->send(new WelcomeMail($customer->first_name));
 
         return new newCustomerResource($customer);
     }
