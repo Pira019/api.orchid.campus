@@ -47,7 +47,7 @@ class WelcomeMail extends Mailable implements ShouldQueue
         return new Content(
             markdown:'emails.welcome',
             with:[
-                'name' => $this->userName,
+                'name' => ServiceUtils::ucfirst_lower($this->userName),
             ]
         );
     }
