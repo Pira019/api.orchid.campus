@@ -213,5 +213,10 @@ return [
         'updated_at'               => 'mis à jour à',
         'username'                 => 'nom d\'utilisateur',
         'year'                     => 'année',
+        'birth_date'               => 'date de naissance',
+        'residence_contry'          => 'pays de résidence',
+        'citoyenneté'          => 'pays de citoyenneté',
+
+
     ],
 ];
