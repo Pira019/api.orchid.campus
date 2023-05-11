@@ -46,7 +46,7 @@ class UserController extends Controller
             'first_name' => 'required|string|max:255',
             'sex' => 'required|string|max:5',
             'phone' => 'nullable|min:10|max:20',
-            'birth_date' => 'required|date|before:'.Carbon::now()->subYears(16), // min 17 years
+            'birth_date' => 'required|date|before:'.Carbon::now()->subYears(16)->startOfDay(), // Subtract 16 years and set the time to the beginning of the day
             'residence_contry' => 'nullable|integer|exists:countries,id',
             'citizenship' => 'nullable|integer|exists:countries,id',
             'email' => 'required|email:rfc,dns|unique:users',
