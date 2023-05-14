@@ -16,8 +16,6 @@ use Illuminate\Validation\Rules\Password;
 class UserController extends Controller
 {
 
-    public function __contruct(){
-    }
 
     /**
      * @OA\Post(
@@ -47,8 +45,8 @@ class UserController extends Controller
             'sex' => 'required|string|max:5',
             'phone' => 'nullable|min:10|max:20',
             'birth_date' => 'required|date|before_or_equal:'.Carbon::now()->subYears(15)->format('d-m-Y'), // Subtract 15 years and set the time to the beginning of the day
-            'residence_contry' => 'nullable|integer|exists:countries,id',
-            'citizenship' => 'nullable|integer|exists:countries,id',
+            'residence_contry' => 'required|integer|exists:countries,id',
+            'citizenship' => 'required|integer|exists:countries,id',
             'email' => 'required|email:rfc,dns|unique:users',
             'password_confirmation' => 'required|same:password',
             'password' => ['required',Password::min(8)->letters()->numbers()->symbols()->uncompromised()],
