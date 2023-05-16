@@ -19,7 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('orchid-campus')->group(function () {
 
     //User routes
-    Route::post('/register', [UserController::class, 'create']);
+     Route::controller(UserController::class)->group(function () {
+        Route::post('/register','create');
+        Route::post('/login','authentificate');
+    });
 
     //Country routes
     Route::controller(CountryController::class)->group(function () {
