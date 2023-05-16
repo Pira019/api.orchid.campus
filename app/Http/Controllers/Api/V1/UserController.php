@@ -5,17 +5,20 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\newCustomerResource;
 use App\Mail\WelcomeMail;
+use App\Repository\UserRepository;
 use App\Rules\Recaptcha;
 use App\Service\CustomerServices\CustomerService;
 use App\Service\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
 
+    public function __construct(public UserRepository $userRepository){}
 
     /**
      * @OA\Post(
@@ -68,6 +71,32 @@ class UserController extends Controller
         Mail::mailer('welcome')->to($data['email'])->send(new WelcomeMail($customer->first_name));
 
         return new newCustomerResource($customer);
+    }
+
+    /**
+     * Handle an authentication attempt.
+     */
+    public function authentificate(Request $request,Recaptcha $recaptcha)
+    {
+        $request->validate([
+            'email' => ['required','email'],
+            'password' => ['required'],
+            'recaptcha' => [$recaptcha],
+
+        ]);
+        $request['email'] = strtolower($request['email']);
+        $credentials = $request->only('email','password');
+
+       if(!Auth::attempt($credentials)){
+            return response()->json([
+                'message' => 'The provided credentials do not match our records'], 401);
+        }
+
+       $userToken = $this->userRepository->getLoginToken($credentials['email']);
+
+       return response()->json([
+        'access_token' => $userToken
+       ]);
     }
 
 
