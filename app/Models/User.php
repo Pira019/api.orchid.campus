@@ -48,4 +48,9 @@ class User extends Authenticatable
     public function profil(){
         return $this->belongsTo(Profil::class);
     }
+
+    public function setEmailAttribute($value)
+{
+    $this->attributes['email'] = strtolower($value);
+}
 }
