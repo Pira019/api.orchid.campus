@@ -1,5 +1,5 @@
 <?php
-namespace App\Virtual\Register;
+namespace App\Virtual\UserContoller;
 
 /**
  * @OA\Schema(

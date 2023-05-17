@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\newCustomerResource;
 use App\Mail\WelcomeMail;
+use App\Models\User;
 use App\Repository\UserRepository;
 use App\Rules\Recaptcha;
 use App\Service\CustomerServices\CustomerService;
@@ -13,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password as FacadesPassword;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -24,7 +26,7 @@ class UserController extends Controller
      * @OA\Post(
      *      path="/register",
      *      operationId="create",
-     *      tags={"Register"},
+     *      tags={"Authentication"},
      *      summary="Save new user",
      *      @OA\RequestBody(
      *          required=true,
@@ -73,8 +75,32 @@ class UserController extends Controller
         return new newCustomerResource($customer);
     }
 
-    /**
-     * Handle an authentication attempt.
+      /**
+     * @OA\Post(
+     *      path="/login",
+     *      operationId="authentificate",
+     *      tags={"Authentication"},
+     *      summary="Auth user",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/LoginRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *           @OA\JsonContent(ref="#/components/schemas/LoginResponse")
+     *
+     *
+     *       ),
+     *       @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *   @OA\Response(
+     *          response=401,
+     *          description="Email or password do not match"
+     *      ),
+     *     )
      */
     public function authentificate(Request $request,Recaptcha $recaptcha)
     {
@@ -97,6 +123,19 @@ class UserController extends Controller
        return response()->json([
         'access_token' => $userToken
        ]);
+    }
+
+    public function forgotPassword(Request $request){
+        $request->validate([
+            'email' => ['required','email'],
+        ]);
+        $request['email'] = strtolower($request['email']);
+       // $status = FacadesPassword::(User::where('email','pireslfgl@gmail.com')->first());
+
+       /* if($status === FacadesPassword::RESET_LINK_SENT){
+            return __($status);
+        }*/
+       // return $status;
     }
 
 
