@@ -23,7 +23,7 @@
         "/register": {
             "post": {
                 "tags": [
-                    "Register"
+                    "Authentication"
                 ],
                 "summary": "Save new user",
                 "operationId": "create",
@@ -46,10 +46,83 @@
                     }
                 }
             }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Auth user",
+                "operationId": "authentificate",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Email or password do not match"
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "LoginResponse": {
+                "title": "ResonseAuthUser",
+                "description": "Response login",
+                "required": [
+                    "token"
+                ],
+                "properties": {
+                    "token": {
+                        "title": "token",
+                        "description": "generated token",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginRequest": {
+                "title": "Auth user",
+                "description": "Auth user",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "title": "email",
+                        "type": "string",
+                        "example": "exempel@domaine.com"
+                    },
+                    "password": {
+                        "title": "first_name",
+                        "type": "string",
+                        "example": "1234"
+                    }
+                },
+                "type": "object"
+            },
             "SaveNewUserRequest": {
                 "title": "Save NewUserRequest request",
                 "description": "Create user account request body data",
