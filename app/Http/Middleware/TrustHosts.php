@@ -14,6 +14,7 @@ class TrustHosts extends Middleware
     public function hosts()
     {
         return [
+            'orchid-campus.com',
             $this->allSubdomainsOfApplicationUrl(),
         ];
     }
