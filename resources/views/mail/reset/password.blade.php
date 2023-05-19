@@ -1,5 +1,5 @@
 <x-mail::message>
-# Bonjour
+# Bonjour,
 
 Nous avons reçu une demande de réinitialisation de mot de passe pour votre compte. Veuillez suivre le lien ci-dessous pour procéder à la réinitialisation :
 <x-mail::button :url="$url"> Lien de réinitialisation</x-mail::button>
