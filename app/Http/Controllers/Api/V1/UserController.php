@@ -125,6 +125,26 @@ class UserController extends Controller
        ]);
     }
 
+      /**
+     * @OA\Post(
+     *      path="/forgot-password",
+     *      operationId="forgotPassword",
+     *      tags={"Authentication"},
+     *      summary="forgotPassword",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/ForgotPasswordRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Link sent",
+     *       ),
+     *       @OA\Response(
+     *          response=404,
+     *          description="Bad Request"
+     *      ),
+     *     )
+     */
     public function forgotPassword(Request $request){
         $request->validate([
             'email' => ['required','email'],
@@ -135,7 +155,7 @@ class UserController extends Controller
         if($status === FacadesPassword::RESET_LINK_SENT){
             return __($status);
         }
-        return __($status);
+        return response()->json(__($status),404);
     }
 
 
