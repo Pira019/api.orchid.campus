@@ -83,6 +83,33 @@
                     }
                 }
             }
+        },
+        "/forgot-password": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "forgotPassword",
+                "operationId": "forgotPassword",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ForgotPasswordRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Link sent"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -98,6 +125,21 @@
                         "title": "token",
                         "description": "generated token",
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ForgotPasswordRequest": {
+                "title": "ForgotPasswordRequest",
+                "description": "ForgotPasswordRequest",
+                "required": [
+                    "email"
+                ],
+                "properties": {
+                    "email": {
+                        "title": "email",
+                        "type": "string",
+                        "example": "exempel@domaine.com"
                     }
                 },
                 "type": "object"
