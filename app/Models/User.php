@@ -3,13 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use APP\Enums\RouteUrl;
 use App\Models\Profil;
+use App\Notifications\ResetPasswordNotification;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements CanResetPassword
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -52,5 +56,18 @@ class User extends Authenticatable
     public function setEmailAttribute($value)
 {
     $this->attributes['email'] = strtolower($value);
+}
+
+/**
+ * Send a password reset notification to the user.
+ *
+ * @param  string  $token
+ */
+public function sendPasswordResetNotification($token): void
+{
+   // $url = 'https://example.com/reset-password?token='.$token;
+   $url = env('SPA_URL') . 'reset-password/'. $token;
+
+    $this->notify(new ResetPasswordNotification($url));
 }
 }
