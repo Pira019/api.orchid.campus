@@ -22,6 +22,10 @@ Route::prefix('orchid-campus')->group(function () {
      Route::controller(UserController::class)->group(function () {
         Route::post('/register','create');
         Route::post('/login','authentificate');
+        Route::post('/forgot-password','forgotPassword');
+        Route::get('/reset-password/{token}', function (string $token) {
+            return  ['token' => $token];
+        })->middleware('guest')->name('password.reset');
     });
 
     //Country routes
