@@ -130,12 +130,12 @@ class UserController extends Controller
             'email' => ['required','email'],
         ]);
         $request['email'] = strtolower($request['email']);
-       // $status = FacadesPassword::(User::where('email','pireslfgl@gmail.com')->first());
+        $status = FacadesPassword::sendResetLink($request->only('email'));
 
-       /* if($status === FacadesPassword::RESET_LINK_SENT){
+        if($status === FacadesPassword::RESET_LINK_SENT){
             return __($status);
-        }*/
-       // return $status;
+        }
+        return __($status);
     }
 
 
