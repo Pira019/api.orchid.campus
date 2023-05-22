@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use APP\Enums\RouteUrl;
+use App\Enums\PasswordRouteEnum;
 use App\Models\Profil;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Contracts\Auth\CanResetPassword;
@@ -65,8 +65,9 @@ class User extends Authenticatable implements CanResetPassword
  */
 public function sendPasswordResetNotification($token): void
 {
+    $route = PasswordRouteEnum::UPDATE_PASSWORD_ROUTE->value;
 
-   $url = env('SPA_URL').'reset-password/'. $token;
+   $url = env('SPA_URL').$route.$token;
 
     $this->notify(new ResetPasswordNotification($url));
 }
