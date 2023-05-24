@@ -180,10 +180,4 @@ class UserController extends Controller
 
     }
 
-    public function getEmailByResetPasswordToken(Request $request,$token,PasswordResetRepository $passwordResetRepository){
-        
-        $request['token']=$request->route('token');
-        $data = $request->validate(['token' => 'required|string']);
-        return $passwordResetRepository->getEmailByToken($data['token']);
-    }
 }
