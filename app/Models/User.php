@@ -67,7 +67,7 @@ public function sendPasswordResetNotification($token): void
 {
     $route = PasswordRouteEnum::UPDATE_PASSWORD_ROUTE->value;
 
-   $url = env('SPA_URL').$route.$token;
+   $url = env('SPA_URL').$route.'?token='.$token;
 
     $this->notify(new ResetPasswordNotification($url));
 }
