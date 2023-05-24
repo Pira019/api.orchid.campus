@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\newCustomerResource;
 use App\Mail\WelcomeMail;
 use App\Models\User;
+use App\Repository\PasswordResetRepository;
 use App\Repository\UserRepository;
 use App\Rules\Recaptcha;
 use App\Service\CustomerServices\CustomerService;
 use App\Service\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password as FacadesPassword;
@@ -176,5 +178,12 @@ class UserController extends Controller
         }
         return response()->json(__($status),404);
 
+    }
+
+    public function getEmailByResetPasswordToken(Request $request,$token,PasswordResetRepository $passwordResetRepository){
+        
+        $request['token']=$request->route('token');
+        $data = $request->validate(['token' => 'required|string']);
+        return $passwordResetRepository->getEmailByToken($data['token']);
     }
 }
