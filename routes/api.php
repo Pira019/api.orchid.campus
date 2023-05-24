@@ -23,6 +23,7 @@ Route::prefix('orchid-campus')->group(function () {
         Route::post('/register','create');
         Route::post('/login','authentificate');
         Route::post('/forgot-password','forgotPassword');
+        Route::post('/update-password','updatePassword');
         Route::get('/reset-password/{token}', function (string $token) {
             return  ['token' => $token];
         })->middleware('guest')->name('password.reset');

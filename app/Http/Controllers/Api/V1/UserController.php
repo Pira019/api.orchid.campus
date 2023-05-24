@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\newCustomerResource;
 use App\Mail\WelcomeMail;
 use App\Models\User;
+use App\Repository\PasswordResetRepository;
 use App\Repository\UserRepository;
 use App\Rules\Recaptcha;
 use App\Service\CustomerServices\CustomerService;
 use App\Service\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password as FacadesPassword;
@@ -105,7 +107,7 @@ class UserController extends Controller
     public function authentificate(Request $request,Recaptcha $recaptcha)
     {
         $request->validate([
-            'email' => ['required','email'],
+            'email' => ['required','email:rfc,dns'],
             'password' => ['required'],
             'recaptcha' => [$recaptcha],
 
@@ -130,7 +132,7 @@ class UserController extends Controller
      *      path="/forgot-password",
      *      operationId="forgotPassword",
      *      tags={"Authentication"},
-     *      summary="forgotPassword",
+     *      summary="forgotPassword send token by email",
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(ref="#/components/schemas/ForgotPasswordRequest")
@@ -145,9 +147,10 @@ class UserController extends Controller
      *      ),
      *     )
      */
-    public function forgotPassword(Request $request){
+    public function forgotPassword(Request $request,Recaptcha $recaptcha){
         $request->validate([
             'email' => ['required','email'],
+            'recaptcha' => [$recaptcha],
         ]);
         $request['email'] = strtolower($request['email']);
         $status = FacadesPassword::sendResetLink($request->only('email'));
@@ -158,5 +161,23 @@ class UserController extends Controller
         return response()->json(__($status),404);
     }
 
+    public function updatePassword(Request $request,Recaptcha $recaptcha,UserService $userService){
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => ['required','confirmed',Password::min(8)->letters()->numbers()->symbols()->uncompromised()],
+            'recaptcha' => [$recaptcha],
+        ]);
+
+        $request['email'] = strtolower($request['email']);
+        $credidentials =  $request->only('email', 'password', 'password_confirmation', 'token');
+        $status = $userService->updatePassword($credidentials);
+
+        if($status === FacadesPassword::PASSWORD_RESET){
+            return __($status);
+        }
+        return response()->json(__($status),404);
+
+    }
 
 }
