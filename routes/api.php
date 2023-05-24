@@ -27,6 +27,8 @@ Route::prefix('orchid-campus')->group(function () {
         Route::get('/reset-password/{token}', function (string $token) {
             return  ['token' => $token];
         })->middleware('guest')->name('password.reset');
+
+        Route::get('/get-email-reset-token/{token}','getEmailByResetPasswordToken');
     });
 
     //Country routes
