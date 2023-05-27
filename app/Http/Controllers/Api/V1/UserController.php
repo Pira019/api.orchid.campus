@@ -45,7 +45,8 @@ class UserController extends Controller
      *     )
      */
     public function create(Request $request,CustomerService $customerService,UserService $userService,Recaptcha $recaptcha){
-
+        $request['email'] = strtolower($request['email']);
+        
          $request->validate([
             'name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
@@ -54,7 +55,7 @@ class UserController extends Controller
             'birth_date' => 'required|date|before_or_equal:'.Carbon::now()->subYears(15)->format('d-m-Y'), // Subtract 15 years and set the time to the beginning of the day
             'residence_contry' => 'required|integer|exists:countries,id',
             'citizenship' => 'required|integer|exists:countries,id',
-            'email' => 'required|email:rfc,dns|unique:users',
+            'email' => 'required|email:rfc,dns|unique:users,email',
             'password_confirmation' => 'required|same:password',
             'password' => ['required',Password::min(8)->letters()->numbers()->symbols()->uncompromised()],
             'recaptcha' => [$recaptcha],
