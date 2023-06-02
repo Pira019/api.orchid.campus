@@ -18,3 +18,4 @@ yarn-error.log
 /.vscode
 reports
 storage/api-docs/api-docs.json
+.env.prod
