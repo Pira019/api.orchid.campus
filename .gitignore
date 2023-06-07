@@ -17,3 +17,5 @@ yarn-error.log
 /.idea
 /.vscode
 reports
+storage/api-docs/api-docs.json
+.env.prod

@@ -46,7 +46,7 @@ class UserController extends Controller
      */
     public function create(Request $request,CustomerService $customerService,UserService $userService,Recaptcha $recaptcha){
         $request['email'] = strtolower($request['email']);
-        
+
          $request->validate([
             'name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
@@ -162,6 +162,26 @@ class UserController extends Controller
         return response()->json(__($status),404);
     }
 
+     /**
+     * @OA\Post(
+     *      path="/update-password",
+     *      operationId="updatePassword",
+     *      tags={"Authentication"},
+     *      summary="Update password (reset password)",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/UpdatePasswordRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=202,
+     *          description="Successful operation",     *
+     *       ),
+     *       @OA\Response(
+     *          response=404,
+     *          description="Bad Request"
+     *      ),
+     *     )
+     */
     public function updatePassword(Request $request,Recaptcha $recaptcha,UserService $userService){
         $request->validate([
             'token' => 'required',
