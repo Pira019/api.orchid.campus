@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\CountryController;
 use App\Http\Controllers\Api\V1\CustomerController\Contact\ContactController;
+use App\Http\Controllers\Api\V1\ManagerController\CountryStepController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,17 @@ Route::prefix('orchid-campus')->group(function () {
     //Contact routes
     Route::controller(ContactController::class)->group(function () {
         Route::post('/question', 'sendEmail');
+    });
+});
+
+
+//Manager Controllers
+
+Route::prefix('orchid-campus')->group(function () {
+
+    //Country routes
+    Route::controller(CountryStepController::class)->group(function () {
+        Route::get('/countriesToAddTuto', 'getCountriesToAddTuto');
     });
 });
 
