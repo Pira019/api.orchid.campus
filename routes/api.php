@@ -49,7 +49,7 @@ Route::prefix('orchid-campus')->group(function () {
 
     //Country routes
     Route::controller(CountryStepController::class)->group(function () {
-        Route::get('/countriesToAddTuto', 'getCountriesToAddTuto');
+        Route::get('/country-to-add-tuto', 'getCountryToAddTuto');
     });
 });
 
