@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api\V1\ManagerController;
 
 use App\Http\Controllers\Controller;
 use App\Repository\Manager\CountryStepsRepository;
+use App\Service\ManagerService\CountryStepService;
+use Illuminate\Http\Request;
 
 class CountryStepController extends Controller
 {
-    public function __construct(public CountryStepsRepository $countryStepsRepository)
+    public function __construct(public CountryStepsRepository $countryStepsRepository,public CountryStepService $countryStepService)
     {}
 
     /**
@@ -33,6 +35,39 @@ class CountryStepController extends Controller
     public function getCountryToAddTuto()
     {
         return $this->countryStepsRepository->getCountriesToAddTuto();
+    }
+
+     /**
+     * @OA\Post(
+     *      path="/coutry-steps",
+     *      operationId="store",
+     *      tags={"Add tuto"},
+     *      summary="Add country steps",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *                type="array",
+     *                @OA\Items(ref="#/components/schemas/AddCountryStepsRequest")
+     * )
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *       ),
+     *       @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *     )
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request,[
+            '*.title' => 'required|string|max:255',
+            '*.order' => 'required|integer',
+            '*.country_id' => 'required|integer', 
+        ]);
+        return $this->countryStepService->insertSteps($request->all());
     }
 
 }

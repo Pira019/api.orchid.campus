@@ -19,3 +19,5 @@ yarn-error.log
 reports
 storage/api-docs/api-docs.json
 .env.prod
+public/vendor/telescope
+composer.lock
