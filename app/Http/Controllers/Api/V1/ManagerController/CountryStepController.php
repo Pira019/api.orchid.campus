@@ -12,6 +12,10 @@ class CountryStepController extends Controller
     public function __construct(public CountryStepsRepository $countryStepsRepository,public CountryStepService $countryStepService)
     {}
 
+    public function getAll(){
+        return $this->countryStepsRepository->getAll();
+    }
+
     /**
      * @OA\Get(
      *      path="/country-to-add-tuto",
@@ -65,7 +69,7 @@ class CountryStepController extends Controller
         $this->validate($request,[
             '*.title' => 'required|string|max:255',
             '*.order' => 'required|integer',
-            '*.country_id' => 'required|integer', 
+            '*.country_id' => 'required|integer',
         ]);
         return $this->countryStepService->insertSteps($request->all());
     }

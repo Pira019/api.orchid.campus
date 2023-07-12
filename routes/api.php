@@ -50,7 +50,8 @@ Route::prefix('orchid-campus')->group(function () {
     //Country routes
     Route::controller(CountryStepController::class)->group(function () {
         Route::get('/country-to-add-tuto', 'getCountryToAddTuto');
-        Route::post('/coutry-steps', 'store');
+        Route::post('/country-steps', 'store');
+        Route::get('/country-steps', 'getAll');
     });
 });
 
