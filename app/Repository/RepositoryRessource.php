@@ -17,4 +17,8 @@ class RepositoryRessource
         return $this->model::get($columns)->where($column,$value)->firstOrFail();
     }
 
+    protected function find($column,$value,$columns=[""]){
+        return $this->model::where($column,$value)->get($columns);
+    }
+
 }
