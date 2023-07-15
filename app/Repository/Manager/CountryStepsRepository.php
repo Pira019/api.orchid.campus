@@ -1,6 +1,7 @@
 <?php
 namespace App\Repository\Manager;
 
+use App\Models\Country;
 use App\Models\CountryStep;
 
 class CountryStepsRepository
@@ -24,4 +25,10 @@ class CountryStepsRepository
         return $this->countryStep->join('countries', 'country_steps.country_id', '=', 'countries.id')
         ->selectRaw('count(country_steps.id) as number_of_steps,name, country_steps.country_id as id')->groupBy('country_steps.country_id','name')->orderBy('name') ->get();
     }
+
+    public function getByCountry($idCountry)
+    {
+        return Country::with('countrySteps')->where('id',$idCountry)->first(['id','name','short_name']);
+    }
+
 }

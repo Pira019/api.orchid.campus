@@ -52,6 +52,7 @@ Route::prefix('orchid-campus')->group(function () {
         Route::get('/country-to-add-tuto', 'getCountryToAddTuto');
         Route::post('/country-steps', 'store');
         Route::get('/country-steps', 'getAll');
+        Route::get('/country/Steps/{id}', 'findByCountry');
     });
 });
 

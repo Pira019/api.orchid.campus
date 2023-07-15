@@ -74,4 +74,14 @@ class CountryStepController extends Controller
         return $this->countryStepService->insertSteps($request->all());
     }
 
+    public function findByCountry($country_id,Request $request)
+    {
+        $request->merge(['country_id' => $request->route('id')]);
+        $request->validate([
+            'country_id' =>
+                'required|integer|exists:countries,id',
+        ]);
+        return $this->countryStepsRepository->getByCountry($country_id);
+    }
+
 }

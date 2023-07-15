@@ -141,6 +141,8 @@ return [
     'url'                  => 'Le format de l\'URL de :attribute n\'est pas valide.',
     'uuid'                 => 'Le champ :attribute doit être un UUID valide',
     'attributes'           => [
+
+        'country_id' => 'id du pays',
         'address'                  => 'adresse',
         'age'                      => 'âge',
         'amount'                   => 'montant',
