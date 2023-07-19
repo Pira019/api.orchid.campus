@@ -10,5 +10,8 @@ class ServiceRessource {
     protected function insert(array $data){
       return $this->model::insert($data);
     }
+    protected function insertOrIgnore(array $data){
+      return $this->model::insertOrIgnore($data);
+    }
 
 }
