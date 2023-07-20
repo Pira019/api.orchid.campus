@@ -9,27 +9,32 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
-class UserService extends ServiceRessource{
-    public function __contruct(){
+class UserService extends ServiceRessource
+{
+    public function __contruct()
+    {
 
     }
 
-    public function save($data){
-       $this->model=new User();
-       $this->create($data);
+    public function save($data)
+    {
+        $this->model = new User();
+        return $this->create($data);
     }
 
-    public function userName($name,$idCustomer){
-        return substr(strtoupper($name),0,2) . date('Hi') . $idCustomer;
+    public function userName($name, $idCustomer)
+    {
+        return substr(strtoupper($name), 0, 2) . date('Hi') . $idCustomer;
     }
 
     /*
     reset password
-    */
-    public function updatePassword($credentials){
-        $status = Password::reset($credentials,function (User $user, string $password){
+     */
+    public function updatePassword($credentials)
+    {
+        $status = Password::reset($credentials, function (User $user, string $password) {
             $user->forceFill([
-                'password' => Hash::make($password)
+                'password' => Hash::make($password),
             ])->setRememberToken(Str::random(60));
 
             $user->save();
@@ -40,4 +45,3 @@ class UserService extends ServiceRessource{
         return $status;
     }
 }
-
