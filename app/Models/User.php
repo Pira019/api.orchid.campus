@@ -11,6 +11,8 @@ use Illuminate\Contracts\Auth\CanResetPassword;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -76,4 +78,10 @@ public function sendPasswordResetNotification($token): void
 
     $this->notify(new ResetPasswordNotification($url));
 }
+
+public function customer(): BelongsTo
+{
+    return $this->belongsTo(Customer::class);
+}
+
 }
