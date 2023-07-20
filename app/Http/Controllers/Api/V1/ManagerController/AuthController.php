@@ -16,6 +16,7 @@ class AuthController extends Controller
 
     public function saveUser(Request $request, CustomerService $customerService, UserService $userService)
     {
+        $request['email'] = strtolower($request['email']);
         $request->validate([
             'name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
