@@ -10,8 +10,8 @@ class UserRepository extends RepositoryRessource {
         $this->model = $model;
     }
 
-    public function getLoginToken(string $email){
-        return $this->getFirst('email',$email)->createToken('auth_token')->plainTextToken;
+    public function getLoginToken(string $value,$column="email"){
+       return $this->getFirst($column,$value);
     }
 
 }
