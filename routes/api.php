@@ -59,6 +59,9 @@ Route::prefix('orchid-campus')->group(function () {
     //auth
     Route::controller(AuthController::class)->prefix("manager")->group(function(){
         Route::post('/create-user', 'saveUser');
+        Route::post('/login', 'authentication');
+        Route::post('/forgot-password', 'forgotPassword');
+        Route::post('/reset-password', 'updatePassword');
     });
 });
 
