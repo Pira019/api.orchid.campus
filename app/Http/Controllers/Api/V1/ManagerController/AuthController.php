@@ -51,7 +51,7 @@ class AuthController extends Controller
             'recaptcha' => [$recaptcha],
         ]);
 
-        $crententials = $request->except('recaptcha');
+        $crententials = $request->only('user_name','password');
 
         if (!Auth::guard('manager')->attempt($crententials)) {
             return response()->json([
