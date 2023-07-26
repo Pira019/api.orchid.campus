@@ -12,12 +12,12 @@ class RepositoryRessource
     retrieve the first result of the query
     @columns columns return
     */
-    protected function getFirst($column,$value,$columns=['*'])
+    public function getFirst($column,$value,$columns=['*'])
     {
-        return $this->model::get($columns)->where($column,$value)->firstOrFail();
+        return $this->model::where($column,$value)->first($columns);
     }
 
-    protected function find($column,$value,$columns=[""]){
+    public function find($column,$value,$columns=[""]){
         return $this->model::where($column,$value)->get($columns);
     }
 

@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Profil extends Model
 {
     use HasFactory;
-
     protected $fillable=[
         'name',
         'desc'
@@ -18,4 +17,9 @@ class Profil extends Model
     public function users() {
         return $this->hasMany(User::class);
     }
+
+    public function roles(){
+        return $this->belongsToMany(Role::class,"profil_roles");
+    }
+
 }

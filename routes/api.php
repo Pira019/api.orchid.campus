@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\CountryController;
 use App\Http\Controllers\Api\V1\CustomerController\Contact\ContactController;
+use App\Http\Controllers\Api\V1\ManagerController\AuthController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryStepController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
@@ -53,6 +54,14 @@ Route::prefix('orchid-campus')->group(function () {
         Route::post('/country-steps', 'store');
         Route::get('/country-steps', 'getAll');
         Route::get('/country/Steps/{id}', 'findByCountry');
+    });
+
+    //auth
+    Route::controller(AuthController::class)->prefix("manager")->group(function(){
+        Route::post('/create-user', 'saveUser');
+        Route::post('/login', 'authentication');
+        Route::post('/forgot-password', 'forgotPassword');
+        Route::post('/reset-password', 'updatePassword');
     });
 });
 

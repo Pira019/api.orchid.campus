@@ -11,11 +11,16 @@ use Illuminate\Contracts\Auth\CanResetPassword;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+
+    protected $guard_name = 'manager';
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +31,8 @@ class User extends Authenticatable implements CanResetPassword
         'email',
         'password',
         'user_name',
-        'customer_id'
+        'customer_id',
+        'profil_id'
     ];
 
     /**
@@ -58,6 +64,7 @@ class User extends Authenticatable implements CanResetPassword
     $this->attributes['email'] = strtolower($value);
 }
 
+
 /**
  * Send a password reset notification to the user.
  *
@@ -71,4 +78,10 @@ public function sendPasswordResetNotification($token): void
 
     $this->notify(new ResetPasswordNotification($url));
 }
+
+public function customer(): BelongsTo
+{
+    return $this->belongsTo(Customer::class);
+}
+
 }

@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            CountryList::class
+            CountryList::class,
+            ProfileSeed::class,
+            RoleNameSeed::class
+
         ]);
 
 
