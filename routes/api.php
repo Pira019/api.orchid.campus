@@ -46,10 +46,10 @@ Route::prefix('orchid-campus')->group(function () {
 
 //Manager Controllers
 
-Route::prefix('orchid-campus')->group(function () {
+Route::prefix('orchid-campus/manager')->group(function () {
 
     //Country routes
-    Route::controller(CountryStepController::class)->group(function () {
+    Route::controller(CountryStepController::class)->middleware(['auth:sanctum'])->group(function () {
         Route::get('/country-to-add-tuto', 'getCountryToAddTuto');
         Route::post('/country-steps', 'store');
         Route::get('/country-steps', 'getAll');
@@ -57,7 +57,7 @@ Route::prefix('orchid-campus')->group(function () {
     });
 
     //auth
-    Route::controller(AuthController::class)->prefix("manager")->group(function(){
+    Route::controller(AuthController::class)->group(function(){
         Route::post('/create-user', 'saveUser');
         Route::post('/login', 'authentication');
         Route::post('/forgot-password', 'forgotPassword');

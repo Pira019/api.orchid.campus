@@ -3,8 +3,8 @@
 namespace App\Http;
 
 use App\Http\Middleware\JsonMiddleware;
+use App\Http\Middleware\TransformApiResponses;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
@@ -27,6 +27,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         EnsureFrontendRequestsAreStateful::class,
         ThrottleRequests::class.':api',
+        JsonMiddleware::class,
 
     ];
 
@@ -49,7 +50,7 @@ class Kernel extends HttpKernel
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            JsonMiddleware::class
+
         ],
     ];
 
