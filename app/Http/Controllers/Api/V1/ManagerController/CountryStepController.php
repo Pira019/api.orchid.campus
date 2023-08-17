@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\ManagerController;
 use App\Http\Controllers\Controller;
 use App\Repository\Manager\CountryStepsRepository;
 use App\Service\ManagerService\CountryStepService;
+use Doctrine\DBAL\Schema\Schema;
 use Illuminate\Http\Request;
 
 class CountryStepController extends Controller
@@ -82,6 +83,15 @@ class CountryStepController extends Controller
                 'required|integer|exists:countries,id',
         ]);
         return $this->countryStepsRepository->getByCountry($country_id);
+    }
+
+    public function editStep($step_id,Request $request)
+    {
+        $request->merge(['step_id' => $request->route('id')]);
+        $request->validate([
+            'step_id' =>'required|integer|exists:country_steps,id',
+        ]);
+        return $this->countryStepService->update($request->all(),$step_id);
     }
 
 }
