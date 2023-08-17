@@ -54,6 +54,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
         Route::post('/country-steps', 'store');
         Route::get('/country-steps', 'getAll');
         Route::get('/country/Steps/{id}', 'findByCountry');
+        Route::post('/country/steps/edit/{id}', 'editStep');
     });
 
     //auth
