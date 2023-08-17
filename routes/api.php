@@ -49,7 +49,7 @@ Route::prefix('orchid-campus')->group(function () {
 Route::prefix('orchid-campus/manager')->group(function () {
 
     //Country routes
-    Route::controller(CountryStepController::class)->middleware(['auth:sanctum'])->group(function () {
+    Route::controller(CountryStepController::class)->middleware(['auth:sanctum','role:Admin|Manager'])->group(function () {
         Route::get('/country-to-add-tuto', 'getCountryToAddTuto');
         Route::post('/country-steps', 'store');
         Route::get('/country-steps', 'getAll');
