@@ -81,7 +81,7 @@ class AuthController extends Controller
 
         $crententials = $request->only('user_name','password');
 
-        if (!Auth::guard('manager')->attempt($crententials)) {
+        if (!Auth::guard('manager')->attempt($crententials,true)) {
             return response()->json([
                 'message' => 'The provided credentials do not match our records'], 401);
         }
