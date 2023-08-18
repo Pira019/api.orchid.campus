@@ -85,6 +85,37 @@ class CountryStepController extends Controller
         return $this->countryStepsRepository->getByCountry($country_id);
     }
 
+
+    /**
+     * @OA\Post(
+     *      path="/country/steps/edit/{id}",
+     *      operationId="editStep",
+     *      tags={"Steps"},
+     *      summary="Edit step",
+     *  @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="ID of the step to be edited",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/EditStepRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success request"
+     *
+     *       ),
+     *       @OA\Response(
+     *          response=404,
+     *          description="Bad Request"
+     *      ),
+     *     )
+     */
     public function editStep($step_id,Request $request)
     {
         $request->merge(['step_id' => $request->route('id')]);
