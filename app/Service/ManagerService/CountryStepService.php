@@ -2,6 +2,7 @@
 namespace App\Service\ManagerService;
 
 use App\Models\CountryStep;
+use App\Repository\RepositoryRessource;
 use App\Service\ServiceRessource;
 
 class CountryStepService extends ServiceRessource{
@@ -10,7 +11,19 @@ class CountryStepService extends ServiceRessource{
         $this->model = $model;
     }
 
-    public function insertSteps(array $data){ 
+    public function insertSteps(array $data){
         return $this->insert($data);
+    }
+
+   public function deleteStep($idStepCountry){
+    $repo = new RepositoryRessource();
+    $repo->model = $this->model;
+
+    $countryStepToDeleteId = $repo->getFirst("id",$idStepCountry);
+
+    $countryStepToDeleteId->delete();
+
+    return $this->model->where("country_id",$countryStepToDeleteId->country_id)->where("order",">",$countryStepToDeleteId->order)->decrement("order");
+
     }
 }

@@ -125,4 +125,13 @@ class CountryStepController extends Controller
         return $this->countryStepService->update($request->all(),$step_id);
     }
 
+    public function deleteStep($step_id,Request $request)
+    {
+        $request->merge(['step_id' => $request->route('id')]);
+        $request->validate([
+            'step_id' =>'required|integer|exists:country_steps,id',
+        ]);
+        return $this->countryStepService->deleteStep($step_id);
+    }
+
 }

@@ -2,7 +2,7 @@
 namespace App\Repository;
 class RepositoryRessource
 {
-    protected $model;
+    public $model;
 
     protected function getAll($columns = ['*'])
     {
