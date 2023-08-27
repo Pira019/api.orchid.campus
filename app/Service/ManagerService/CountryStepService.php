@@ -12,7 +12,7 @@ class CountryStepService extends ServiceRessource{
     }
 
     public function insertSteps(array $data){
-        return $this->insert($data);
+        return $this->insertOrIgnore($data);
     }
 
    public function deleteStep($idStepCountry){
@@ -23,7 +23,7 @@ class CountryStepService extends ServiceRessource{
 
     $countryStepToDeleteId->delete();
 
-    return $this->model->where("country_id",$countryStepToDeleteId->country_id)->where("order",">",$countryStepToDeleteId->order)->decrement("order");
+    $this->model->where("country_id",$countryStepToDeleteId->country_id)->where("order",">",$countryStepToDeleteId->order)->decrement("order");
 
     }
 }
