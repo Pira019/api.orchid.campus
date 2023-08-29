@@ -14,7 +14,7 @@ class CountryStepController extends Controller
     {}
 
     public function getAll(){
-        return $this->countryStepsRepository->getAll();
+        return $this->countryStepsRepository->getCountriesWithSteps();
     }
 
     /**
@@ -72,7 +72,13 @@ class CountryStepController extends Controller
             '*.order' => 'required|integer',
             '*.country_id' => 'required|integer',
         ]);
-        return $this->countryStepService->insertSteps($request->all());
+
+        //return new stpes stored
+       $country_id = $request->all()[0]['country_id'];//get country id
+       $lastId = $this->countryStepsRepository->getLastId($country_id) ?? false;
+
+       $this->countryStepService->insertSteps($request->all());
+       return $this->countryStepsRepository->getNewSteps($country_id,$lastId);  //retun new records
     }
 
     public function findByCountry($country_id,Request $request)
