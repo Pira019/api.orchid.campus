@@ -24,7 +24,7 @@ class CountryStepsRepository
     public function getCountriesWithSteps()
     {
         return $this->countryStep->join('countries', 'country_steps.country_id', '=', 'countries.id')
-        ->selectRaw('count(country_steps.id) as number_of_steps,name, country_steps.country_id as id')->groupBy('country_steps.country_id','name')->orderBy('name') ->get();
+            ->selectRaw('count(country_steps.id) as number_of_steps,name, country_steps.country_id as id, flag_url')->groupBy('country_steps.country_id', 'name','flag_url')->orderBy('name')->get();
     }
 
     public function getByCountry($idCountry)
