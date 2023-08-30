@@ -3,7 +3,7 @@ namespace App\Repository\Manager;
 
 use App\Models\Country;
 use App\Models\CountryStep;
-use App\Repository\RepositoryRessource;
+use App\Service\CountryService;
 
 class CountryStepsRepository
 {
@@ -29,17 +29,25 @@ class CountryStepsRepository
 
     public function getByCountry($idCountry)
     {
-        return Country::with('countrySteps')->where('id',$idCountry)->first(['id','name','short_name']);
+        return Country::with('countrySteps')->where('id', $idCountry)->first(['id', 'name', 'short_name']);
     }
-    public function getLastId($country_id){
-    return $this->countryStep::where("country_id",$country_id)->latest('id')->first()?->id;
+    public function getLastId($country_id)
+    {
+        return $this->countryStep::where("country_id", $country_id)->latest('id')->first()?->id;
     }
 
-    public function getNewSteps($country_id,$lastId){
-        if(!$lastId){
-            return  $this->countryStep->where("country_id",$country_id)->select("*")->get()->makeHidden(["created_at","updated_at"]);;
+    public function getNewSteps($country_id, $lastId)
+    {
+
+        if (!$lastId) {
+            $newStep = $this->countryStep->where("country_id", $country_id)->select("*")->get()->makeHidden(["created_at", "updated_at"]);
+            //put country flag
+            if ($newStep) {
+                CountryService::addFlagSvgImgToCountry($newStep[0]->country_id);
+            }
+            return $newStep;
         }
-        return $this->countryStep->where("country_id",$country_id)->where("id",">",$lastId)->select("*")->get()->makeHidden(["created_at","updated_at"]);
-        }
+        return $this->countryStep->where("country_id", $country_id)->where("id", ">", $lastId)->select("*")->get()->makeHidden(["created_at", "updated_at"]);
+    }
 
 }
