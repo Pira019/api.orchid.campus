@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->integer('order');
-            $table->integer('tutorialable_id');
+            $table->integer('tutorialable_id'); // l'id of model
             $table->string('tutorialable_type');
             $table->timestamps();
         });
