@@ -84,7 +84,7 @@ class CountryStepsResponse
      *      title="created_at",
      * )
      *
-     * @var string
+     * @var \dateTime
      */
     public $created_at;
 
@@ -93,7 +93,7 @@ class CountryStepsResponse
      *      title="updated_at",
      * )
      *
-     * @var string
+     * @var \dateTime
      */
     public $updated_at;
 
