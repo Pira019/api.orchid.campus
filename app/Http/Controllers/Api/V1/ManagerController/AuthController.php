@@ -43,6 +43,34 @@ class AuthController extends Controller
         $this->authService->attachRole($userService->save($data));
     }
 
+
+       /**
+     * @OA\Post(
+     *      path="/manager/login",
+     *      operationId="authentication",
+     *      tags={"ManagerAuth"},
+     *      summary="Auth manager",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/ManagerLoginRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",     *
+     *       ),
+     *       @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *           @OA\JsonContent(ref="#/components/schemas/ManagerLoginResponse")
+     *
+     *
+     *       ),
+     *     )
+     */
     public function authentication(Request $request, Recaptcha $recaptcha)
     {
         $request->validate([
@@ -53,7 +81,7 @@ class AuthController extends Controller
 
         $crententials = $request->only('user_name','password');
 
-        if (!Auth::guard('manager')->attempt($crententials)) {
+        if (!Auth::guard('manager')->attempt($crententials,true)) {
             return response()->json([
                 'message' => 'The provided credentials do not match our records'], 401);
         }

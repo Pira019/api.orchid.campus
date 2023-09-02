@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\ManagerController;
 use App\Http\Controllers\Controller;
 use App\Repository\Manager\CountryStepsRepository;
 use App\Service\ManagerService\CountryStepService;
+use Doctrine\DBAL\Schema\Schema;
 use Illuminate\Http\Request;
 
 class CountryStepController extends Controller
@@ -13,7 +14,7 @@ class CountryStepController extends Controller
     {}
 
     public function getAll(){
-        return $this->countryStepsRepository->getAll();
+        return $this->countryStepsRepository->getCountriesWithSteps();
     }
 
     /**
@@ -71,7 +72,13 @@ class CountryStepController extends Controller
             '*.order' => 'required|integer',
             '*.country_id' => 'required|integer',
         ]);
-        return $this->countryStepService->insertSteps($request->all());
+
+        //return new stpes stored
+       $country_id = $request->all()[0]['country_id'];//get country id
+       $lastId = $this->countryStepsRepository->getLastId($country_id) ?? false;
+
+       $this->countryStepService->insertSteps($request->all());
+       return $this->countryStepsRepository->getNewSteps($country_id,$lastId);  //retun new records
     }
 
     public function findByCountry($country_id,Request $request)
@@ -82,6 +89,56 @@ class CountryStepController extends Controller
                 'required|integer|exists:countries,id',
         ]);
         return $this->countryStepsRepository->getByCountry($country_id);
+    }
+
+
+    /**
+     * @OA\Post(
+     *      path="/country/steps/edit/{id}",
+     *      operationId="editStep",
+     *      tags={"Steps"},
+     *      summary="Edit step",
+     *  @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="ID of the step to be edited",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/EditStepRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success request"
+     *
+     *       ),
+     *       @OA\Response(
+     *          response=404,
+     *          description="Bad Request"
+     *      ),
+     *     )
+     */
+    public function editStep($step_id,Request $request)
+    {
+        $request->merge(['step_id' => $request->route('id')]);
+        $request->validate([
+            'step_id' =>'required|integer|exists:country_steps,id',
+            'order' =>'integer',
+        ]);
+       return $this->countryStepService->update($request->except("id"),$step_id); // update step
+    }
+
+    public function deleteStep($step_id,Request $request)
+    {
+        $request->merge(['step_id' => $request->route('id')]);
+        $request->validate([
+            'step_id' =>'required|integer|exists:country_steps,id',
+        ]);
+        return $this->countryStepService->deleteStep($step_id);
     }
 
 }
