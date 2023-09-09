@@ -13,14 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tutorials', function (Blueprint $table) {
-            $table->comment('polymorph table');
-            $table->id();
-            $table->string('title');
-            $table->integer('order');
-            $table->integer('tutorialable_id'); // l'id of model
-            $table->string('tutorialable_type');
-            $table->timestamps();
+        Schema::table('tutorials', function (Blueprint $table) {
+           $table->text('description')->nullable()->after('order');
         });
     }
 
@@ -31,6 +25,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tutorials');
+        Schema::table('tutorials', function (Blueprint $table) {
+            $table->dropColumn('order');
+            $table->integer('order');
+        });
     }
 };

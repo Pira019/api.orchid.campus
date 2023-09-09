@@ -44,7 +44,7 @@ class CountryStepController extends Controller
 
      /**
      * @OA\Post(
-     *      path="/coutry-steps",
+     *      path="manager/coutry-steps",
      *      operationId="store",
      *      tags={"Add tuto"},
      *      summary="Add country steps",
@@ -81,6 +81,57 @@ class CountryStepController extends Controller
        return $this->countryStepsRepository->getNewSteps($country_id,$lastId);  //retun new records
     }
 
+        /**
+     * @OA\Get(
+     *      path="/manager/country/Steps/{id}",
+     *      operationId="findByCountry",
+     *      tags={"CountrySteps"},
+     *      summary="List steps of a country",
+     *      security={{"bearerAuth":{}}, {"XSRF-TOKEN": {}}},
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          in="header",
+     *          required=true,
+     *          description="Enter your token here as 'Bearer {your_token_here}'",
+     *          example="Bearer your_actual_token_here",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *      ),
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="ID country",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Header(
+     *          header="X-CSRF-Token",
+     *          description="Your CSRF Token",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *    @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *           @OA\JsonContent(ref="#/components/schemas/StepsOfCountryResponse")
+     *
+     *
+     *       ),
+     *    @OA\Response(
+     *          response=404,
+     *          description="Bad Request"
+     *      ),
+     *    @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
+     */
     public function findByCountry($country_id,Request $request)
     {
         $request->merge(['country_id' => $request->route('id')]);
@@ -94,9 +145,9 @@ class CountryStepController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/country/steps/edit/{id}",
+     *      path="manager/country/steps/edit/{id}",
      *      operationId="editStep",
-     *      tags={"Steps"},
+     *      tags={"CountrySteps"},
      *      summary="Edit step",
      *  @OA\Parameter(
      *          name="id",
