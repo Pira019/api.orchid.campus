@@ -62,6 +62,9 @@ Route::prefix('orchid-campus/manager')->group(function () {
       //Country turorial
       Route::controller(TutorialsController::class)->middleware(['auth:sanctum','role:Admin|Manager'])->group(function () {
         Route::get('/tutorial/countries', 'getFlagUrlAndNameOfCountriesWithSteps');
+        Route::get('/tutorial/country/{id}', 'getCountryStepsByCountryId');
+        Route::post('/tutorial/save', 'save');
+        Route::get('/tutorial/step-country/{id}', 'getTutosByStepCoutryId');
     });
 
     //auth

@@ -35,6 +35,10 @@ class RepositoryRessource
         return $this->model::where($column,$value)->get($columns);
     }
 
+    public function findOne($value){
+        return $this->model::find($value);
+    }
+
    /*
     retrieve the first result of the query
     @columns columns return

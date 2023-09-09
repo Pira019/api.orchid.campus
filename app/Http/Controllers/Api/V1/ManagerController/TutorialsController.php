@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api\V1\ManagerController;
 
 use App\Http\Controllers\Controller;
 use App\Repository\Manager\TutorialRepository;
+use App\Service\ManagerService\TutorialService;
+use Illuminate\Http\Request;
 
 class TutorialsController extends Controller
 {
-    public function __construct(public TutorialRepository $tutorialRepository)
+    public function __construct(public TutorialRepository $tutorialRepository, public TutorialService $tutorialService)
     {}
 
     /**
@@ -58,5 +60,39 @@ class TutorialsController extends Controller
     public function getFlagUrlAndNameOfCountriesWithSteps(){
         return $this->tutorialRepository->getFlagUrlAndNameOfCountriesWithSteps();
     }
+
+    public function getCountryStepsByCountryId($country_id,Request $request)
+    {
+        $request->merge(['country_id' => $request->route('id')]);
+        $request->validate([
+            'country_id' =>
+                'required|integer|exists:countries,id',
+        ]);
+        return $this->tutorialRepository->getCountryStepsByCountryId($country_id);
+    }
+
+    public function save(Request $request)
+    {
+        $request->validate([
+            'step_id' =>'required|integer|exists:country_steps,id',
+            'title' =>'required',
+            'order' =>'required|integer',
+            'description' =>'nullable|integer',
+        ]);
+      return $this->tutorialService->save($request->all());
+    }
+
+
+    public function getTutosByStepCoutryId($stepCoutrty_id,Request $request){
+        $request->merge(['step_country_id' => $request->route('id')]);
+        $request->validate([
+            'step_country_id' =>
+                'required|integer|exists:country_steps,id',
+        ]);
+
+        return $this->tutorialRepository->getTutosByStepCoutryId($stepCoutrty_id);
+
+    }
+
 
 }
