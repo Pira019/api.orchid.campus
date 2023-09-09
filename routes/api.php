@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\CountryController;
 use App\Http\Controllers\Api\V1\CustomerController\Contact\ContactController;
 use App\Http\Controllers\Api\V1\ManagerController\AuthController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryStepController;
+use App\Http\Controllers\Api\V1\ManagerController\TutorialsController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +57,14 @@ Route::prefix('orchid-campus/manager')->group(function () {
         Route::get('/country/Steps/{id}', 'findByCountry');
         Route::post('/country/steps/edit/{id}', 'editStep');
         Route::delete('/country-steps/delete/{id}', 'deleteStep');
+    });
+
+      //Country turorial
+      Route::controller(TutorialsController::class)->middleware(['auth:sanctum','role:Admin|Manager'])->group(function () {
+        Route::get('/tutorial/countries', 'getFlagUrlAndNameOfCountriesWithSteps');
+        Route::get('/tutorial/country/{id}', 'getCountryStepsByCountryId');
+        Route::post('/tutorial/save', 'save');
+        Route::get('/tutorial/step-country/{id}', 'getTutosByStepCoutryId');
     });
 
     //auth
