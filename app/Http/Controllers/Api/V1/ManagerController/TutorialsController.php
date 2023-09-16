@@ -77,9 +77,24 @@ class TutorialsController extends Controller
             'step_id' =>'required|integer|exists:country_steps,id',
             'title' =>'required',
             'order' =>'required|integer',
-            'description' =>'nullable|integer',
+            'description' =>'nullable',
         ]);
       return $this->tutorialService->save($request->all());
+    }
+
+    public function edit(Request $request)
+    {
+        $request->validate([
+            'id' =>'required|integer|exists:tutorials,id',
+            'title' =>'required',
+            'description' =>'nullable',
+        ]);
+      $updated = $this->tutorialService->updateOne($request->except(['id','order']),$request['id']);
+
+      if(!$updated){
+        return $request->all();
+      }
+      return $this->tutorialRepository->findById($request['id']);
     }
 
 
@@ -91,7 +106,6 @@ class TutorialsController extends Controller
         ]);
 
         return $this->tutorialRepository->getTutosByStepCoutryId($stepCoutrty_id);
-
     }
 
 
