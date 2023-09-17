@@ -65,6 +65,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
         Route::get('/tutorial/country/{id}', 'getCountryStepsByCountryId');
         Route::post('/tutorial/save', 'save');
         Route::get('/tutorial/step-country/{id}', 'getTutosByStepCoutryId');
+        Route::post('/tutorial', 'edit');
     });
 
     //auth
