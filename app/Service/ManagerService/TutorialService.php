@@ -15,7 +15,7 @@ class TutorialService extends ServiceRessource{
    public function save($data){
     $findStepId = CountryStep::find($data['step_id']);
     try{
-        return $findStepId->tutorials()->create($data);
+        return $findStepId->tutorials()->create($data)->makeHidden(['tutorialable_id','tutorialable_type']);;
     }catch(\Exception $e){
         return response()->json(['data' => "Donné dupliquée"], Response::HTTP_UNPROCESSABLE_ENTITY);
     }

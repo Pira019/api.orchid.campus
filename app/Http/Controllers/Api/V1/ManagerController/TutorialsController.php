@@ -89,7 +89,7 @@ class TutorialsController extends Controller
             'title' =>'required',
             'description' =>'nullable',
         ]);
-      $updated = $this->tutorialService->updateOne($request->except(['id','order']),$request['id']);
+      $updated = $this->tutorialService->updateOne($request->only(['title','description']),$request['id']);
 
       if(!$updated){
         return $request->all();
