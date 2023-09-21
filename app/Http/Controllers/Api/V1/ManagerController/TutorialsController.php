@@ -108,5 +108,16 @@ class TutorialsController extends Controller
         return $this->tutorialRepository->getTutosByStepCoutryId($stepCoutrty_id);
     }
 
+    public function deleteTutoAndReorderOrder($tuto_id,Request $request)
+    {
+        $request->merge(['tuto_id' => $request->route('id')]);
+        $request->validate([
+            'tuto_id' =>'required|integer|exists:tutorials,id',
+        ]);
+
+        $tutoToDelete = $this->tutorialRepository->findOne($tuto_id);
+        return $this->tutorialService->deleteAndReorder($tutoToDelete);
+    }
+
 
 }
