@@ -38,7 +38,7 @@ class TutorialRepository extends RepositoryRessource
 
     public function findById($idTuto)
     {
-        return  $this->findOne($idTuto)->makeHidden(['tutorialable_id','tutorialable_type']);
+        return  $this->findOne($idTuto)->makeHidden(['tutorialable_id','tutorialable_type','created_at']);
     }
 
 
