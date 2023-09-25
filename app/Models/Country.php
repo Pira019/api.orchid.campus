@@ -15,4 +15,8 @@ class Country extends Model
     public function countrySteps() : HasMany{
         return $this->hasMany(CountryStep::class)->orderBy('order');
     }
+
+    public function cities() : HasMany{
+        return $this->hasMany(City::class);
+    }
 }

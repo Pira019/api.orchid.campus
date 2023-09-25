@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\CustomerController\Contact\ContactController;
 use App\Http\Controllers\Api\V1\ManagerController\AuthController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryStepController;
 use App\Http\Controllers\Api\V1\ManagerController\TutorialsController;
+use App\Http\Controllers\Api\V1\ManagerController\UniversityController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,8 +47,13 @@ Route::prefix('orchid-campus')->group(function () {
 
 
 //Manager Controllers
-
 Route::prefix('orchid-campus/manager')->group(function () {
+
+
+      //University routes
+      Route::controller(UniversityController::class)->middleware(['auth:sanctum','role:Admin|Manager'])->group(function () {
+        Route::post('/university', 'save');
+    });
 
     //Country routes
     Route::controller(CountryStepController::class)->middleware(['auth:sanctum','role:Admin|Manager'])->group(function () {
@@ -76,6 +82,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
         Route::post('/forgot-password', 'forgotPassword');
         Route::post('/reset-password', 'updatePassword');
     });
+
 });
 
 /*

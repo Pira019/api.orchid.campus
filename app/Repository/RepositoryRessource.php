@@ -56,4 +56,8 @@ class RepositoryRessource
         return $this->model::where($column,$signe,$value)->get($columns);
     }
 
+    public function firstOrCreate($data){
+        return $this->model ::firstOrCreate($data);
+    }
+
 }
