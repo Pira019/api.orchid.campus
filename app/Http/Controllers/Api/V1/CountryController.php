@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Repository\CountryRepository;
-use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
