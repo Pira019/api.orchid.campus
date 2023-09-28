@@ -12,5 +12,12 @@ class UniversityService extends ServiceRessource
         $this->model = $model;
     }
 
+    public function save($city,$data){
+        if(!$city){
+            return null;
+        }
+        return $city->universties()->create($data);
+    }
+
 
 }
