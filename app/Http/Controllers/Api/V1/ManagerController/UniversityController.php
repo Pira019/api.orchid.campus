@@ -15,6 +15,7 @@ class UniversityController extends Controller
 
     public function save(Request $request, CityRepository $cityRepository)
     {
+        $request['name'] = ucfirst(strtolower($request['name']));
         $request->validate([
             'name' => 'required|unique:universities',
             'city_name' => 'required',
