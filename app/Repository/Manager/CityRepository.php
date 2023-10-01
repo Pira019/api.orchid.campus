@@ -14,7 +14,7 @@ class CityRepository extends RepositoryRessource
 
     public function findOrCreate($data)
     {
-         $data['name'] = $data['city_name'];
+         $data['name'] = ucfirst(strtolower($data['city_name']));
          unset($data['city_name']);  //prepared data
         return $this->firstOrCreate($data);
     }
