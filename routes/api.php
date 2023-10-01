@@ -37,6 +37,7 @@ Route::prefix('orchid-campus')->group(function () {
     //Country routes
     Route::controller(CountryController::class)->group(function () {
         Route::get('/countries', 'getList');
+        Route::get('/cities/{idCountry}', 'getCitiesByCountry');
     });
 
     //Contact routes
