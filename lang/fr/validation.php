@@ -142,6 +142,8 @@ return [
     'uuid'                 => 'Le champ :attribute doit être un UUID valide',
     'attributes'           => [
         'user_name' => 'No identification',
+        'university_name' => 'Le nom de l`\'université',
+        'webSite' => 'site web',
         'country_id' => 'id du pays',
         'address'                  => 'adresse',
         'age'                      => 'âge',

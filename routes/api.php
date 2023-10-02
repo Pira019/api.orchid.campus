@@ -37,6 +37,7 @@ Route::prefix('orchid-campus')->group(function () {
     //Country routes
     Route::controller(CountryController::class)->group(function () {
         Route::get('/countries', 'getList');
+        Route::get('/cities/{idCountry}', 'getCitiesByCountry');
     });
 
     //Contact routes
@@ -49,14 +50,18 @@ Route::prefix('orchid-campus')->group(function () {
 //Manager Controllers
 Route::prefix('orchid-campus/manager')->group(function () {
 
+    //For Admin, Manager
+    Route::middleware(['auth:sanctum', 'role:Admin|Manager'])->group(function () {
+        //University routes
+        Route::controller(UniversityController::class)->group(function () {
+            Route::post('/university', 'save');
+        });
 
-      //University routes
-      Route::controller(UniversityController::class)->middleware(['auth:sanctum','role:Admin|Manager'])->group(function () {
-        Route::post('/university', 'save');
     });
 
+
     //Country routes
-    Route::controller(CountryStepController::class)->middleware(['auth:sanctum','role:Admin|Manager'])->group(function () {
+    Route::controller(CountryStepController::class)->middleware(['auth:sanctum', 'role:Admin|Manager'])->group(function () {
         Route::get('/country-to-add-tuto', 'getCountryToAddTuto');
         Route::post('/country-steps', 'store');
         Route::get('/country-steps', 'getAll');
@@ -65,8 +70,8 @@ Route::prefix('orchid-campus/manager')->group(function () {
         Route::delete('/country-steps/delete/{id}', 'deleteStep');
     });
 
-      //Country turorial
-      Route::controller(TutorialsController::class)->middleware(['auth:sanctum','role:Admin|Manager'])->group(function () {
+    //Country turorial
+    Route::controller(TutorialsController::class)->middleware(['auth:sanctum', 'role:Admin|Manager'])->group(function () {
         Route::get('/tutorial/countries', 'getFlagUrlAndNameOfCountriesWithSteps');
         Route::get('/tutorial/country/{id}', 'getCountryStepsByCountryId');
         Route::post('/tutorial/save', 'save');
@@ -76,7 +81,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
     });
 
     //auth
-    Route::controller(AuthController::class)->group(function(){
+    Route::controller(AuthController::class)->group(function () {
         Route::post('/create-user', 'saveUser');
         Route::post('/login', 'authentication');
         Route::post('/forgot-password', 'forgotPassword');
@@ -84,6 +89,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
     });
 
 });
+
 
 /*
 

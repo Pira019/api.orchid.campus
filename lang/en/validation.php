@@ -175,7 +175,8 @@ return [
     */
 
     'attributes' => [
-        'birth_date' => 'date of birth'
+        'birth_date' => 'date of birth',
+        'university_name' => 'University name',
     ],
 
 ];

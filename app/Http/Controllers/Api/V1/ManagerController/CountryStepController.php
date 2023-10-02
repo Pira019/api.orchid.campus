@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\V1\ManagerController;
 use App\Http\Controllers\Controller;
 use App\Repository\Manager\CountryStepsRepository;
 use App\Service\ManagerService\CountryStepService;
-use Doctrine\DBAL\Schema\Schema;
 use Illuminate\Http\Request;
 
 class CountryStepController extends Controller
