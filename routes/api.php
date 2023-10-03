@@ -55,6 +55,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
         //University routes
         Route::controller(UniversityController::class)->group(function () {
             Route::post('/university', 'save');
+            Route::post('/university/address', 'addAddress');
         });
 
     });
