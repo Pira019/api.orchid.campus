@@ -32,5 +32,16 @@ class UniversityController extends Controller
         return $this->universityService->addAddress($university,$request->all());
     }
 
+    public function getUniversitiesByCountryId($countryId,Request $request)
+    {
+        $request->merge(['country_id' => $countryId]);
+
+        $request->validate([
+            'country_id' => 'integer|exists:countries,id'
+        ]);
+
+       return $this->universityRepository->getByCountryId($countryId);
+    }
+
 }
 

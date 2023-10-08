@@ -12,5 +12,9 @@ class UniversityRepository extends RepositoryRessource
         $this->model = $model;
     }
 
+    public function getByCountryId($countryId){
+        return $this->model->whereHas('city.country',fn( $query) => $query->where('id',$countryId))->orderBy('universities.name')->get();
+    }
+
 
 }
