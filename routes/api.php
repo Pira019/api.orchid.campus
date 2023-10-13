@@ -53,10 +53,11 @@ Route::prefix('orchid-campus/manager')->group(function () {
     //For Admin, Manager
     Route::middleware(['auth:sanctum', 'role:Admin|Manager'])->group(function () {
         //University routes
-        Route::controller(UniversityController::class)->group(function () {
-            Route::post('/university', 'save');
-            Route::post('/university/address', 'addAddress');
-            Route::get('/university/list/country/{idCountry}', 'getUniversitiesByCountryId');
+        Route::controller(UniversityController::class)->prefix('university')->group(function () {
+            Route::post('', 'save');
+            Route::post('/address', 'addAddress');
+            Route::get('/list/country/{idCountry}', 'getUniversitiesByCountryId');
+            Route::get('/{id}', 'show');
         });
 
         //Manager country routes

@@ -43,5 +43,15 @@ class UniversityController extends Controller
        return $this->universityRepository->getByCountryId($countryId);
     }
 
+    public function show($id,Request $request)
+    {
+        $request->merge(['university_id' => $request->route('id')]);
+        $request->validate([
+            'university_id' =>'required|integer|exists:universities,id',
+        ]);
+
+       return $this->universityRepository->findById($id); // update step
+    }
+
 }
 
