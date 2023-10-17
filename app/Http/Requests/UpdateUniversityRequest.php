@@ -20,6 +20,7 @@ class UpdateUniversityRequest extends FormRequest
     protected function prepareForValidation(){
         $this->merge([
             'id' =>(int)$this->route('id'),
+            'name' => ucfirst(strtolower($this->input('name')))
         ]);
     }
 
@@ -31,8 +32,8 @@ class UpdateUniversityRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|integer',
-            'name' => 'required|unique:universities,name,'. $this->id,
+            'id' => 'required|integer|exists:universities',
+            'name' => 'required|max:255|unique:universities,name,'. $this->id,
             'city_name' => 'required',
             'country_id' => 'required|integer|exists:countries,id',
             'webSite' => 'required|url:http,https',

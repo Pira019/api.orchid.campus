@@ -24,12 +24,17 @@ class UniversityController extends Controller
         return $this->universityService->save($findCity, $request->all());
     }
 
-    public function update($id, UpdateUniversityRequest $request, CityRepository $cityRepository)
+    public function update(UpdateUniversityRequest $request, CityRepository $cityRepository)
     {
         $request->validated();
 
-        /*  $findCity = $cityRepository->findOrCreate($request->only('city_name', 'country_id'));
-    return $this->universityService->save($findCity, $request->all());*/
+        // Find or create the city
+        $idCity = $cityRepository->findOrCreate($request->only(['city_name', 'country_id']))->id;
+
+        $this->universityService->edit($idCity, $request->except(['city_name', 'country_id']));
+
+         // Retrieve and return the updated university
+        return $this->universityRepository->findById($request->id);
     }
 
     public function addAddress(AddUniversityAdresseRequest $request)
