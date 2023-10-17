@@ -58,6 +58,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
             Route::post('/address', 'addAddress');
             Route::get('/list/country/{idCountry}', 'getUniversitiesByCountryId');
             Route::get('/{id}', 'show');
+            Route::post('update/{id}', 'update');
         });
 
         //Manager country routes
