@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaveUniversityRequest extends FormRequest
+class UpdateUniversityRequest extends FormRequest
 {
+    protected $stopOnFirstFailure = true;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -18,6 +19,7 @@ class SaveUniversityRequest extends FormRequest
 
     protected function prepareForValidation(){
         $this->merge([
+            'id' =>(int)$this->route('id'),
             'name' => ucfirst(strtolower($this->input('name')))
         ]);
     }
@@ -30,7 +32,8 @@ class SaveUniversityRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:universities,name',
+            'id' => 'required|integer|exists:universities',
+            'name' => 'required|max:255|unique:universities,name,'. $this->id,
             'city_name' => 'required',
             'country_id' => 'required|integer|exists:countries,id',
             'webSite' => 'required|url:http,https',

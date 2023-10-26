@@ -11,14 +11,13 @@ use Illuminate\Support\Str;
 
 class UserService extends ServiceRessource
 {
-    public function __contruct()
+    public function __contruct(User $model)
     {
-
+        $this->model = $model;
     }
 
     public function save($data)
     {
-        $this->model = new User();
         return $this->create($data);
     }
 
