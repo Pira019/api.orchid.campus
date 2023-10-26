@@ -16,6 +16,12 @@ class SaveUniversityRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(){
+        $this->merge([
+            'name' => ucfirst(strtolower($this->input('name')))
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +30,7 @@ class SaveUniversityRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:universities',
+            'name' => 'required|unique:universities,name',
             'city_name' => 'required',
             'country_id' => 'required|integer|exists:countries,id',
             'webSite' => 'required|url:http,https',

@@ -14,9 +14,9 @@ class UniversityRepository extends RepositoryRessource
 
     public function getByCountryId($countryId)
     {
-        //return $this->model->whereHas('city.country',fn( $query) => $query->where('id',$countryId))->with('city')->orderBy('universities.name')->get();
+        
         return $this->model->whereHas('city.country', fn($query) => $query->where('id', $countryId))
-            ->with('city', fn($query) => $query->select('name', 'id'))
+            ->with(['city:name,id,country_id'])
             ->select('name', 'city_id', 'id')
             ->orderBy('universities.name')
             ->get();
@@ -28,7 +28,7 @@ class UniversityRepository extends RepositoryRessource
             ->with(['address:university_id,code_postal,adress,updated_at',
                 'city:name,id,country_id',
                 'city.country:id,name,flag_url'])
-            ->find($id)->makeHidden('updated_at');
+            ->find($id)->makeHidden('created_at');
     }
 
 }

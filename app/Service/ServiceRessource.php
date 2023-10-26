@@ -38,4 +38,17 @@ class ServiceRessource
         return $this->model::where($columnNameToCompare, $valueToCompare)->update($data);
     }
 
+    public function updateAndReturn($id, array $data)
+    {
+        $objectFinded = $this->model::find($id);
+
+        if (!$objectFinded) {
+
+            return null;
+        }
+
+        $objectFinded->update($data);
+        return $objectFinded->refresh();
+    }
+
 }

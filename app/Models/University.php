@@ -16,12 +16,6 @@ class University extends Model
     {
         $this->attributes['name'] = ucfirst(strtolower($value));
     }
-
-    protected function setShortNameAttribute($value)
-    {
-        $this->attributes['shortName'] = strtoupper($value);
-    }
-
     public function address(): HasOne
     {
         return $this->hasOne(Address::class);

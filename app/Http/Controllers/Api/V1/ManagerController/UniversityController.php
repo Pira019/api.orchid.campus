@@ -8,6 +8,7 @@ use App\Http\Requests\SaveUniversityRequest;
 use App\Http\Requests\UpdateUniversityRequest;
 use App\Repository\Manager\CityRepository;
 use App\Repository\Manager\UniversityRepository;
+use App\Service\ManagerService\AddressService;
 use App\Service\ManagerService\UniversityService;
 use Illuminate\Http\Request;
 
@@ -65,6 +66,18 @@ class UniversityController extends Controller
         ]);
 
         return $this->universityRepository->findById($id); // update step
+    }
+
+    public function updateAddress(Request $request,AddressService $addressService)
+    {
+        $request->merge(['university_id' => $request->route('university_id')]);
+        $request->validate([
+            'university_id' => 'required|integer|exists:universities,id',
+            'adress' => 'required',
+            'code_postal' => 'nullable|string',
+        ]);
+
+        return $addressService->updateUniversityAddress($request->all());
     }
 
 }
