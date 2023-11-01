@@ -23,7 +23,7 @@ class UserService extends ServiceRessource
 
     public function userName($name, $idCustomer)
     {
-        return substr(strtoupper($name), 0, 2) . date('Hi') . $idCustomer;
+        return substr(strtoupper($name), 0, 2) . date('Hs') . $idCustomer;
     }
 
     /*

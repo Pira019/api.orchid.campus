@@ -34,12 +34,14 @@ class AuthController extends Controller
         ]);
 
         $data = $request->all();
-        $data['password'] = bcrypt(random_int(100000, 9999999999));
+
 
         $newManager = $customerService->save($data);
 
+        $data['password'] = bcrypt(random_int(100000, 9999999999));
         $data['user_name'] = $userService->userName($data['name'], $newManager->id);
         $data['customer_id'] = $newManager->id;
+
         $this->authService->attachRole($userService->save($data));
     }
 

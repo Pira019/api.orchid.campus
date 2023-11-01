@@ -22,18 +22,22 @@ class RoleService
             ];
         };
         Role::insertOrIgnore($roleNames);
-        self::defaultAttachProfileRole("Admin");
-        self::defaultAttachProfileRole("Manager", false);
+        self::defaultAttachProfileRole(ProfilNameEnum::ADMIN->value);
+        self::defaultAttachProfileRole(ProfilNameEnum::MANAGER->value, false);
+        self::defaultAttachProfileRole(ProfilNameEnum::SUPER_ADMIN->value, false, true);
     }
 
-    public static function defaultAttachProfileRole($profilName, $admin = true)
+    public static function defaultAttachProfileRole($profilName, $admin = true, $isSuperAdmin = false)
     {
         $findProfile = Profil::whereName($profilName)->first(['id']);
         //get role
-        $roleId = Role::when(!$admin, fn($query) => $query->where('name', $profilName))->get(['id']);
+        $roleId = Role::when(!$admin && !$isSuperAdmin, fn($query) => $query->where('name', $profilName))
+            ->when($admin && !$isSuperAdmin, fn($query) => $query->whereNot('name',ProfilNameEnum::SUPER_ADMIN->value))
+            ->get(['id']);
 
         $findProfile->roles()->sync($roleId);
 
     }
 
 }
+

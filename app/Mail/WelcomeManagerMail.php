@@ -55,7 +55,7 @@ class WelcomeManagerMail extends Mailable implements ShouldQueue
                 'name' => $this->userFirstName,
                 //userName is unique id with wich manager or admin use to log in
                 'userName' => $this->user->user_name,
-                'urlToconnect' => env('SPA_URL')."/manager/mot-de-passe-oublie",
+                'urlToconnect' => env('SPA_URL')."manager/mot-de-passe-oublie",
             ]
         );
     }

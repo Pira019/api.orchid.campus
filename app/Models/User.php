@@ -8,12 +8,11 @@ use App\Enums\PasswordRouteEnum;
 use App\Models\Profil;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Contracts\Auth\CanResetPassword;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements CanResetPassword
@@ -21,6 +20,11 @@ class User extends Authenticatable implements CanResetPassword
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     protected $guard_name = 'manager';
+
+    public function __construct()
+    {
+
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -30,9 +34,8 @@ class User extends Authenticatable implements CanResetPassword
     protected $fillable = [
         'email',
         'password',
+        'profil_id',
         'user_name',
-        'customer_id',
-        'profil_id'
     ];
 
     /**
@@ -55,33 +58,28 @@ class User extends Authenticatable implements CanResetPassword
         'email_verified_at' => 'datetime',
     ];
 
-    public function profil(){
+    public function profil()
+    {
         return $this->belongsTo(Profil::class);
     }
-
-    public function setEmailAttribute($value)
-{
-    $this->attributes['email'] = strtolower($value);
-}
-
 
 /**
  * Send a password reset notification to the user.
  *
  * @param  string  $token
  */
-public function sendPasswordResetNotification($token): void
-{
-    $route = PasswordRouteEnum::UPDATE_PASSWORD_ROUTE->value;
+    public function sendPasswordResetNotification($token): void
+    {
+        $route = PasswordRouteEnum::UPDATE_PASSWORD_ROUTE->value;
 
-   $url = env('SPA_URL').$route.'?token='.$token;
+        $url = env('SPA_URL') . $route . '?token=' . $token;
 
-    $this->notify(new ResetPasswordNotification($url));
-}
+        $this->notify(new ResetPasswordNotification($url));
+    }
 
-public function customer(): BelongsTo
-{
-    return $this->belongsTo(Customer::class);
-}
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
+    }
 
 }
