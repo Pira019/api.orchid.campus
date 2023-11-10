@@ -9,6 +9,8 @@ use App\Http\Requests\UpdateUniversityRequest;
 use App\Repository\Manager\CityRepository;
 use App\Repository\Manager\UniversityRepository;
 use App\Service\ManagerService\AddressService;
+use App\Service\ManagerService\DisciplinarySectorService;
+use App\Service\ManagerService\ProgramService;
 use App\Service\ManagerService\UniversityService;
 use Illuminate\Http\Request;
 
@@ -34,7 +36,7 @@ class UniversityController extends Controller
 
         $this->universityService->edit($idCity, $request->except(['city_name', 'country_id']));
 
-         // Retrieve and return the updated university
+        // Retrieve and return the updated university
         return $this->universityRepository->findById($request->id);
     }
 
@@ -68,7 +70,7 @@ class UniversityController extends Controller
         return $this->universityRepository->findById($id); // update step
     }
 
-    public function updateAddress(Request $request,AddressService $addressService)
+    public function updateAddress(Request $request, AddressService $addressService)
     {
         $request->merge(['university_id' => $request->route('university_id')]);
         $request->validate([
@@ -78,6 +80,30 @@ class UniversityController extends Controller
         ]);
 
         return $addressService->updateUniversityAddress($request->all());
+    }
+
+    public function addProgram(Request $request,$university_id, ProgramService $programService, DisciplinarySectorService $disciplinarySectorService)
+    {
+
+        $request->merge(['university_id' => $request->route('university_id')]);
+
+        $request->validate([
+            'university_id' => 'required|integer|exists:universities,id',
+            'program_name' => 'required|max:255',
+            'discipline_name' => 'required|max:255',
+            'discpline_description' => 'nullable|string|max:1000',
+            //detail
+            'nbrCredit' => 'required|integer',
+            'cycle' => 'required|integer',
+            'duration' => 'required|string|max:255',
+            'admission_scheme' => 'required|string|max:255',
+            'languages' => 'required|string|max:55',
+        ]);
+
+       $newProgramm = $programService->save($request, $disciplinarySectorService->save($request)->id);
+       $university = $this->universityRepository->findById($university_id);
+
+       return $this->universityService->addProgram($university, $newProgramm, $request->only(['nbrCredit','cycle','duration','admission_scheme','languages']));
     }
 
 }
