@@ -51,4 +51,8 @@ class ServiceRessource
         return $objectFinded->refresh();
     }
 
+    public function firstOrCreate($data){
+        return $this->model::firstOrCreate($data);
+    }
+
 }
