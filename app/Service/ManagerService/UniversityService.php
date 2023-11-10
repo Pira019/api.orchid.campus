@@ -3,6 +3,8 @@ namespace App\Service\ManagerService;
 
 use App\Models\University;
 use App\Service\ServiceRessource;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Response;
 
 class UniversityService extends ServiceRessource
 {
@@ -40,6 +42,23 @@ class UniversityService extends ServiceRessource
             return null;
         }
         return $university->address()->create($adress);
+    }
+
+    public function addProgram($university,$program,array $detaiProgram)
+    {
+
+        try {
+
+            return $university->programs()->attach($program,$detaiProgram);
+
+        } catch(QueryException $e) {
+
+            if($e->getCode() == '23505' ){
+                return response()->json(['error' => trans('http-statuses.HTTP_CONFLICT_PROPGRAM') ], Response::HTTP_CONFLICT);
+            }
+
+            throw $e;
+        }
     }
 
 }
