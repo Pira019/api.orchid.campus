@@ -29,6 +29,6 @@ class University extends Model
 
     public function programs() : BelongsToMany
     {
-        return $this->belongsToMany(Program::class,'detail_programs');
+        return $this->belongsToMany(Program::class,'detail_programs')->withTimestamps()->withPivot(['*']);
     }
 }

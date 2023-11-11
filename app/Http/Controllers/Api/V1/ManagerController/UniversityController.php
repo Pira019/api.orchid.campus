@@ -106,4 +106,15 @@ class UniversityController extends Controller
        return $this->universityService->addProgram($university, $newProgramm, $request->only(['nbrCredit','cycle','duration','admission_scheme','languages']));
     }
 
+    public function getPrograms(Request $request,$university_id)
+    {
+        $request->merge(['university_id' => $request->route('university_id')]);
+
+        $request->validate([
+            'university_id' => 'required|integer|exists:universities,id'
+        ]);
+
+        return $this->universityRepository->getProgramsByUniversityId($university_id);
+    }
+
 }

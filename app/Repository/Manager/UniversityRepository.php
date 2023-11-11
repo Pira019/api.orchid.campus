@@ -14,7 +14,7 @@ class UniversityRepository extends RepositoryRessource
 
     public function getByCountryId($countryId)
     {
-        
+
         return $this->model->whereHas('city.country', fn($query) => $query->where('id', $countryId))
             ->with(['city:name,id,country_id'])
             ->select('name', 'city_id', 'id')
@@ -29,6 +29,12 @@ class UniversityRepository extends RepositoryRessource
                 'city:name,id,country_id',
                 'city.country:id,name,flag_url'])
             ->find($id)->makeHidden('created_at');
+    }
+
+    public function getProgramsByUniversityId($universityId){
+
+        return $this->findOne($universityId)->programs;
+
     }
 
 }

@@ -63,6 +63,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
 
             //Program
             Route::post('/{university_id}/add-program', 'addProgram');
+            Route::get('/{university_id}/programs', 'getPrograms');
         });
 
         //Manager country routes
