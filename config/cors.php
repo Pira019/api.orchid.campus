@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ["https://orchid-campus.com"],
+    'allowed_origins' => ["https://orchid-campus.com","https://www.orchid-campus.com"],
 
     'allowed_origins_patterns' => [],
 
