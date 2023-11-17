@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('cycle');
             $table->string('duration');
             $table->string('admission_scheme');
-            $table->string('languages');
+            $table->string('languages',55);
             $table->foreignIdFor(Focuss::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Program::class)->constrained()->nullOnDelete();
             $table->foreignIdFor(University::class)->constrained();

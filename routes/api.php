@@ -60,6 +60,10 @@ Route::prefix('orchid-campus/manager')->group(function () {
             Route::get('/{id}', 'show');
             Route::post('update/{id}', 'update');
             Route::post('update-address/{university_id}', 'updateAddress');
+
+            //Program
+            Route::post('/{university_id}/add-program', 'addProgram');
+            Route::get('/{university_id}/programs', 'getPrograms');
         });
 
         //Manager country routes

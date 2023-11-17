@@ -81,4 +81,5 @@ return [
     '598'          => 'Erreur de délai de lecture réseau',
     '599'          => 'Erreur de délai de connexion réseau',
     'unknownError' => 'Erreur inconnue',
+    'HTTP_CONFLICT_PROPGRAM' => 'Ce programme est déjà enregistré avec cette université',
 ];

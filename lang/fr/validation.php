@@ -221,6 +221,10 @@ return [
         'birth_date'               => 'date de naissance',
         'residence_contry'          => 'pays de résidence',
         'citoyenneté'          => 'pays de citoyenneté',
+        'program_name'  => 'Nom du programme',
+        'nbrCredit' => 'Nombre de crédit',
+        'admission_scheme' => 'programme d\'admission',
+        'languages' => 'langue',
 
 
     ],
