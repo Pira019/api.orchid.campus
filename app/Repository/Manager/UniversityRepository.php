@@ -33,7 +33,12 @@ class UniversityRepository extends RepositoryRessource
 
     public function getProgramsByUniversityId($universityId){
 
-        return $this->findOne($universityId)->programs;
+        return $this->findOne($universityId)->programs()
+        ->leftJoin('disciplinary_sectors', 'programs.disciplinary_sector_id', '=', 'disciplinary_sectors.id')
+        ->select("disciplinary_sectors.label as disciplinary_sector","programs.label as title")
+        ->orderBy('cycle')
+        ->orderBy('title')
+        ->get();
 
     }
 

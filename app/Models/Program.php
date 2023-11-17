@@ -10,6 +10,8 @@ class Program extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['label','disciplinary_sector_id'];
+
     public function disciplineSector() : BelongsTo
     {
         return $this->belongsTo(DisciplinarySector::class);
