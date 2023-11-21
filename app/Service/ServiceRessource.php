@@ -55,4 +55,9 @@ class ServiceRessource
         return $this->model::firstOrCreate($data);
     }
 
+    public function destroy($id)
+    {
+      return $this->model::destroy($id);
+    }
+
 }
