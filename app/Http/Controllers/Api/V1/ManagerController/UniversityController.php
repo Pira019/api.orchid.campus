@@ -91,7 +91,7 @@ class UniversityController extends Controller
             'university_id' => 'required|integer|exists:universities,id',
             'program_name' => 'required|max:255',
             'discipline_name' => 'required|max:255',
-            'discpline_description' => 'nullable|string|max:1000',
+            'discipline_description' => 'nullable|string|max:1000',
             //detail
             'nbrCredit' => 'required|integer',
             'cycle' => 'required|integer',
