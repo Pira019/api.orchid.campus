@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Core\ServiceUtils;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,7 @@ class DisciplinarySector extends Model
     protected function label(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) => ucfirst(strtolower($value)),
+            set: fn (string $value) => ServiceUtils::ucfirst_lower($value),
         );
     }
 }
