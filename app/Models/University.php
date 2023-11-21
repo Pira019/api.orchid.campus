@@ -12,6 +12,7 @@ class University extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'shortName','webSite','nameMinicip'];
+    protected $hidden = ['pivot'];
 
     protected function setNameAttribute($value)
     {
@@ -29,6 +30,6 @@ class University extends Model
 
     public function programs() : BelongsToMany
     {
-        return $this->belongsToMany(Program::class,'detail_programs')->withTimestamps()->withPivot(['*']);
+        return $this->belongsToMany(Program::class,DetailProgram::class)->withTimestamps()->withPivot(['*']);
     }
 }

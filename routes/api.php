@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\ManagerController\CountryController as ManagerCo
 use App\Http\Controllers\Api\V1\ManagerController\CountryStepController;
 use App\Http\Controllers\Api\V1\ManagerController\TutorialsController;
 use App\Http\Controllers\Api\V1\ManagerController\UniversityController;
+use App\Http\Controllers\Api\V1\ManagerController\UniversityProgramController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,12 @@ Route::prefix('orchid-campus/manager')->group(function () {
 
     //For Admin, Manager
     Route::middleware(['auth:sanctum', 'role:Admin|Manager'])->group(function () {
+
+          //University progralm
+          Route::controller(UniversityProgramController::class)->prefix('university_program')->group(function () {
+            Route::delete('/{university_program_id}', 'delete');
+        });
+
         //University routes
         Route::controller(UniversityController::class)->prefix('university')->group(function () {
             Route::post('', 'save');

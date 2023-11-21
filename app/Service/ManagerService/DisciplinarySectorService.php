@@ -1,6 +1,7 @@
 <?php
 namespace App\Service\ManagerService;
 
+use App\Core\ServiceUtils;
 use App\Models\DisciplinarySector;
 use App\Service\ServiceRessource;
 
@@ -16,8 +17,8 @@ class DisciplinarySectorService extends ServiceRessource
     public function save($data)
     {
            return $this->model->firstOrCreate(
-                    ['label' => $data['discipline_name']],
-                    ['description' => $data['discpline_description']]);
+                    ['label' => ServiceUtils::ucfirst_lower($data['discipline_name'])],
+                    ['description' => $data['discipline_description']]);
     }
 
 
