@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Api\V1\ManagerController;
 
 use App\Http\Controllers\Controller;
+use App\Repository\Manager\UniversityProgramRepository;
 use App\Service\ManagerService\UniversityProgramService;
 use Illuminate\Http\Request;
 
 class UniversityProgramController extends Controller
 {
-    public function __construct(public UniversityProgramService $universityProgram)
+    public function __construct(public UniversityProgramService $universityProgram,public UniversityProgramRepository $universityProgramRepository)
     {}
 
     public function delete($universityProgramId,Request $request)
@@ -19,6 +20,13 @@ class UniversityProgramController extends Controller
         ]);
 
         return $this->universityProgram->destroy($universityProgramId);
+    }
+
+    // This function allows you to fill in fields such as program name, disciple name, etc.
+    public function preFilForm(){
+
+        return $this->universityProgramRepository->getProgramDetailToPrefil();
+
     }
 
 
