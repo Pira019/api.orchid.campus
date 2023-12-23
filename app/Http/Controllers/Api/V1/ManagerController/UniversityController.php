@@ -98,12 +98,13 @@ class UniversityController extends Controller
             'duration' => 'required|string|max:255',
             'admission_scheme' => 'required|string|max:255',
             'languages' => 'required|string|max:55',
+            'program_description' => 'required|string',
         ]);
 
        $newProgramm = $programService->save($request, $disciplinarySectorService->save($request)->id);
        $university = $this->universityRepository->findById($university_id);
 
-       return $this->universityService->addProgram($university, $newProgramm, $request->only(['nbrCredit','cycle','duration','admission_scheme','languages']));
+       return $this->universityService->addProgram($university, $newProgramm, $request->only(['nbrCredit','cycle','duration','admission_scheme','languages','program_description']));
     }
 
     public function getPrograms(Request $request,$university_id)
