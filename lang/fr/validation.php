@@ -224,7 +224,7 @@ return [
         'program_name'  => 'Nom du programme',
         'nbrCredit' => 'Nombre de crédit',
         'admission_scheme' => 'programme d\'admission',
-        'languages' => 'langue',
+        'languages' => 'langue(s)', 
 
 
     ],
