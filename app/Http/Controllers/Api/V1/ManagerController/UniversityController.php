@@ -95,7 +95,7 @@ class UniversityController extends Controller
             //detail
             'nbrCredit' => 'required|integer',
             'cycle' => 'required|integer',
-            'duration' => 'required|string|max:255',
+            'duration' => 'required|integer|max:255',
             'admission_scheme' => 'required|string|max:255',
             'languages' => 'required|string|max:55',
             'program_description' => 'required|string',
