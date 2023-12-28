@@ -57,6 +57,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
           //University progralm
           Route::controller(UniversityProgramController::class)->prefix('university_program')->group(function () {
             Route::delete('/{university_program_id}', 'delete');
+            Route::get('/prefil', 'preFilForm');
         });
 
         //University routes
