@@ -1,10 +1,12 @@
 <?php
 namespace App\Service\ManagerService;
 
+use App\Models\DetailProgram;
 use App\Models\University;
 use App\Service\ServiceRessource;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class UniversityService extends ServiceRessource
 {
@@ -49,7 +51,8 @@ class UniversityService extends ServiceRessource
 
         try {
 
-            return $university->programs()->attach($program,$detaiProgram);
+            $university->programs()->attach($program,$detaiProgram);
+            return $this->findUniversityProgramId($university->id,$program->id);
 
         } catch(QueryException $e) {
 
@@ -59,6 +62,10 @@ class UniversityService extends ServiceRessource
 
             throw $e;
         }
+    }
+
+    private function findUniversityProgramId($universityId,$programId){
+      return DetailProgram::where(['university_id' => $universityId, 'program_id' => $programId])->value('id');
     }
 
 }
