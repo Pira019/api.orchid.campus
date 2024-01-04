@@ -6,7 +6,6 @@ use App\Models\University;
 use App\Service\ServiceRessource;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 
 class UniversityService extends ServiceRessource
 {
@@ -46,26 +45,28 @@ class UniversityService extends ServiceRessource
         return $university->address()->create($adress);
     }
 
-    public function addProgram($university,$program,array $detaiProgram)
+    public function addOrUpdateProgram($university, $program, array $detailProgram, $isUpdate = false)
     {
 
         try {
 
-            $university->programs()->attach($program,$detaiProgram);
-            return $this->findUniversityProgramId($university->id,$program->id);
+            // Check if the program is already attached to the university
+            $existingProgram = $university->programs();
 
-        } catch(QueryException $e) {
+            if($isUpdate && $existingProgram->find($program->id)){
+                $university->programs()->updateExistingPivot($program->id, $detailProgram);
+            }else{
+                $university->programs()->attach($program,$detailProgram);
+                return $existingProgram->find($program->id)->id;
+            }
 
-            if($e->getCode() == '23505' ){
-                return response()->json(['error' => trans('http-statuses.HTTP_CONFLICT_PROPGRAM') ], Response::HTTP_CONFLICT);
+        } catch (QueryException $e) {
+
+            if ($e->getCode() == '23505') {
+                return response()->json(['error' => trans('http-statuses.HTTP_CONFLICT_PROPGRAM')], Response::HTTP_CONFLICT);
             }
 
             throw $e;
         }
     }
-
-    private function findUniversityProgramId($universityId,$programId){
-      return DetailProgram::where(['university_id' => $universityId, 'program_id' => $programId])->value('id');
-    }
-
 }

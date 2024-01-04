@@ -82,9 +82,8 @@ class UniversityController extends Controller
         return $addressService->updateUniversityAddress($request->all());
     }
 
-    public function addProgram(Request $request,$university_id, ProgramService $programService, DisciplinarySectorService $disciplinarySectorService)
+    public function addOrUpdateProgram(Request $request,$university_id, ProgramService $programService, DisciplinarySectorService $disciplinarySectorService)
     {
-
         $request->merge(['university_id' => $request->route('university_id')]);
 
         $request->validate([
@@ -95,16 +94,21 @@ class UniversityController extends Controller
             //detail
             'nbrCredit' => 'required|integer',
             'cycle' => 'required|integer',
-            'duration' => 'required|integer|max:255',
+            'duration' => 'required|integer',
             'admission_scheme' => 'required|string|max:255',
             'languages' => 'required|string|max:55',
             'program_description' => 'required|string',
+            'isUpdate' => 'nullable|boolean '
         ]);
 
        $newProgramm = $programService->save($request, $disciplinarySectorService->save($request)->id);
        $university = $this->universityRepository->findById($university_id);
 
-       return $this->universityService->addProgram($university, $newProgramm, $request->only(['nbrCredit','cycle','duration','admission_scheme','languages','program_description']));
+      return $this->universityService->addOrUpdateProgram(
+    $university, $newProgramm,
+    $request->only(['nbrCredit', 'cycle', 'duration', 'admission_scheme', 'languages', 'program_description']),
+    $request->boolean('isUpdate'));
+
     }
 
     public function getPrograms(Request $request,$university_id)

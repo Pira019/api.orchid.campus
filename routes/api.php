@@ -70,7 +70,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
             Route::post('update-address/{university_id}', 'updateAddress');
 
             //Program
-            Route::post('/{university_id}/add-program', 'addProgram');
+            Route::match(['post','put'],'/{university_id}/add-or-edit-program', 'addOrUpdateProgram');
             Route::get('/{university_id}/programs', 'getPrograms');
         });
 
