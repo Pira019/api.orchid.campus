@@ -86,7 +86,7 @@ class UniversityController extends Controller
     {
         $request->merge(['university_id' => $request->route('university_id')]);
 
-        $request->validate([
+         $request->validate([
             'university_id' => 'required|integer|exists:universities,id',
             'program_name' => 'required|max:255',
             'discipline_name' => 'required|max:255',
@@ -98,16 +98,16 @@ class UniversityController extends Controller
             'admission_scheme' => 'required|string|max:255',
             'languages' => 'required|string|max:55',
             'program_description' => 'required|string',
-            'isUpdate' => 'nullable|boolean '
+            'isUpdate' => 'nullable|boolean',
+            'id' => 'required_if:isUpdate,true|nullable|integer|exists:university_program',
         ]);
-
        $newProgramm = $programService->save($request, $disciplinarySectorService->save($request)->id);
-       $university = $this->universityRepository->findById($university_id);
 
-      return $this->universityService->addOrUpdateProgram(
-    $university, $newProgramm,
-    $request->only(['nbrCredit', 'cycle', 'duration', 'admission_scheme', 'languages', 'program_description']),
-    $request->boolean('isUpdate'));
+        return $this->universityService->addOrUpdateProgram(
+        $university_id, $newProgramm,
+        $request->only(['nbrCredit', 'cycle', 'duration', 'admission_scheme', 'languages', 'program_description']),
+        $request->boolean('isUpdate'),
+        $request?->id);
 
     }
 
