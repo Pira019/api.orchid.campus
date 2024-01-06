@@ -1,7 +1,6 @@
 <?php
 namespace App\Service\ManagerService;
 
-use App\Models\DetailProgram;
 use App\Models\University;
 use App\Service\ServiceRessource;
 use Illuminate\Database\QueryException;
@@ -45,19 +44,19 @@ class UniversityService extends ServiceRessource
         return $university->address()->create($adress);
     }
 
-    public function addOrUpdateProgram($university, $program, array $detailProgram, $isUpdate = false)
+    public function addOrUpdateProgram($universityId, $program, array $detailProgram, $isUpdate = false,$idProgramToUpdate=null)
     {
 
         try {
+            $prapareQuery = $this->model->find($universityId)->programs();
 
-            // Check if the program is already attached to the university
-            $existingProgram = $university->programs();
+            if ($isUpdate && $idProgramToUpdate) {
+                return $prapareQuery->wherePivot('id', $idProgramToUpdate)->first()->pivot->update([...$detailProgram, "program_id" => $program->id]);
 
-            if($isUpdate && $existingProgram->find($program->id)){
-                $university->programs()->updateExistingPivot($program->id, $detailProgram);
-            }else{
-                $university->programs()->attach($program,$detailProgram);
-                return $existingProgram->find($program->id)->id;
+            } else {
+
+                $prapareQuery->attach($program, $detailProgram);
+                return $prapareQuery->find($program->id)->id;
             }
 
         } catch (QueryException $e) {
