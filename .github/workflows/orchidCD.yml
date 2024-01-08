@@ -44,4 +44,5 @@ jobs:
           **/.git*/**
           **/node_modules/**
           **/.**
+          **/.env**  # Exclude local .env file
         if: success()  # This step will only run if the previous steps were successful
