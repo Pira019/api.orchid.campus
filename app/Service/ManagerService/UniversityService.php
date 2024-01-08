@@ -1,12 +1,10 @@
 <?php
 namespace App\Service\ManagerService;
 
-use App\Models\DetailProgram;
 use App\Models\University;
 use App\Service\ServiceRessource;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 
 class UniversityService extends ServiceRessource
 {
@@ -46,26 +44,28 @@ class UniversityService extends ServiceRessource
         return $university->address()->create($adress);
     }
 
-    public function addProgram($university,$program,array $detaiProgram)
+    public function addOrUpdateProgram($universityId, $program, array $detailProgram, $isUpdate = false,$idProgramToUpdate=null)
     {
 
         try {
+            $prapareQuery = $this->model->find($universityId)->programs();
 
-            $university->programs()->attach($program,$detaiProgram);
-            return $this->findUniversityProgramId($university->id,$program->id);
+            if ($isUpdate && $idProgramToUpdate) {
+                return $prapareQuery->wherePivot('id', $idProgramToUpdate)->first()->pivot->update([...$detailProgram, "program_id" => $program->id]);
 
-        } catch(QueryException $e) {
+            } else {
 
-            if($e->getCode() == '23505' ){
-                return response()->json(['error' => trans('http-statuses.HTTP_CONFLICT_PROPGRAM') ], Response::HTTP_CONFLICT);
+                $prapareQuery->attach($program, $detailProgram);
+                return $prapareQuery->find($program->id)->id;
+            }
+
+        } catch (QueryException $e) {
+
+            if ($e->getCode() == '23505') {
+                return response()->json(['error' => trans('http-statuses.HTTP_CONFLICT_PROPGRAM')], Response::HTTP_CONFLICT);
             }
 
             throw $e;
         }
     }
-
-    private function findUniversityProgramId($universityId,$programId){
-      return DetailProgram::where(['university_id' => $universityId, 'program_id' => $programId])->value('id');
-    }
-
 }
