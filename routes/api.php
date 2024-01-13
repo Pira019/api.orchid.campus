@@ -90,13 +90,17 @@ Route::prefix('orchid-campus/manager')->group(function () {
         });
 
         //Country turorial
-        Route::controller(TutorialsController::class)->group(function () {
-            Route::get('/tutorial/countries', 'getFlagUrlAndNameOfCountriesWithSteps');
-            Route::get('/tutorial/country/{id}', 'getCountryStepsByCountryId');
-            Route::post('/tutorial/save', 'save');
-            Route::get('/tutorial/step-country/{id}', 'getTutosByStepCoutryId');
-            Route::post('/tutorial', 'edit');
-            Route::delete('/tutorial/{id}', 'deleteTutoAndReorderOrder');
+        Route::controller(TutorialsController::class)->prefix('tutorial')->group(function () {
+            Route::get('/countries', 'getFlagUrlAndNameOfCountriesWithSteps');
+            Route::get('/country/{id}', 'getCountryStepsByCountryId');
+            Route::post('/save', 'save');
+            Route::get('/step-country/{id}', 'getTutosByStepCoutryId');
+            Route::post('/', 'edit');
+            Route::delete('/{id}', 'deleteTutoAndReorderOrder');
+
+           //video tuto
+           Route::post('/copy-video-stream/', 'copyVideoStream');
+
         });
 
     });
