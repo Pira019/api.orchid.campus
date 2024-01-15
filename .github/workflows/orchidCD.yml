@@ -26,7 +26,7 @@ jobs:
     - name: Clear Optimized Classes
       run: php artisan optimize:clear
     - name: Run Migrations
-      run: php artisan migrate 
+      run: php artisan migrate  --force
     - name: Seed Database
       run: php artisan db:seed --force
     - name: Directory Permissions
