@@ -1,5 +1,6 @@
 <?php
 namespace App\Models\Traits;
+use Illuminate\Support\Facades\Config;
 
 trait TUploadMetadata
 {
@@ -7,7 +8,7 @@ trait TUploadMetadata
 
         $encodedVideoName = base64_encode($videoName);
         $allowedoriginDomains = base64_encode('orchid-campus.com');
-        $watermakerID = base64_encode('0edddba2645e16f4f4d77725fe48cbf5');
+        $watermakerID = base64_encode(Config::get('cloudflare.watermarks_id'));
 
         return "requireSignedURLS $requiresignedurls, name $encodedVideoName, allowedorigins $allowedoriginDomains,watermark $watermakerID";
     }

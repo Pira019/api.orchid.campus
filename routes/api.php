@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\CustomerController\Contact\ContactController;
 use App\Http\Controllers\Api\V1\ManagerController\AuthController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryController as ManagerControllerCountryController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryStepController;
+use App\Http\Controllers\Api\V1\ManagerController\SettingController;
 use App\Http\Controllers\Api\V1\ManagerController\TutorialsController;
 use App\Http\Controllers\Api\V1\ManagerController\UniversityController;
 use App\Http\Controllers\Api\V1\ManagerController\UniversityProgramController;
@@ -53,6 +54,12 @@ Route::prefix('orchid-campus/manager')->group(function () {
 
     //For Admin, Manager
     Route::middleware(['auth:sanctum', 'role:Admin|Manager'])->group(function () {
+
+        //setting
+        Route::controller(SettingController::class)->prefix('settings')->group(function () {
+            Route::post('/watermark', 'createWaterMark');
+        });
+
 
           //University progralm
           Route::controller(UniversityProgramController::class)->prefix('university_program')->group(function () {

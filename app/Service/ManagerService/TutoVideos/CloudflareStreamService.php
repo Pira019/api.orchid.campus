@@ -19,14 +19,14 @@ class CloudflareStreamService
     public function copyVideoStream($videoFile,$videoMeta)
     {
         $videoMetaName = $videoMeta['name'];
-        
+
         try{
 
          $url = Config::get('cloudflare.endpoints.upload_video_file');
 
          $request = $this->clientHttp->post($url,
          [
-            'headers' => $this->getCommonHeaders($this->uploadMetaEncodeBase64($videoMetaName,'false'),filesize($videoFile->path())),
+            'headers' => $this->getCommonHeaders($this->uploadMetaEncodeBase64($videoMetaName,'true'),filesize($videoFile->path())),
 
          ]);
 
@@ -63,7 +63,7 @@ class CloudflareStreamService
                     'Upload-Offset' => 0,
                     'Content-Type'  => 'application/offset+octet-stream',
                 ]),
-              'body'  => fopen($videoFile->path(), 'r') 
+              'body'  => fopen($videoFile->path(), 'r')
             ]);
 
              return json_decode($request->getBody(), true);
@@ -74,6 +74,36 @@ class CloudflareStreamService
         }
     }
 
-  
+    public function createWatermark($image,$name)
+    {
+        try
+        {
+           $url = Config::get('cloudflare.endpoints.watermarks');
+           $response = $this->clientHttp->post($url,
+           [
+           'headers' =>  [ 
+           'Authorization' => "Bearer $this->apiToken", ],
+
+           'multipart' => [
+            [
+                'name' => 'file',
+                'contents' =>fopen($image->path(), 'r'), 
+            ],
+            [
+                'name' => 'name',
+                'contents' => $name,
+            ],
+            
+        ],
+        ]);
+
+       return json_decode($response->getBody()->getContents(), true);
+
+        } catch(ClientException  $e){
+            return ['error' => $e->getResponse()->getBody()->getContents()];
+        }
+    }
+
+
 }
 
