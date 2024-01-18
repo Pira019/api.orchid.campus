@@ -17,13 +17,19 @@ class SettingService extends ServiceRessource
 
     public function saveWatermark($file,$nameFile_)
     {
-        $nameFile = $this->serviceUtils->replaceSpaceToHyphen($nameFile_); 
+        $nameFile = $this->serviceUtils->replaceSpaceToHyphen($nameFile_);
 
         $cloudflareResponse = $this->cloudflareStreamService->createWatermark($file,$nameFile);
 
-       if(!$cloudflareResponse['success']){
-            return null;
-       }
+       if (!$cloudflareResponse['success']) {
+
+            $errorMessage = [
+                "error" => "Cloudfare error",
+            ];
+            return response($errorMessage, 500);
+        }
+
+
 
        $saveSettingDate = $this->prepareSettingData($cloudflareResponse['result']['uid']);
 
@@ -31,7 +37,8 @@ class SettingService extends ServiceRessource
             "name" => $nameFile,
             "url" => $this->serviceUtils->storeImage($file,$nameFile)
        ];
-       $this->create($saveSettingDate)->image()->create($saveImage); 
+
+      return  $this->create($saveSettingDate)->image()->create($saveImage)->url;
     }
 
     function prepareSettingData($refType)
