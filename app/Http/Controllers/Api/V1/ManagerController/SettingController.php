@@ -37,6 +37,11 @@ class SettingController extends Controller
         return $this->settingService->saveWatermark($request->file('file'),$request->name);
     }
 
+    public function getWatermark()
+    {
+        return $this->settingRepository->findWatermark();
+    }
+
 
 
 

@@ -58,6 +58,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
         //setting
         Route::controller(SettingController::class)->prefix('settings')->group(function () {
             Route::post('/watermark', 'createWaterMark');
+            Route::get('/watermark', 'getWatermark');
         });
 
 
