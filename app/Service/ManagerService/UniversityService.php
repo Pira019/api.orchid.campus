@@ -44,21 +44,28 @@ class UniversityService extends ServiceRessource
         return $university->address()->create($adress);
     }
 
-    public function addProgram($university,$program,array $detaiProgram)
+    public function addOrUpdateProgram($universityId, $program, array $detailProgram, $isUpdate = false,$idProgramToUpdate=null)
     {
 
         try {
+            $prapareQuery = $this->model->find($universityId)->programs();
 
-            return $university->programs()->attach($program,$detaiProgram);
+            if ($isUpdate && $idProgramToUpdate) {
+                return $prapareQuery->wherePivot('id', $idProgramToUpdate)->first()->pivot->update([...$detailProgram, "program_id" => $program->id]);
 
-        } catch(QueryException $e) {
+            } else {
 
-            if($e->getCode() == '23505' ){
-                return response()->json(['error' => trans('http-statuses.HTTP_CONFLICT_PROPGRAM') ], Response::HTTP_CONFLICT);
+                $prapareQuery->attach($program, $detailProgram);
+                return $prapareQuery->find($program->id)->id;
+            }
+
+        } catch (QueryException $e) {
+
+            if ($e->getCode() == '23505') {
+                return response()->json(['error' => trans('http-statuses.HTTP_CONFLICT_PROPGRAM')], Response::HTTP_CONFLICT);
             }
 
             throw $e;
         }
     }
-
 }

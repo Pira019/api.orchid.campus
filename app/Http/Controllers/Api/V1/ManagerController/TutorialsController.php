@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Api\V1\ManagerController;
 use App\Http\Controllers\Controller;
 use App\Repository\Manager\TutorialRepository;
 use App\Service\ManagerService\TutorialService;
+use App\Service\ManagerService\TutoVideos\CloudflareStreamService;
 use Illuminate\Http\Request;
 
 class TutorialsController extends Controller
 {
-    public function __construct(public TutorialRepository $tutorialRepository, public TutorialService $tutorialService)
+    public function __construct(public TutorialRepository $tutorialRepository, public TutorialService $tutorialService,public CloudflareStreamService $cloudflareStreamService)
     {}
 
     /**
@@ -118,6 +119,21 @@ class TutorialsController extends Controller
         $tutoToDelete = $this->tutorialRepository->findOne($tuto_id);
         return $this->tutorialService->deleteAndReorder($tutoToDelete);
     }
+
+    public function copyVideoStream(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'video' => 'required|file|max:200000',
+        ]);
+
+        $videoFile = $request->file('video');  
+        $videoMeta = $request->except('video');
+
+         return $this->cloudflareStreamService->copyVideoStream($videoFile, $videoMeta);
+    }
+
+
 
 
 }
