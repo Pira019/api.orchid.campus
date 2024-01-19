@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\CustomerController\Contact\ContactController;
 use App\Http\Controllers\Api\V1\ManagerController\AuthController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryController as ManagerControllerCountryController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryStepController;
+use App\Http\Controllers\Api\V1\ManagerController\SettingController;
 use App\Http\Controllers\Api\V1\ManagerController\TutorialsController;
 use App\Http\Controllers\Api\V1\ManagerController\UniversityController;
 use App\Http\Controllers\Api\V1\ManagerController\UniversityProgramController;
@@ -54,6 +55,13 @@ Route::prefix('orchid-campus/manager')->group(function () {
     //For Admin, Manager
     Route::middleware(['auth:sanctum', 'role:Admin|Manager'])->group(function () {
 
+        //setting
+        Route::controller(SettingController::class)->prefix('settings')->group(function () {
+            Route::post('/watermark', 'createWaterMark');
+            Route::get('/watermark', 'getWatermark');
+        });
+
+
           //University progralm
           Route::controller(UniversityProgramController::class)->prefix('university_program')->group(function () {
             Route::delete('/{university_program_id}', 'delete');
@@ -90,13 +98,17 @@ Route::prefix('orchid-campus/manager')->group(function () {
         });
 
         //Country turorial
-        Route::controller(TutorialsController::class)->group(function () {
-            Route::get('/tutorial/countries', 'getFlagUrlAndNameOfCountriesWithSteps');
-            Route::get('/tutorial/country/{id}', 'getCountryStepsByCountryId');
-            Route::post('/tutorial/save', 'save');
-            Route::get('/tutorial/step-country/{id}', 'getTutosByStepCoutryId');
-            Route::post('/tutorial', 'edit');
-            Route::delete('/tutorial/{id}', 'deleteTutoAndReorderOrder');
+        Route::controller(TutorialsController::class)->prefix('tutorial')->group(function () {
+            Route::get('/countries', 'getFlagUrlAndNameOfCountriesWithSteps');
+            Route::get('/country/{id}', 'getCountryStepsByCountryId');
+            Route::post('/save', 'save');
+            Route::get('/step-country/{id}', 'getTutosByStepCoutryId');
+            Route::post('/', 'edit');
+            Route::delete('/{id}', 'deleteTutoAndReorderOrder');
+
+           //video tuto
+           Route::post('/copy-video-stream/', 'copyVideoStream');
+
         });
 
     });

@@ -60,4 +60,16 @@ class RepositoryRessource
         return $this->model ::firstOrCreate($data);
     }
 
+    /*
+    returns a boolean indicating whether any records match
+    */
+    /**
+     * @param mixed $columsData ex:  ["name" => "luf"]
+     * @return boolean
+     */
+    public function isExists($column,$value)
+    {
+        return $this->model::where($column,$value)->exists();
+    }
+
 }
