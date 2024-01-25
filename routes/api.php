@@ -59,6 +59,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
         Route::controller(SettingController::class)->prefix('settings')->group(function () {
             Route::post('/watermark', 'createWaterMark');
             Route::get('/watermark', 'getWatermark');
+            Route::post('/sign', 'signVideo');
         });
 
 
@@ -107,7 +108,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
             Route::delete('/{id}', 'deleteTutoAndReorderOrder');
 
            //video tuto
-           Route::post('/copy-video-stream/', 'copyVideoStream');
+           Route::post('/add-tuto-video/', 'addTutoVideo');
 
         });
 

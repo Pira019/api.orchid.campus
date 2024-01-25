@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api\V1\ManagerController;
 
 use App\Http\Controllers\Controller;
 use App\Repository\Manager\TutorialRepository;
-use App\Service\ManagerService\TutorialService;
+use App\Repository\Manager\SettingRepository;
+use App\Service\ManagerService\TutorialService; 
 use App\Service\ManagerService\TutoVideos\CloudflareStreamService;
+use App\Service\ManagerService\ExtraTutorialService;
 use Illuminate\Http\Request;
+use  App\Http\Requests\AddTutoVideoRequest;
 
 class TutorialsController extends Controller
 {
@@ -120,17 +123,23 @@ class TutorialsController extends Controller
         return $this->tutorialService->deleteAndReorder($tutoToDelete);
     }
 
-    public function copyVideoStream(Request $request)
+    public function addTutoVideo(AddTutoVideoRequest $request,ExtraTutorialService $extraTutoVideoService,SettingRepository $settingRepository)
     {
-        $request->validate([
-            'name' => 'required',
-            'video' => 'required|file|max:200000',
-        ]);
+        $request->validated(); 
 
         $videoFile = $request->file('video');  
-        $videoMeta = $request->except('video');
+        $data = $request->except('video');
 
-         return $this->cloudflareStreamService->copyVideoStream($videoFile, $videoMeta);
+        $watermarkId = $settingRepository->findWatermark()?->refType;
+
+        if(!$watermarkId){
+
+            return response(['error' => 'Aucun filigrane trouvé. Veuillez ajouter un filigrane avant de continuer.'], 500);
+        } 
+
+       $videoId =  $this->cloudflareStreamService->copyVideoStream($videoFile,"test pires ",$watermarkId,$request->isPrivate); 
+       return  $videoId && $extraTutoVideoService->saveVideo($data,$videoId);
+        
     }
 
 

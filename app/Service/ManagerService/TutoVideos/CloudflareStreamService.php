@@ -5,6 +5,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Config;
 use App\Models\Traits\TUploadMetadata;
+use Firebase\JWT\JWT;
 
 class CloudflareStreamService
 {
@@ -16,25 +17,25 @@ class CloudflareStreamService
         $this->apiToken = Config::get('cloudflare.api_token');
     }
 
-    public function copyVideoStream($videoFile,$videoMeta)
+    public function copyVideoStream($videoFile,$videoTutoName,$watermakerID,$isPrivate)
     {
-        $videoMetaName = $videoMeta['name'];
-
+          
         try{
 
          $url = Config::get('cloudflare.endpoints.upload_video_file');
 
+
          $request = $this->clientHttp->post($url,
          [
-            'headers' => $this->getCommonHeaders($this->uploadMetaEncodeBase64($videoMetaName,'true'),filesize($videoFile->path())),
+            'headers' => $this->getCommonHeaders($this->uploadMetaEncodeBase64($videoTutoName,$watermakerID,$isPrivate),filesize($videoFile->path())),
 
          ]);
 
         // Traitez la réponse, si nécessaire
-        $locationUrl = $request->getHeaderLine('Location');
-        $videoId = $request->getHeaderLine('stream-media-id');
+        $locationUrl = $request->getHeaderLine('Location');  
+        $this->completeUpload($locationUrl,$videoFile);
 
-        return $this->completeUpload($locationUrl,$videoFile);
+        return $request->getHeaderLine('stream-media-id');
 
         } catch(ClientException  $e)
         {
@@ -81,19 +82,19 @@ class CloudflareStreamService
            $url = Config::get('cloudflare.endpoints.watermarks');
            $response = $this->clientHttp->post($url,
            [
-           'headers' =>  [ 
+           'headers' =>  [
            'Authorization' => "Bearer $this->apiToken", ],
 
            'multipart' => [
             [
                 'name' => 'file',
-                'contents' =>fopen($image->path(), 'r'), 
+                'contents' =>fopen($image->path(), 'r'),
             ],
             [
                 'name' => 'name',
                 'contents' => $name,
             ],
-            
+
         ],
         ]);
 
@@ -103,6 +104,30 @@ class CloudflareStreamService
             return ['error' => $e->getResponse()->getBody()->getContents()];
         }
     }
+
+    function generateSignedToken($pemKey, $keyID, $videoUID)
+    {
+        $expiresTimeInS = 24 * 60 * 60;
+
+        // Main function
+        $expiresIn = time() + $expiresTimeInS;
+        $headers = [
+            'alg' => 'RS256',
+            'kid' => $keyID,
+        ];
+
+        $data = [
+            'sub' => $videoUID,
+            'kid' => $keyID,
+            'exp' => $expiresIn,
+            "downloadable"  => false,
+        ];
+
+        $token = JWT::encode($data, base64_decode($pemKey), 'RS256' , null, $headers);
+
+        return $token;
+    }
+
 
 
 }
