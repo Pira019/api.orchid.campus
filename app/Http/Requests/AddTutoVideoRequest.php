@@ -25,10 +25,10 @@ class AddTutoVideoRequest extends FormRequest
     {
         return
         [
-            'name' => 'required',
+            'name' => 'required|string|max:255',
             'video' => 'required|file|max:200000',
             'isPrivate' => 'required|boolean',
-            'tutorial_id' => 'required|exists:tutorials,id',
+            'tutorial_id' => 'required|integer|exists:tutorials,id',
         ];
     }
 
@@ -44,14 +44,14 @@ class AddTutoVideoRequest extends FormRequest
             'isPrivate.required' => 'Veuillez préciser si cette vidéo doit rester privée ou non.',
         ];
     }
- 
+
     protected function prepareForValidation()
     {
         $this->merge([
             'isPrivate' => $this->toBoolean($this->isPrivate) ,
         ]);
     }
-  
+
     private function toBoolean($value)
     {
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
