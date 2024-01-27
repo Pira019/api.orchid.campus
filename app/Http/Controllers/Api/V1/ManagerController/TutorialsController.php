@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1\ManagerController;
 
+use App\Core\ServiceUtils;
 use App\Http\Controllers\Controller;
 use App\Repository\Manager\TutorialRepository;
 use App\Repository\Manager\SettingRepository;
-use App\Service\ManagerService\TutorialService; 
+use App\Service\ManagerService\TutorialService;
 use App\Service\ManagerService\TutoVideos\CloudflareStreamService;
 use App\Service\ManagerService\ExtraTutorialService;
 use Illuminate\Http\Request;
 use  App\Http\Requests\AddTutoVideoRequest;
-
 class TutorialsController extends Controller
 {
     public function __construct(public TutorialRepository $tutorialRepository, public TutorialService $tutorialService,public CloudflareStreamService $cloudflareStreamService)
@@ -125,9 +125,9 @@ class TutorialsController extends Controller
 
     public function addTutoVideo(AddTutoVideoRequest $request,ExtraTutorialService $extraTutoVideoService,SettingRepository $settingRepository)
     {
-        $request->validated(); 
+        $request->validated();
 
-        $videoFile = $request->file('video');  
+        $videoFile = $request->file('video');
         $data = $request->except('video');
 
         $watermarkId = $settingRepository->findWatermark()?->refType;
@@ -135,11 +135,15 @@ class TutorialsController extends Controller
         if(!$watermarkId){
 
             return response(['error' => 'Aucun filigrane trouvé. Veuillez ajouter un filigrane avant de continuer.'], 500);
-        } 
+        }
 
-       $videoId =  $this->cloudflareStreamService->copyVideoStream($videoFile,"test pires ",$watermarkId,$request->isPrivate); 
+       $tutoriaInfo = $this->tutorialRepository->findById($request->tutorial_id);
+
+       $videoName = ServiceUtils::concatenateAndMakeLowercase($tutoriaInfo->id,$tutoriaInfo->title);
+
+       $videoId =  $this->cloudflareStreamService->copyVideoStream($videoFile,$videoName,$watermarkId,$request->isPrivate);
        return  $videoId && $extraTutoVideoService->saveVideo($data,$videoId);
-        
+
     }
 
 
