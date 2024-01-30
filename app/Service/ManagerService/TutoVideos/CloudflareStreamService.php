@@ -17,9 +17,9 @@ class CloudflareStreamService
         $this->apiToken = Config::get('cloudflare.api_token');
     }
 
-    public function copyVideoStream($videoFile,$videoTutoName,$watermakerID,$isPrivate)
+    public function copyVideoStream($videoFile,$videoTutoName,$watermakerID,$isPrivate,$creatorUserName=null)
     {
-          
+
         try{
 
          $url = Config::get('cloudflare.endpoints.upload_video_file');
@@ -27,12 +27,12 @@ class CloudflareStreamService
 
          $request = $this->clientHttp->post($url,
          [
-            'headers' => $this->getCommonHeaders($this->uploadMetaEncodeBase64($videoTutoName,$watermakerID,$isPrivate),filesize($videoFile->path())),
+            'headers' => $this->getCommonHeaders($this->uploadMetaEncodeBase64($videoTutoName,$watermakerID,$isPrivate),filesize($videoFile->path()),$creatorUserName),
 
          ]);
 
         // Traitez la réponse, si nécessaire
-        $locationUrl = $request->getHeaderLine('Location');  
+        $locationUrl = $request->getHeaderLine('Location');
         $this->completeUpload($locationUrl,$videoFile);
 
         return $request->getHeaderLine('stream-media-id');
@@ -43,12 +43,11 @@ class CloudflareStreamService
         }
     }
 
-
-    private function getCommonHeaders($uploadMetaData=false,$fileSize=null)
+    private function getCommonHeaders($uploadMetaData=false,$fileSize=null,$creatorUserName=null)
     {
         return [
             'Authorization' => 'Bearer ' . $this->apiToken,
-            'Upload-Creator' => 'orchid-campus_',
+            'Upload-Creator' => "orchid-campus_$creatorUserName",
             'Tus-Resumable' => '1.0.0',
             'Upload-Length' => $fileSize,
             'Upload-Metadata' => $uploadMetaData,
