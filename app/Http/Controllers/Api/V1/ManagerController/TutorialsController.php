@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1\ManagerController;
 
+use App\Core\ServiceUtils;
 use App\Http\Controllers\Controller;
 use App\Repository\Manager\TutorialRepository;
+use App\Repository\Manager\SettingRepository;
 use App\Service\ManagerService\TutorialService;
 use App\Service\ManagerService\TutoVideos\CloudflareStreamService;
+use App\Service\ManagerService\ExtraTutorialService;
 use Illuminate\Http\Request;
-
+use  App\Http\Requests\AddTutoVideoRequest;
 class TutorialsController extends Controller
 {
     public function __construct(public TutorialRepository $tutorialRepository, public TutorialService $tutorialService,public CloudflareStreamService $cloudflareStreamService)
@@ -120,17 +123,28 @@ class TutorialsController extends Controller
         return $this->tutorialService->deleteAndReorder($tutoToDelete);
     }
 
-    public function copyVideoStream(Request $request)
+    public function addTutoVideo(AddTutoVideoRequest $request,ExtraTutorialService $extraTutoVideoService,SettingRepository $settingRepository)
     {
-        $request->validate([
-            'name' => 'required',
-            'video' => 'required|file|max:200000',
-        ]);
+        $request->validated();
 
-        $videoFile = $request->file('video');  
-        $videoMeta = $request->except('video');
+        $videoFile = $request->file('video');
+        $data = $request->except('video');
 
-         return $this->cloudflareStreamService->copyVideoStream($videoFile, $videoMeta);
+        $watermarkId = $settingRepository->findWatermark()?->refType;
+
+        if(!$watermarkId){
+
+            return response(['error' => 'Aucun filigrane trouvé. Veuillez ajouter un filigrane avant de continuer.'], 500);
+        }
+
+       $tutoriaInfo = $this->tutorialRepository->findById($request->tutorial_id);
+
+       $videoName = ServiceUtils::concatenateAndMakeLowercase($tutoriaInfo->id,$tutoriaInfo->title);
+       $creator = $request?->user()?->user_name;
+
+       $videoId =  $this->cloudflareStreamService->copyVideoStream($videoFile,$videoName,$watermarkId,$request->isPrivate,$creator);
+       return  $videoId && $extraTutoVideoService->saveVideo($data,$videoId,$creator);
+
     }
 
 

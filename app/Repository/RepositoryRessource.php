@@ -72,4 +72,8 @@ class RepositoryRessource
         return $this->model::where($column,$value)->exists();
     }
 
+    public function findOrFail($id){
+        return $this->model::findOrFail($id);
+    }
+
 }

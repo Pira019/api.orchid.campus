@@ -27,9 +27,7 @@ class SettingService extends ServiceRessource
                 "error" => "Cloudfare error",
             ];
             return response($errorMessage, 500);
-        }
-
-
+        } 
 
        $saveSettingDate = $this->prepareSettingData($cloudflareResponse['result']['uid']);
 
@@ -47,5 +45,10 @@ class SettingService extends ServiceRessource
             'type' => SettingTypeEnum::WATERMARK->value,
             'refType' => $refType,
         ];
+    }
+
+    public function storeSecureStreamKey($stecureStreamData)
+    {
+        
     }
 }

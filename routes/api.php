@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\ManagerController\SettingController;
 use App\Http\Controllers\Api\V1\ManagerController\TutorialsController;
 use App\Http\Controllers\Api\V1\ManagerController\UniversityController;
 use App\Http\Controllers\Api\V1\ManagerController\UniversityProgramController;
+use App\Http\Controllers\Api\V1\ManagerController\UserManagerController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,15 @@ Route::prefix('orchid-campus')->group(function () {
 //Manager Controllers
 Route::prefix('orchid-campus/manager')->group(function () {
 
+    //For Admin
+    Route::middleware(['auth:sanctum', 'role:Admin'])->group(function () {
+
+        //user manager
+        Route::controller(UserManagerController::class)->prefix('settings')->group(function () {
+            Route::get('/key/{user_name}', 'saveUserToken');
+        });
+    });
+
     //For Admin, Manager
     Route::middleware(['auth:sanctum', 'role:Admin|Manager'])->group(function () {
 
@@ -59,6 +69,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
         Route::controller(SettingController::class)->prefix('settings')->group(function () {
             Route::post('/watermark', 'createWaterMark');
             Route::get('/watermark', 'getWatermark');
+            Route::post('/sign', 'signVideo');
         });
 
 
@@ -107,7 +118,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
             Route::delete('/{id}', 'deleteTutoAndReorderOrder');
 
            //video tuto
-           Route::post('/copy-video-stream/', 'copyVideoStream');
+           Route::post('/add-tuto-video/', 'addTutoVideo');
 
         });
 
