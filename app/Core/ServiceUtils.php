@@ -29,4 +29,16 @@ class ServiceUtils{
         Storage::disk($disk)->put($filename,$file->getContent());
         return Storage::disk($disk)->url($filename);
     }
+
+    /**
+     * Concatenates words with an underscore and makes the result lowercase.
+     *
+     * @param string ...$words The words to concatenate.
+     * @return string The concatenated and lowercase result.
+     * / Example usage of the function  concatenateAndMakeLowercase("First", "Second", "Third");
+     */
+    static function concatenateAndMakeLowercase(...$words){
+        $word = implode("_",$words);
+        return strtolower($word);
+    }
 }
