@@ -127,6 +127,24 @@ class CloudflareStreamService
         return $token;
     }
 
+    public function generateUserSignedToken()
+    {
+        try
+        {
+           $url = Config::get('cloudflare.endpoints.generate_secure_stream_key');
+           $response = $this->clientHttp->post($url,
+           [
+           'headers' =>  [
+           'Authorization' => "Bearer $this->apiToken", ]
+        ]);
+
+       return json_decode($response->getBody()->getContents(), true);
+
+        } catch(ClientException  $e){
+            return ['error' => $e->getResponse()->getBody()->getContents()];
+        }
+    }
+
 
 
 }
