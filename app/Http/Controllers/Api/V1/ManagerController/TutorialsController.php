@@ -140,9 +140,10 @@ class TutorialsController extends Controller
        $tutoriaInfo = $this->tutorialRepository->findById($request->tutorial_id);
 
        $videoName = ServiceUtils::concatenateAndMakeLowercase($tutoriaInfo->id,$tutoriaInfo->title);
+       $creator = $request?->user()?->user_name;
 
-       $videoId =  $this->cloudflareStreamService->copyVideoStream($videoFile,$videoName,$watermarkId,$request->isPrivate);
-       return  $videoId && $extraTutoVideoService->saveVideo($data,$videoId);
+       $videoId =  $this->cloudflareStreamService->copyVideoStream($videoFile,$videoName,$watermarkId,$request->isPrivate,$creator);
+       return  $videoId && $extraTutoVideoService->saveVideo($data,$videoId,$creator);
 
     }
 
