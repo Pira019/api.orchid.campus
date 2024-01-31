@@ -104,7 +104,7 @@ class CloudflareStreamService
         }
     }
 
-    function generateSignedToken($pemKey, $keyID, $videoUID)
+    function generateVideoSignedToken($pemKey, $keyID, $videoUID)
     {
         $expiresTimeInS = 24 * 60 * 60;
 

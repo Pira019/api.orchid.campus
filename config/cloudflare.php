@@ -3,7 +3,8 @@
 return [
 
     'api_token' => env("CLOUDFLARE_API_TOKEN"),
-    'account_id' => env("CLOUDFLARE_ACCOUNT_ID"), 
+    'account_id' => env("CLOUDFLARE_ACCOUNT_ID"),
+    'allowed_orign_cloudFlare' => env("CLOUDFLARE_ALLOWED_ORIGIN_DOMAIN_".strtoupper(config("app.env"))),
 
     'endpoints' => [
         "watermarks" =>env("CLOUDFLARE_BASE_URL").'/stream/watermarks/',
