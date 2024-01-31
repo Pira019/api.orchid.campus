@@ -3,12 +3,13 @@ namespace App\Service\ManagerService;
 
 use App\Models\UserVideoKey;
 use App\Service\ManagerService\TutoVideos\CloudflareStreamService;
+use App\Service\ManagerService\VideoAccessService;
 use App\Service\ServiceRessource;
 
 
 class UserVideoKeyService extends ServiceRessource
 {
-    public function __construct(UserVideoKey $model, public CloudflareStreamService $cloudflareStreamService)
+    public function __construct(UserVideoKey $model, public CloudflareStreamService $cloudflareStreamService,public VideoAccessService $videoAccessService)
     {
         $this->model = $model;
     }
@@ -24,7 +25,8 @@ class UserVideoKeyService extends ServiceRessource
         return $this->create($data) ;
     }
 
-    public function generateToken($videoId,$idExtra){
+    public function generateToken($videoId,$idExtra)
+    {
      $managers = $this->model->select("key","id","user_name")->get();
 
      $userData = [];
@@ -33,12 +35,13 @@ class UserVideoKeyService extends ServiceRessource
         $videoToken = $this->cloudflareStreamService->generateVideoSignedToken($item->key,$item->id,$videoId);
         $userData[] = [
             "user_name" => $item->user_name,
-            "videoToken" =>  $videoToken,
-            "extraVideoId" => $idExtra,
+            "signature" =>  $videoToken,
+            "extra_tutorial_id" => $idExtra,
         ];
      }
-
-     return $userData;
+     //save 
+     $this->videoAccessService->insert($userData);
+     //return $userData;
 
     }
 }
