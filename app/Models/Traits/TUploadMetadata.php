@@ -1,16 +1,24 @@
 <?php
-namespace App\Models\Traits;
-use Illuminate\Support\Facades\Config;
+namespace App\Models\Traits; 
 
 trait TUploadMetadata
 {
-   public static function uploadMetaEncodeBase64($videoName,$watermakerID_,$requiresignedurls_){
+    public static function uploadMetaEncodeBase64($videoName, $watermakerID, $requiresignedurls) { 
 
-        $encodedVideoName = base64_encode($videoName);
-        $allowedoriginDomains = base64_encode('orchid-campus.com');
-        $watermakerID = base64_encode($watermakerID_);
-        $requiresignedurls = $requiresignedurls_ ? "true" : "false" ;
+        $orgins = Config('cloudflare.allowed_orign_cloudFlare');
 
-        return "requireSignedURLS $requiresignedurls, name $encodedVideoName, allowedorigins $allowedoriginDomains,watermark $watermakerID";
+        $result = [
+            "name " . base64_encode($videoName),
+            "watermark " . base64_encode($watermakerID),
+            "requiresignedurls " . ($requiresignedurls ? "true" : "false"),
+        ];
+
+       if ($orgins){      
+        $orginsBase64 = base64_encode($orgins); 
+        $result[] = "allowedorigins $orginsBase64";
+        }
+
+        return implode(', ', $result);
     }
+    
 }

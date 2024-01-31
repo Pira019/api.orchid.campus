@@ -11,6 +11,8 @@ use App\Service\ManagerService\TutoVideos\CloudflareStreamService;
 use App\Service\ManagerService\ExtraTutorialService;
 use Illuminate\Http\Request;
 use  App\Http\Requests\AddTutoVideoRequest;
+use App\Service\ManagerService\UserVideoKeyService;
+
 class TutorialsController extends Controller
 {
     public function __construct(public TutorialRepository $tutorialRepository, public TutorialService $tutorialService,public CloudflareStreamService $cloudflareStreamService)
@@ -123,8 +125,8 @@ class TutorialsController extends Controller
         return $this->tutorialService->deleteAndReorder($tutoToDelete);
     }
 
-    public function addTutoVideo(AddTutoVideoRequest $request,ExtraTutorialService $extraTutoVideoService,SettingRepository $settingRepository)
-    {
+    public function addTutoVideo(AddTutoVideoRequest $request,UserVideoKeyService $userVideoKeyService,ExtraTutorialService $extraTutoVideoService,SettingRepository $settingRepository)
+    {  
         $request->validated();
 
         $videoFile = $request->file('video');
@@ -143,7 +145,14 @@ class TutorialsController extends Controller
        $creator = $request?->user()?->user_name;
 
        $videoId =  $this->cloudflareStreamService->copyVideoStream($videoFile,$videoName,$watermarkId,$request->isPrivate,$creator);
-       return  $videoId && $extraTutoVideoService->saveVideo($data,$videoId,$creator);
+       $infoTuto = $extraTutoVideoService->saveVideo($data,$videoId,$creator);
+
+       //give access to all manger or admin see ProfilNameEnum Enum
+       if($request->isPrivate){
+        return $userVideoKeyService->generateToken($videoId,$infoTuto?->id);
+       }
+      
+       return  $videoId;
 
     }
 
