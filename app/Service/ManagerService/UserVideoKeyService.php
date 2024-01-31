@@ -40,7 +40,7 @@ class UserVideoKeyService extends ServiceRessource
         ];
      }
      //save 
-     $this->videoAccessService->insert($userData);
+     $this->videoAccessService->insertOrIgnore($userData);
      //return $userData;
 
     }
