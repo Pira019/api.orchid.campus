@@ -11,6 +11,7 @@ use App\Service\ManagerService\TutoVideos\CloudflareStreamService;
 use App\Service\ManagerService\ExtraTutorialService;
 use Illuminate\Http\Request;
 use  App\Http\Requests\AddTutoVideoRequest;
+use App\Repository\Manager\CountryStepsRepository;
 use App\Service\ManagerService\UserVideoKeyService;
 
 class TutorialsController extends Controller
@@ -81,7 +82,7 @@ class TutorialsController extends Controller
     {
         $request->validate([
             'step_id' =>'required|integer|exists:country_steps,id',
-            'title' =>'required',
+            'title' =>'required|string|max:255',
             'order' =>'required|integer',
             'description' =>'nullable',
         ]);
@@ -92,7 +93,7 @@ class TutorialsController extends Controller
     {
         $request->validate([
             'id' =>'required|integer|exists:tutorials,id',
-            'title' =>'required',
+            'title' =>'required|string|max:255',
             'description' =>'nullable',
         ]);
       $updated = $this->tutorialService->updateOne($request->only(['title','description']),$request['id']);
@@ -104,14 +105,14 @@ class TutorialsController extends Controller
     }
 
 
-    public function getTutosByStepCoutryId($stepCoutrty_id,Request $request){
+    public function getTutosByStepCoutryId($stepCoutrty_id,Request $request, CountryStepsRepository $countryStepsRepository){
         $request->merge(['step_country_id' => $request->route('id')]);
         $request->validate([
             'step_country_id' =>
                 'required|integer|exists:country_steps,id',
         ]);
 
-        return $this->tutorialRepository->getTutosByStepCoutryId($stepCoutrty_id);
+        return $countryStepsRepository->getTutosByStepCoutryId($stepCoutrty_id);
     }
 
     public function deleteTutoAndReorderOrder($tuto_id,Request $request)
@@ -126,7 +127,7 @@ class TutorialsController extends Controller
     }
 
     public function addTutoVideo(AddTutoVideoRequest $request,UserVideoKeyService $userVideoKeyService,ExtraTutorialService $extraTutoVideoService,SettingRepository $settingRepository)
-    {  
+    {
         $request->validated();
 
         $videoFile = $request->file('video');
@@ -151,7 +152,7 @@ class TutorialsController extends Controller
        if($request->isPrivate){
         return $userVideoKeyService->generateToken($videoId,$infoTuto?->id);
        }
-      
+
        return  $videoId;
 
     }
