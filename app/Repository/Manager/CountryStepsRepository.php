@@ -60,7 +60,7 @@ class CountryStepsRepository extends RepositoryRessource
                 $join->on('extra_tutorials.id', '=', 'video_accesses.extra_tutorial_id')
                     ->where('extra_tutorials.isPrivate', true)
                     ->where('video_accesses.user_name', $authUser_name);
-            })->select("id","tutorial_id",'link_video as token','signature','commment','isPrivate','creator','visibility',"extra_tutorials.updated_at");
+            })->select("id","tutorial_id",'link_video as token','signature','comment','isPrivate','creator','visibility',"extra_tutorials.updated_at");
         }])
         ->tutorials
         ->makeHidden(['tutorialable_id', 'tutorialable_type','created_at']);
