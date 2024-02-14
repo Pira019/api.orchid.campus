@@ -25,7 +25,7 @@ class AddTutoVideoRequest extends FormRequest
     {
         return
         [
-            'vikdeo' => 'required|file|max:200000',
+            'video' => 'required|file|max:200000',
             'comment' => 'nullable|string',
             'isPrivate' => 'required|boolean',
             'tutorial_id' => 'required|integer|exists:tutorials,id',
