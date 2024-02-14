@@ -11,6 +11,7 @@ use App\Service\ManagerService\TutoVideos\CloudflareStreamService;
 use App\Service\ManagerService\ExtraTutorialService;
 use Illuminate\Http\Request;
 use  App\Http\Requests\AddTutoVideoRequest;
+use App\Http\Resources\ExtraTutorialResource;
 use App\Repository\Manager\CountryStepsRepository;
 use App\Service\ManagerService\UserVideoKeyService;
 
@@ -149,11 +150,12 @@ class TutorialsController extends Controller
        $infoTuto = $extraTutoVideoService->saveVideo($data,$videoId,$creator);
 
        //give access to all manger or admin see ProfilNameEnum Enum
-       if($request->isPrivate){
+       if($request->isPrivate)
+       {
         return $userVideoKeyService->generateToken($videoId,$infoTuto?->id);
        }
 
-       return  $videoId;
+       return  new ExtraTutorialResource($infoTuto);
 
     }
 
