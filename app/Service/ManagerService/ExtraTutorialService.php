@@ -2,7 +2,7 @@
 namespace App\Service\ManagerService;
 
 use App\Models\ExtraTutorial;
-use App\Service\ServiceRessource; 
+use App\Service\ServiceRessource;
 
 class ExtraTutorialService extends ServiceRessource
 {

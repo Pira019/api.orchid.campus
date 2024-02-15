@@ -16,14 +16,12 @@ class ExtraTutorialResource extends JsonResource
     {
         return [
             "id" =>  $this->id,
-            "tutorial_id" =>  $this->tutorial_id,
             "token" =>  $this->link_video,
-            "signature"=> null,
-            "comment"=>  $this->comment,
-            "isPrivate"=>  $this->isPrivate,
+            "signature" => $this->signature,
             "creator" =>  $this->creator,
-            "visibility" => null,
-            "updated_at "=>  $this->updated_at
+            "visibility" => true,
+            "updated_at"=>  $this->updated_at
         ];
     }
 }
+
