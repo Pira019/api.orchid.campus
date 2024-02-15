@@ -25,7 +25,7 @@ class UserVideoKeyService extends ServiceRessource
         return $this->create($data) ;
     }
 
-    public function generateToken($videoId,$idExtra)
+    public function generateToken($videoId,$idExtra,$creator = null)
     {
      $managers = $this->model->select("key","id","user_name")->get();
 
@@ -39,9 +39,9 @@ class UserVideoKeyService extends ServiceRessource
             "extra_tutorial_id" => $idExtra,
         ];
      }
-     //save 
      $this->videoAccessService->insertOrIgnore($userData);
-     //return $userData;
+
+     return  collect($userData)->where('user_name',$creator)->first()['signature'] ?? null;
 
     }
 }

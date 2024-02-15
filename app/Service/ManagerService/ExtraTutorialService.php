@@ -3,7 +3,6 @@ namespace App\Service\ManagerService;
 
 use App\Models\ExtraTutorial;
 use App\Service\ServiceRessource;
-use Illuminate\Http\Response;
 
 class ExtraTutorialService extends ServiceRessource
 {
