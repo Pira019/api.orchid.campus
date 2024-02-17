@@ -22,7 +22,7 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<\Throwable>>
      */
     protected $dontReport = [
-        //
+        CloudFlareException::class,
     ];
 
     /**
@@ -43,6 +43,11 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+        $this->renderable(function (CloudFlareException $cloudFlareException, $request){
+            return $cloudFlareException->rendrer($request);
+        });
+
+
         $this->reportable(function (Throwable $e) {
             //
         });
