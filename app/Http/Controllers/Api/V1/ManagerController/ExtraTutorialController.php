@@ -11,13 +11,17 @@ class ExtraTutorialController extends Controller
     public function __construct(public ExtraTutorialService $extraTutorialService)
     {}
 
-    public function delete($id,Request $request)
+    public function delete($id,$videoId,Request $request)
     {
-        $request->merge(['id' =>$id]);
+        $request->merge([
+            'id' =>$id,
+            'video_identifier' =>$videoId
+        ]);
         $request->validate([
             'id' =>'required|integer|exists:extra_tutorials,id',
             'video_identifier' =>'required',
-        ]);
-         return $this->extraTutorialService->deleteVideo($id,$request->video_identifier);
+        ]); 
+        
+         return $this->extraTutorialService->deleteVideo($id,$videoId);
     }
 }

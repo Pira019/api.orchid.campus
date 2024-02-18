@@ -125,7 +125,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
 
         //Extra tutoriel routes
         Route::controller(ExtraTutorialController::class)->prefix("tutorial-video")->group(function(){
-            Route::delete('/{id}', 'delete');
+            Route::delete('/{id}/{videoId}', 'delete');
         });
 
     });
