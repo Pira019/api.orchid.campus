@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\CountryController;
 use App\Http\Controllers\Api\V1\CustomerController\Contact\ContactController;
+use App\Http\Controllers\Api\V1\ManagerController\AdmissionDateController;
 use App\Http\Controllers\Api\V1\ManagerController\AuthController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryController as ManagerControllerCountryController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryStepController;
@@ -126,6 +127,11 @@ Route::prefix('orchid-campus/manager')->group(function () {
         //Extra tutoriel routes
         Route::controller(ExtraTutorialController::class)->prefix("tutorial-video")->group(function(){
             Route::delete('/{id}/{videoId}', 'delete');
+        });
+
+        //Admission date routes
+        Route::controller(AdmissionDateController::class)->prefix("admission")->group(function(){
+            Route::post('/', 'store');
         });
 
     });
