@@ -226,7 +226,8 @@ return [
         'admission_scheme' => 'programme d\'admission',
         'languages' => 'langue(s)',
         'program_description' => 'description du programme',
-        'tutorial_id' => 'tutoriel id'
+        'tutorial_id' => 'tutoriel id',
+        'video_identifier' => 'identifiant vidéo',
 
 
     ],

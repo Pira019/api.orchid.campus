@@ -145,6 +145,23 @@ class CloudflareStreamService
         }
     }
 
+    public function deleteVideo($identifier)
+   {
+        try
+        {
+            $url = Config::get('cloudflare.endpoints.delete_video') . $identifier;
+            $this->clientHttp->delete($url,
+                [
+                    'headers' => [
+                        'Authorization' => "Bearer $this->apiToken"],
+                ]);
+            return true;
+        } catch (ClientException $e) {
+            return false;
+        }
+    }
+
+
 
 
 }

@@ -177,6 +177,7 @@ return [
     'attributes' => [
         'birth_date' => 'date of birth',
         'university_name' => 'University name',
+        'video_identifier' => 'video id',
     ],
 
 ];
