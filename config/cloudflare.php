@@ -10,5 +10,6 @@ return [
         "watermarks" =>env("CLOUDFLARE_BASE_URL").'/stream/watermarks/',
         "upload_video_file" => env('CLOUDFLARE_BASE_URL').'/stream',
         "generate_secure_stream_key" => env('CLOUDFLARE_BASE_URL').'/stream/keys',
+        "delete_video" => env('CLOUDFLARE_BASE_URL').'/stream/',
     ]
 ];

@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\CustomerController\Contact\ContactController;
 use App\Http\Controllers\Api\V1\ManagerController\AuthController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryController as ManagerControllerCountryController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryStepController;
+use App\Http\Controllers\Api\V1\ManagerController\ExtraTutorialController;
 use App\Http\Controllers\Api\V1\ManagerController\SettingController;
 use App\Http\Controllers\Api\V1\ManagerController\TutorialsController;
 use App\Http\Controllers\Api\V1\ManagerController\UniversityController;
@@ -120,6 +121,11 @@ Route::prefix('orchid-campus/manager')->group(function () {
            //video tuto
            Route::post('/add-tuto-video/', 'addTutoVideo');
 
+        });
+
+        //Extra tutoriel routes
+        Route::controller(ExtraTutorialController::class)->prefix("tutorial-video")->group(function(){
+            Route::delete('/{id}/{videoId}', 'delete');
         });
 
     });
