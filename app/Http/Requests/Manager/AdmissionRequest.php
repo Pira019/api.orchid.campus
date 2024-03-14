@@ -25,7 +25,6 @@ class AdmissionRequest extends FormRequest
     {
         return [
             'detail_program_id' => 'required|integer|exists:university_program,id',
-            'iscurrent_admission' => 'required|boolean',
             'type' => 'required|string',
             'start_at' => 'required|date',
             'end_at' => 'required|date|after:start_at',
@@ -46,8 +45,7 @@ class AdmissionRequest extends FormRequest
             'start_at' => __('date de début d\'admission'),
             'start_at' => __('date de début d\'admission'),
             'link' => __('lien d\'admission'),
-            'end_at' => __('date fin d\'admission'),
-            'iscurrent_admission' => __('est date admission en cours'),
+            'end_at' => __('date fin d\'admission'), 
         ];
     }
 }
