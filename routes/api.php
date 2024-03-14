@@ -136,6 +136,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
         Route::post('/login', 'authentication');
         Route::post('/forgot-password', 'forgotPassword');
         Route::post('/reset-password', 'updatePassword');
+        Route::get('/logout', 'logout');
     });
 
 });
