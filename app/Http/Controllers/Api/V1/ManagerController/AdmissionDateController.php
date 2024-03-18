@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\ManagerController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Manager\AdmissionRequest;
+use App\Http\Resources\AddAdmissionResource;
 use App\Service\ManagerService\AdmissionDateService;
 
 class AdmissionDateController extends Controller
@@ -15,7 +16,7 @@ class AdmissionDateController extends Controller
     {
        $data = $admissionRequest->validated();
 
-       return $this->admissionDateService->create($data);
+       return new AddAdmissionResource($this->admissionDateService->saveDate($data));
     }
 
 }
