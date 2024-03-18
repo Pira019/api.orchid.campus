@@ -150,4 +150,9 @@ class AuthController extends Controller
         return response()->json(__($status),404);
 
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+    }
 }
