@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Api\v1\ManagerController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Manager\StoreServiceRequest;
+use App\Service\ManagerService\ServiceService;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
+
+    public function __construct(public ServiceService $serviceService)
+    {}
+
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +31,8 @@ class ServiceController extends Controller
      */
     public function store(StoreServiceRequest $request)
     {
-        return $request;
+
+        return $this->serviceService->store($request->all());
     }
 
     /**
