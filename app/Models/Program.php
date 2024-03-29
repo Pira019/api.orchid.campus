@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Program extends Model
@@ -22,5 +23,10 @@ class Program extends Model
     public function admissionDate() : HasMany
     {
         return $this->hasMany(AdmissionDate::class,'detail_program_id');
+    }
+
+    public function universities() : BelongsToMany
+    {
+        return $this->belongsToMany(University::class,DetailProgram::class);
     }
 }

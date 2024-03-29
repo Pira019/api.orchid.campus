@@ -15,4 +15,9 @@ class DisciplinarySectorRepository extends RepositoryRessource
     static function getDisciplinaryIds(array $ids){
         return DisciplinarySector::whereIn('id',$ids)->pluck('id');
     }
+
+    public function getDisciplinaryWithProgram(){
+        return $this->model->whereHas('programs.universities')->orderBy('name')->select('id','label as name')->get();
+
+    }
 }

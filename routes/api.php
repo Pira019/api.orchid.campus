@@ -104,6 +104,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
         //Manager country routes
         Route::controller(ManagerControllerCountryController::class)->group(function () {
             Route::get('/countries-universities', 'getCountriesWithUniversities');
+            Route::get('/countries', 'getCountriesWhereStep');
         });
 
         //Country routes
