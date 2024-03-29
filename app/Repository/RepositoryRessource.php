@@ -76,4 +76,8 @@ class RepositoryRessource
         return $this->model::findOrFail($id);
     }
 
+    public function getWhereIn(array $value,$column ="id"){
+        return $this->model::whereIn($column,$value);
+    }
+
 }

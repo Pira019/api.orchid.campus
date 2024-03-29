@@ -1,7 +1,6 @@
 <?php
 namespace App\Repository;
 
-use App\Models\Country;
 use Illuminate\Support\Facades\Http;
 
 class CountryFlagRepository

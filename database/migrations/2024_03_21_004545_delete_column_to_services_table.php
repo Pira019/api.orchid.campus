@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('extra_tutorials', function (Blueprint $table) {
-            $table->renameColumn("commment","comment");
+        Schema::table('services', function (Blueprint $table) {
+           $table->dropColumn('session');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('extra_tutorials', function (Blueprint $table) {
-            $table->renameColumn('comment', 'commment');
+        Schema::table('services', function (Blueprint $table) {
+            $table->string('session')->nullable();
         });
     }
 };
