@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\ManagerController\AuthController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryController as ManagerControllerCountryController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryStepController;
 use App\Http\Controllers\Api\V1\ManagerController\ExtraTutorialController;
+use App\Http\Controllers\Api\v1\ManagerController\ServiceController;
 use App\Http\Controllers\Api\V1\ManagerController\SettingController;
 use App\Http\Controllers\Api\V1\ManagerController\TutorialsController;
 use App\Http\Controllers\Api\V1\ManagerController\UniversityController;
@@ -58,6 +59,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
     //For Admin
     Route::middleware(['auth:sanctum', 'role:Admin'])->group(function () {
 
+
         //user manager
         Route::controller(UserManagerController::class)->prefix('settings')->group(function () {
             Route::get('/key/{user_name}', 'saveUserToken');
@@ -66,6 +68,10 @@ Route::prefix('orchid-campus/manager')->group(function () {
 
     //For Admin, Manager
     Route::middleware(['auth:sanctum', 'role:Admin|Manager'])->group(function () {
+
+         //route service
+         Route::apiResource('service',ServiceController::class);
+
 
         //setting
         Route::controller(SettingController::class)->prefix('settings')->group(function () {
@@ -98,6 +104,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
         //Manager country routes
         Route::controller(ManagerControllerCountryController::class)->group(function () {
             Route::get('/countries-universities', 'getCountriesWithUniversities');
+            Route::get('/countries', 'getCountriesWhereStep');
         });
 
         //Country routes

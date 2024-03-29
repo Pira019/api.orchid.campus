@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('extra_tutorials', function (Blueprint $table) {
-            $table->renameColumn("commment","comment");
+        Schema::table('service_disciplinaries', function (Blueprint $table) {
+            $table->unique(['service_id', 'disciplinary_sector_id']);
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('extra_tutorials', function (Blueprint $table) {
-            $table->renameColumn('comment', 'commment');
+        Schema::table('service_disciplinaries', function (Blueprint $table) {
+            $table->dropUnique(['service_id', 'disciplinary_sector_id']);
         });
     }
 };

@@ -17,4 +17,9 @@ class CountryRepository extends RepositoryRessource
         return $this->model->whereHas('cities.universties')->orderBy('countries.name')->select('id','name')->get();
     }
 
+    public function countriesWhereStep()
+    {
+        return $this->model->whereHas('countrySteps')->whereHas('cities')->orderBy('countries.name')->select('id','name')->get();
+    }
+
 }
