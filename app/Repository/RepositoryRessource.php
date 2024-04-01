@@ -4,9 +4,14 @@ class RepositoryRessource
 {
     public $model;
 
-    protected function getAll($columns = ['*'])
+    public function getAll(array $columns = ['*'])
     {
         return $this->model::get($columns);
+    }
+
+    public function getPaginating($nbrPerPage=2,$columns="*")
+    {
+        return $this->model::select($columns)->paginate($nbrPerPage);
     }
     /*
     retrieve the first result of the query
