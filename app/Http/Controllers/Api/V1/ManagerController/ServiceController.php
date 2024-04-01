@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\v1\ManagerController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Manager\Service\ShowRequest;
 use App\Http\Requests\Manager\StoreServiceRequest;
-use App\Http\Resources\Manager\GetServiceResource;
 use App\Repository\Manager\ServiceManagerRepository;
 use App\Service\ManagerService\ServiceService;
 use Illuminate\Http\Request;
@@ -43,9 +43,9 @@ class ServiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ShowRequest $request)
     {
-        //
+       return $this->serviceRepository->findService($request->id);
     }
 
     /**

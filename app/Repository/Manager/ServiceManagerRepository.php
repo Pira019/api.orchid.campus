@@ -15,8 +15,16 @@ class ServiceManagerRepository extends RepositoryRessource
     public function getAllPaginate()
     {
         return $this->model::
-            with(['country' => fn($query) => $query->select('id','name','flag_url')])
+            with(['country' => fn($query) => $query->select('id', 'name', 'flag_url')])
             ->paginate(5);
     }
-}
 
+    public function findService($serviceId)
+    {
+        return $this->model->whereId($serviceId)
+                    ->with(['disciplanaries' => fn($query) => $query->select('*')->with(['programs'=> fn($query)=> $query->with('universities')]),
+                    'country' => fn($query) => $query->with('countrySteps')])
+                    ->select('year', 'id', 'country_id')
+                    ->first();
+    }
+}
