@@ -3,6 +3,7 @@ namespace App\Repository\Manager;
 
 use App\Models\Service;
 use App\Repository\RepositoryRessource;
+use stdClass;
 
 class ServiceManagerRepository extends RepositoryRessource
 {
@@ -21,10 +22,19 @@ class ServiceManagerRepository extends RepositoryRessource
 
     public function findService($serviceId)
     {
-        return $this->model->whereId($serviceId)
-                    ->with(['disciplanaries' => fn($query) => $query->select('*')->with(['programs'=> fn($query)=> $query->with('universities')]),
-                    'country' => fn($query) => $query->with('countrySteps')])
-                    ->select('year', 'id', 'country_id')
-                    ->first();
+        $service = $this->findOne($serviceId);
+        $countryId = $service->country_id;
+        $disciplinaryIds = $service->disciplinaries->pluck('id')->toArray();
+
+        $universities = UniversityRepository::getUniversities($countryId,$disciplinaryIds);
+
+        $service =  $service->load(['disciplinaries', 'country.countrySteps']);
+
+        $result = new stdClass;
+        $result->universities = $universities;
+        $result->service = $service;
+
+       return $result;
     }
+
 }

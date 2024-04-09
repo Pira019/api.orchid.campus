@@ -13,7 +13,7 @@ class Service extends Model
 
     protected $guarded = ['id'];
 
-    function disciplanaries() : BelongsToMany
+    function disciplinaries() : BelongsToMany
     {
         return $this->belongsToMany(DisciplinarySector::class,'service_disciplinaries');
     }
