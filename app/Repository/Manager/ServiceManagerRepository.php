@@ -26,9 +26,9 @@ class ServiceManagerRepository extends RepositoryRessource
         $countryId = $service->country_id;
         $disciplinaryIds = $service->disciplinaries->pluck('id')->toArray();
 
-        $universities = UniversityRepository::getUniversities($countryId,$disciplinaryIds);
+        $universities = UniversityRepository::getUniversitiesBycountryIdAnddisciplaryIds($countryId,$disciplinaryIds);
 
-        $service =  $service->load(['disciplinaries', 'country.countrySteps']);
+        $service =  $service->load(['disciplinaries', 'country.countrySteps'=>fn($query) => $query->select('country_id','id','title','visibility','description')->orderBy('order')]);
 
         $result = new stdClass;
         $result->universities = $universities;

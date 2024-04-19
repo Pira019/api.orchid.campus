@@ -46,7 +46,6 @@ class ServiceController extends Controller
      */
     public function show(ShowRequest $request)
     {
-       return $this->serviceRepository->findService($request->id);
        return new ServiceShowResource($this->serviceRepository->findService($request->id));
     }
 

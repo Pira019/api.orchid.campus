@@ -46,10 +46,11 @@ class UniversityRepository extends RepositoryRessource
 
     }
 
-    static function  getUniversities($countryId,array $disciplaryIds)
+    static function  getUniversitiesBycountryIdAnddisciplaryIds($countryId,array $disciplaryIds)
     {
         return University::whereHas('city.country',fn($query)=> $query->whereId($countryId))
             ->whereHas('programs', fn($query) => $query->whereIn('disciplinary_sector_id',$disciplaryIds))
+            ->select('id','name')
             ->get();
     }
 
