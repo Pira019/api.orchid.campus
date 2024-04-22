@@ -4,7 +4,7 @@ namespace App\Http\Resources\Manager;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GetServiceResource extends JsonResource
+class DisciplinaryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,8 +14,9 @@ class GetServiceResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            "links" => $this["current_page"]
+        return[
+            "label" => $this->label,
+            "description" => $this->description,
         ];
     }
 }
