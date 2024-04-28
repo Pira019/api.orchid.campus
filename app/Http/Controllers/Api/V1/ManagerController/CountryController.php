@@ -18,12 +18,9 @@ class CountryController extends Controller
     }
 
     public function getCountriesWhereStep()
-    { 
-        return new GetCountriesWithDisciplanariesResource([       
-            "disciplinarySector" => $this->disciplinarySectorRepository->getDisciplinaryWithProgram(),
-            "countries" => $this->countryRepository->countriesWhereStep()
-            ]
-        );
+    {
+     return $this->countryRepository->getCoutriesAndDisciplinaries();
+        return  GetCountriesWithDisciplanariesResource::collection($this->countryRepository->getCoutriesAndDisciplinaries());
     }
 
 }

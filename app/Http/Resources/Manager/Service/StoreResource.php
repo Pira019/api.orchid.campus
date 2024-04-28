@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Manager;
+namespace App\Http\Resources\Manager\Service;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GetCountriesWithDisciplanariesResource extends JsonResource
+class StoreResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,9 +14,9 @@ class GetCountriesWithDisciplanariesResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [ 
-            'countries' => $this['countries'],
-            'disciplinarySector' => $this['disciplinarySector'],
+        return[
+            "id" => $this->id,
+            "created_at" => $this->created_at,
         ];
     }
 }

@@ -15,6 +15,10 @@ class DisciplinarySector extends Model
     public $timestamps = false;
     protected $fillable = ['label', 'description'];
 
+    protected $hidden = [
+        'laravel_through_key'
+    ];
+
     protected function label(): Attribute
     {
         return Attribute::make(

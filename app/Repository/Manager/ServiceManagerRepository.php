@@ -16,7 +16,7 @@ class ServiceManagerRepository extends RepositoryRessource
     public function getAllPaginate()
     {
         return $this->model::
-            with(['country' => fn($query) => $query->select('id', 'name', 'flag_url')])
+            with(['country' => fn($query) => $query->select('id', 'name', 'flag_url')])->orderBy('created_at','DESC')
             ->paginate(5);
     }
 

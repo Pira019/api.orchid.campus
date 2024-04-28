@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1\ManagerController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Manager\Service\ShowRequest;
 use App\Http\Requests\Manager\StoreServiceRequest;
+use App\Http\Resources\Manager\Service\StoreResource;
 use App\Http\Resources\Manager\ServiceShowResource;
 use App\Repository\Manager\ServiceManagerRepository;
 use App\Service\ManagerService\ServiceService;
@@ -35,7 +36,7 @@ class ServiceController extends Controller
     public function store(StoreServiceRequest $request)
     {
 
-        return $this->serviceService->store($request->all());
+        return new StoreResource($this->serviceService->store($request->all()));
     }
 
     /**

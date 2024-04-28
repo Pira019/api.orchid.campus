@@ -12,21 +12,22 @@ class Program extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['label','disciplinary_sector_id'];
+    protected $fillable = ['label', 'disciplinary_sector_id'];
 
-    public function disciplineSector() : BelongsTo
+    public function disciplineSector(): BelongsTo
     {
-        return $this->belongsTo(DisciplinarySector::class);
+        return $this->belongsTo(DisciplinarySector::class, 'disciplinary_sector_id');
 
     }
 
-    public function admissionDate() : HasMany
+    public function admissionDate(): HasMany
     {
-        return $this->hasMany(AdmissionDate::class,'detail_program_id');
+        return $this->hasMany(AdmissionDate::class, 'detail_program_id');
     }
 
-    public function universities() : BelongsToMany
+    public function universities(): BelongsToMany
     {
-        return $this->belongsToMany(University::class,DetailProgram::class);
+        return $this->belongsToMany(University::class, DetailProgram::class);
     }
+
 }
