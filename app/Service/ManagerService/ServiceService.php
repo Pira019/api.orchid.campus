@@ -17,7 +17,8 @@ class ServiceService extends ServiceRessource{
         $disciplinarySectorsIds = explode(',',$data['service_disciplinaries']);
         $service = $this->create($data);
         //save
-        $service->disciplanaries()->sync($disciplinarySectorsIds);
+        $service->disciplinaries()->sync($disciplinarySectorsIds);
+        return $service;
     }
 
 

@@ -25,7 +25,7 @@ class CountryRepository extends RepositoryRessource
     public function getCoutriesAndDisciplinaries(){
         return $this->model->has('disciplinaries')
         ->with('disciplinaries',fn($query)=> $query->select('disciplinary_sectors.id','disciplinary_sectors.label'))
-        ->select('id','name','short_name')->get();
+        ->select('id','name','short_name','flag_url')->get();
     }
 
 }
