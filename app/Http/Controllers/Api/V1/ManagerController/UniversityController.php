@@ -122,4 +122,14 @@ class UniversityController extends Controller
         return $this->universityRepository->getProgramsByUniversityId($university_id);
     }
 
+    //id = university id
+    public function getProgramAndAdmissionDateById(Request $request,$universityId)
+    {
+        $request->merge(['universityId' => $request->route('universityId')]);
+        $request->validate([
+            'universityId' => 'required|integer|exists:universities,id'
+        ]);
+        return $this->universityRepository->getProgramAndAdmissionDate($universityId);
+    }
+
 }

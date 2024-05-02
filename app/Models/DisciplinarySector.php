@@ -30,4 +30,9 @@ class DisciplinarySector extends Model
     {
         return $this->HasOne(Program::class);
     }
+
+    public function services()
+    {
+        return $this->belongsToMany(Service::class,'service_disciplinaries');
+    }
 }

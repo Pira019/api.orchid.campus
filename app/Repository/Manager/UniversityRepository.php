@@ -31,27 +31,36 @@ class UniversityRepository extends RepositoryRessource
             ->find($id)->makeHidden('created_at');
     }
 
-    public function getProgramsByUniversityId($universityId){
-
+    public function getProgramsByUniversityId($universityId)
+    {
         return $this->findOne($universityId)
-        ->programs()
-        ->with('admissionDate', function ($query) {
-            $query->where('iscurrent_admission', true) ;
-        })
-        ->leftJoin('disciplinary_sectors', 'programs.disciplinary_sector_id', '=', 'disciplinary_sectors.id')
-        ->select("disciplinary_sectors.label as discipline_name","disciplinary_sectors.description as discipline_description","programs.label as program_name")
-        ->orderBy('cycle')
-        ->orderBy('program_name')
-        ->get();
+            ->programs()
+            ->with('admissionDate', function ($query) {
+                $query->where('iscurrent_admission', true);
+            })
+            ->leftJoin('disciplinary_sectors', 'programs.disciplinary_sector_id', '=', 'disciplinary_sectors.id')
+            ->select("disciplinary_sectors.label as discipline_name", "disciplinary_sectors.description as discipline_description", "programs.label as program_name")
+            ->orderBy('cycle')
+            ->orderBy('program_name')
+            ->get();
 
     }
 
-    static function  getUniversitiesBycountryIdAnddisciplaryIds($countryId,array $disciplaryIds)
+    public static function getUniversitiesBycountryIdAnddisciplaryIds($countryId, array $disciplaryIds)
     {
-        return University::whereHas('city.country',fn($query)=> $query->whereId($countryId))
-            ->whereHas('programs', fn($query) => $query->whereIn('disciplinary_sector_id',$disciplaryIds))
-            ->select('id','name')
+        return University::whereHas('city.country', fn($query) => $query->whereId($countryId))
+            ->whereHas('programs', fn($query) => $query->whereIn('disciplinary_sector_id', $disciplaryIds))
+            ->select('id', 'name', 'shortName')
             ->get();
+    }
+
+    public function getProgramAndAdmissionDate($universityId)
+    {
+        return $this->model->whereId($universityId)
+        ->with(['programs.admissionDate', 'tutorials'])
+        ->whereHas('programs.disciplineSector.services')
+        ->select('id','logo','updated_at')
+        ->first();
     }
 
 }
