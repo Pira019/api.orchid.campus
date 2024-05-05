@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AddUniversityAdresseRequest;
 use App\Http\Requests\SaveUniversityRequest;
 use App\Http\Requests\UpdateUniversityRequest;
+use App\Http\Resources\Manager\University\GetProgramAmssionDateResource;
 use App\Repository\Manager\CityRepository;
 use App\Repository\Manager\UniversityRepository;
 use App\Service\ManagerService\AddressService;
@@ -129,7 +130,9 @@ class UniversityController extends Controller
         $request->validate([
             'universityId' => 'required|integer|exists:universities,id'
         ]);
-        return $this->universityRepository->getProgramAndAdmissionDate($universityId);
+
+       return new GetProgramAmssionDateResource( $this->universityRepository->getProgramAndAdmissionDate($universityId));
+     //return $this->universityRepository->getProgramAndAdmissionDate($universityId);
     }
 
 }

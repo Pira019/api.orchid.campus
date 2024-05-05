@@ -57,7 +57,8 @@ class UniversityRepository extends RepositoryRessource
     public function getProgramAndAdmissionDate($universityId)
     {
         return $this->model->whereId($universityId)
-        ->with(['programs.admissionDate', 'tutorials'])
+        ->with(['programs' => fn($query) => $query->select('programs.id','label','cycle')
+        ->with("admissionDate",fn($query)=>$query->select('id','detail_program_id','start_at','end_at','session_admission','updated_at'))])
         ->whereHas('programs.disciplineSector.services')
         ->select('id','logo','updated_at')
         ->first();
