@@ -67,12 +67,12 @@ class ServiceController extends Controller
         $request->merge(['serviceId' => $serviceId]);
         $request->validate([
             'serviceId' =>'required|integer|exists:services,id',
-            'admission.*' => 'sometimes|required|numeric', 
+            'admissions' => 'required|array|min:1',
+            'admissions.*' => 'required|integer|distinct|exists:admission_dates,id',
         ]);
 
-        return $request->all();
         $service = $this->serviceRepository->findOne($serviceId);
-        return $service;
+        return $this->serviceService->saveServiceAdmissionDate($service,$request->admissions);
     }
 
     /**

@@ -25,7 +25,7 @@ class Service extends Model
 
     public function admissionDates(): BelongsToMany
     {
-        return $this->belongsToMany(AdmissionDate::class);
+        return $this->belongsToMany(AdmissionDate::class,"service_date_admission");
     }
 
 }
