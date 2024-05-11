@@ -16,6 +16,7 @@ class ProgramResource extends JsonResource
     {
         return[
             "label" => $this->label,
+            "id" => $this->id,
             "cycle" => $this->cycle,
             "admission_date" => AdmissionDateResource::collection($this->admissionDate)
         ];

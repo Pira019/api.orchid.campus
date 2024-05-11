@@ -62,6 +62,19 @@ class ServiceController extends Controller
         //
     }
 
+    public function saveAdmissionDate(Request $request,$serviceId)
+    {
+        $request->merge(['serviceId' => $serviceId]);
+        $request->validate([
+            'serviceId' =>'required|integer|exists:services,id',
+            'admission.*' => 'sometimes|required|numeric', 
+        ]);
+
+        return $request->all();
+        $service = $this->serviceRepository->findOne($serviceId);
+        return $service;
+    }
+
     /**
      * Remove the specified resource from storage.
      *

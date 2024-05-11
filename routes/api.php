@@ -71,6 +71,9 @@ Route::prefix('orchid-campus/manager')->group(function () {
 
          //route service
          Route::apiResource('service',ServiceController::class);
+         Route::controller(ServiceController::class)->prefix('service')->group(function () {
+            Route::post('/admission_dates/{serviceId}', 'saveAdmissionDate');
+        });
 
 
         //setting

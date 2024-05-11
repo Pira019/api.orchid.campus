@@ -23,4 +23,9 @@ class Service extends Model
         return $this->belongsTo(Country::class);
     }
 
+    public function admissionDates(): BelongsToMany
+    {
+        return $this->belongsToMany(AdmissionDate::class);
+    }
+
 }
