@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1\ManagerController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Manager\Service\SaveDateAdmissionRequest;
 use App\Http\Requests\Manager\Service\ShowRequest;
 use App\Http\Requests\Manager\StoreServiceRequest;
 use App\Http\Resources\Manager\Service\StoreResource;
@@ -62,15 +63,8 @@ class ServiceController extends Controller
         //
     }
 
-    public function saveAdmissionDate(Request $request,$serviceId)
+    public function saveAdmissionDate(SaveDateAdmissionRequest $request,$serviceId)
     {
-        $request->merge(['serviceId' => $serviceId]);
-        $request->validate([
-            'serviceId' =>'required|integer|exists:services,id',
-            'admissionDateIds' => 'required|array|min:1',
-            'admissionDateIds.*' => 'required|integer|distinct|exists:admission_dates,id',
-        ]);
-
         $service = $this->serviceRepository->findOne($serviceId);
         return $this->serviceService->saveServiceAdmissionDate($service,$request->admissionDateIds);
     }
