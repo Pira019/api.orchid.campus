@@ -71,6 +71,9 @@ Route::prefix('orchid-campus/manager')->group(function () {
 
          //route service
          Route::apiResource('service',ServiceController::class);
+         Route::controller(ServiceController::class)->prefix('service')->group(function () {
+            Route::post('/admission_dates/{serviceId}', 'saveAdmissionDate');
+        });
 
 
         //setting
@@ -91,10 +94,12 @@ Route::prefix('orchid-campus/manager')->group(function () {
         Route::controller(UniversityController::class)->prefix('university')->group(function () {
             Route::post('', 'save');
             Route::post('/address', 'addAddress');
-            Route::get('/list/country/{idCountry}', 'getUniversitiesByCountryId');
-            Route::get('/{id}', 'show');
             Route::post('update/{id}', 'update');
             Route::post('update-address/{university_id}', 'updateAddress');
+
+            Route::get('{universityId}/programs-date', 'getProgramAndAdmissionDateById');
+            Route::get('/list/country/{idCountry}', 'getUniversitiesByCountryId');
+            Route::get('/{id}', 'show');
 
             //Program
             Route::match(['post','put'],'/{university_id}/add-or-edit-program', 'addOrUpdateProgram');

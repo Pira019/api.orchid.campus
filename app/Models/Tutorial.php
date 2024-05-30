@@ -13,7 +13,8 @@ class Tutorial extends Model
 
     protected $fillable = ['title','order','description'];
 
-    public function tutorialable() : MorphTo{
+    public function tutorialable() : MorphTo
+    {
         return $this->morphTo();
     }
 
@@ -21,4 +22,6 @@ class Tutorial extends Model
     {
         return $this->hasMany(ExtraTutorial::class);
     }
+
+
 }

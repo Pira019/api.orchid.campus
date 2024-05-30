@@ -21,5 +21,10 @@ class ServiceService extends ServiceRessource{
         return $service;
     }
 
+    public function saveServiceAdmissionDate($service,array $dateAdmissionIds)
+    {
+        return $service->admissionDates()->syncWithoutDetaching($dateAdmissionIds);
+    }
+
 
 }
