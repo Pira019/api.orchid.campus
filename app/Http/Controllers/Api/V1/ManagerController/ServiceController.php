@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1\ManagerController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Manager\Service\SaveDateAdmissionRequest;
 use App\Http\Requests\Manager\Service\ShowRequest;
 use App\Http\Requests\Manager\StoreServiceRequest;
 use App\Http\Resources\Manager\Service\StoreResource;
@@ -60,6 +61,12 @@ class ServiceController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    public function saveAdmissionDate(SaveDateAdmissionRequest $request,$serviceId)
+    {
+        $service = $this->serviceRepository->findOne($serviceId);
+        return $this->serviceService->saveServiceAdmissionDate($service,$request->admissionDateIds);
     }
 
     /**

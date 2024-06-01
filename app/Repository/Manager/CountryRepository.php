@@ -22,8 +22,10 @@ class CountryRepository extends RepositoryRessource
         return $this->model->whereHas('countrySteps')->whereHas('cities')->orderBy('countries.name')->select('id','name')->get();
     }
 
-    public function getCoutriesAndDisciplinaries(){
+    public function getCoutriesAndDisciplinaries()
+    {
         return $this->model->has('disciplinaries')
+        ->has('countrySteps')
         ->with('disciplinaries',fn($query)=> $query->select('disciplinary_sectors.id','disciplinary_sectors.label'))
         ->select('id','name','short_name','flag_url')->get();
     }
