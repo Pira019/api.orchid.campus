@@ -30,4 +30,14 @@ class CountryRepository extends RepositoryRessource
         ->select('id','name','short_name','flag_url')->get();
     }
 
+    public function countrySteps()
+    {
+        return $this->model->whereHas('countrySteps')->orderBy('countries.name')->select('id','name','flag_url')->get();
+    }
+
+    public function getCountryStepsByCountryId($idCountry)
+    {
+        return $this->model::select('id', 'name', 'short_name','flag_url')->with('countrySteps')->find($idCountry);
+    }
+
 }
