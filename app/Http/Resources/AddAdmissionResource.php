@@ -15,6 +15,7 @@ class AddAdmissionResource extends JsonResource
     public function toArray($request)
     {
         return [
+            "id" =>  $this->id,
             "link" =>  $this->link,
             "session_admission" =>  $this->session_admission,
             "type" =>  $this->type,
