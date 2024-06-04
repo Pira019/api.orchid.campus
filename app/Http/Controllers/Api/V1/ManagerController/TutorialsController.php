@@ -12,13 +12,13 @@ use App\Service\ManagerService\ExtraTutorialService;
 use Illuminate\Http\Request;
 use  App\Http\Requests\AddTutoVideoRequest;
 use App\Http\Resources\ExtraTutorialResource;
+use App\Repository\Manager\CountryRepository;
 use App\Repository\Manager\CountryStepsRepository;
-use App\Repository\Manager\ExtraTutorialRepository;
 use App\Service\ManagerService\UserVideoKeyService;
 
 class TutorialsController extends Controller
 {
-    public function __construct(public TutorialRepository $tutorialRepository, public TutorialService $tutorialService,public CloudflareStreamService $cloudflareStreamService)
+    public function __construct(public CountryRepository $countryRepository, public TutorialRepository $tutorialRepository, public TutorialService $tutorialService,public CloudflareStreamService $cloudflareStreamService)
     {}
 
     /**
@@ -67,7 +67,7 @@ class TutorialsController extends Controller
 
 
     public function getFlagUrlAndNameOfCountriesWithSteps(){
-        return $this->tutorialRepository->getFlagUrlAndNameOfCountriesWithSteps();
+        return $this->countryRepository->countrySteps();
     }
 
     public function getCountryStepsByCountryId($country_id,Request $request)
@@ -77,7 +77,7 @@ class TutorialsController extends Controller
             'country_id' =>
                 'required|integer|exists:countries,id',
         ]);
-        return $this->tutorialRepository->getCountryStepsByCountryId($country_id);
+        return $this->countryRepository->getCountryStepsByCountryId($country_id);
     }
 
     public function save(Request $request)
@@ -112,8 +112,7 @@ class TutorialsController extends Controller
         $request->validate([
             'step_country_id' =>
                 'required|integer|exists:country_steps,id',
-        ]);
-
+        ]); 
         return $countryStepsRepository->getTutosByStepCoutryId($stepCoutrty_id);
     }
 
@@ -155,7 +154,7 @@ class TutorialsController extends Controller
         $infoTuto->signature = $userVideoKeyService->generateToken($videoId, $infoTuto?->id, $creator);
         }
 
-        return new ExtraTutorialResource($infoTuto); 
+        return new ExtraTutorialResource($infoTuto);
     }
 
 
