@@ -16,7 +16,7 @@ class AdmissionDateController extends Controller
     {
        $data = $admissionRequest->validated();
 
-       return new AddAdmissionResource($this->admissionDateService->saveDate($data));
+       return new AddAdmissionResource($this->admissionDateService->create($data));
     }
 
 }

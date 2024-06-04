@@ -12,23 +12,4 @@ class AdmissionDateService extends ServiceRessource
         $this->model = $model;
     }
 
-    public function saveDate($dateAdmission){
-
-        $conditions = [
-                       ['detail_program_id', '=', $dateAdmission['detail_program_id']],
-                       ["iscurrent_admission", '=', true ]
-                    ];
-
-        $this->model->where($conditions)->update( ["iscurrent_admission"=> false]); // set iscurrent_admission to false
-
-        $data= [...$dateAdmission, "iscurrent_admission"=> true];
-
-        return $this->create($data);
-    }
-
-
-
-
-
-
 }

@@ -35,9 +35,7 @@ class UniversityRepository extends RepositoryRessource
     {
         return $this->findOne($universityId)
             ->programs()
-            ->with('admissionDate', function ($query) {
-                $query->where('iscurrent_admission', true);
-            })
+            ->with('admissionDate')
             ->leftJoin('disciplinary_sectors', 'programs.disciplinary_sector_id', '=', 'disciplinary_sectors.id')
             ->select("disciplinary_sectors.label as discipline_name", "disciplinary_sectors.description as discipline_description", "programs.label as program_name")
             ->orderBy('cycle')

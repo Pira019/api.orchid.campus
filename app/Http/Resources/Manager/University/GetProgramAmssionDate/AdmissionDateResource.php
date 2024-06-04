@@ -20,6 +20,7 @@ class AdmissionDateResource extends JsonResource
             "end_at" => $this->end_at,
             "session_admission" => $this->session_admission,
             "updated_at" => $this->updated_at,
+            "year" => $this->year,
         ];
     }
 }
