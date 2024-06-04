@@ -10,7 +10,7 @@ class AdmissionDate extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['detail_program_id','iscurrent_admission', 'type','start_at','end_at','session_admission','link'];
+    protected $fillable = ['detail_program_id','iscurrent_admission', 'type','start_at','end_at','session_admission','link','year'];
 
     public function universityProgram() : BelongsTo
     {
