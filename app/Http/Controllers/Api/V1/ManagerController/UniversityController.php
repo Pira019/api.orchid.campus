@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AddUniversityAdresseRequest;
 use App\Http\Requests\SaveUniversityRequest;
 use App\Http\Requests\UpdateUniversityRequest;
+use App\Http\Resources\Manager\University\GetOneResource;
 use App\Http\Resources\Manager\University\GetProgramAmssionDateResource;
 use App\Repository\Manager\CityRepository;
 use App\Repository\Manager\UniversityRepository;
@@ -55,7 +56,7 @@ class UniversityController extends Controller
         $request->merge(['country_id' => $countryId]);
 
         $request->validate([
-            'country_id' => 'integer|exists:countries,id',
+            'country_id' => 'integer|exists:cities,country_id',
         ]);
 
         return $this->universityRepository->getByCountryId($countryId);
@@ -63,7 +64,7 @@ class UniversityController extends Controller
 
     public function show($id, Request $request)
     {
-        $request->merge(['university_id' => $request->route('id')]);
+        $request->merge(['university_id' => $id]);
         $request->validate([
             'university_id' => 'required|integer|exists:universities,id',
         ]);

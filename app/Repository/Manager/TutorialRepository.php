@@ -14,20 +14,9 @@ class TutorialRepository extends RepositoryRessource
         $this->model = $model;
      }
 
-    public function getFlagUrlAndNameOfCountriesWithSteps()
-    {
-        return CountryStep::join('countries', 'country_steps.country_id', '=', 'countries.id')
-            ->selectRaw('country_steps.country_id as id, flag_url,name',)->groupBy('name','flag_url','country_steps.country_id')->orderBy('name')->get();
-    }
-
     public function getCountryStepsAndTutorialsByCountryId($idCountry)
     {
         return Country::with('countrySteps.tutorials')->where('id', $idCountry)->first(['id', 'name', 'short_name','flag_url']);
-    }
-
-    public function getCountryStepsByCountryId($idCountry)
-    {
-        return Country::with('countrySteps')->where('id', $idCountry)->first(['id', 'name', 'short_name','flag_url']);
     }
 
     public function getTutosByStepCoutryId($idStepCountry)
@@ -40,6 +29,8 @@ class TutorialRepository extends RepositoryRessource
     {
         return  $this->findOne($idTuto)->makeHidden(['tutorialable_id','tutorialable_type','created_at']);
     }
+
+   
 
 
 
