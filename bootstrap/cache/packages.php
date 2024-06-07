@@ -38,6 +38,13 @@
       0 => 'LaravelLang\\Publisher\\ServiceProvider',
     ),
   ),
+  'laravel/cashier' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Laravel\\Cashier\\CashierServiceProvider',
+    ),
+  ),
   'laravel/sail' => 
   array (
     'providers' => 
