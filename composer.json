@@ -10,6 +10,7 @@
         "doctrine/dbal": "^3.6",
         "firebase/php-jwt": "^6.10",
         "guzzlehttp/guzzle": "^7.5",
+        "laravel/cashier": "^14.14",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/telescope": "*",

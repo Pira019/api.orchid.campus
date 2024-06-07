@@ -21,6 +21,7 @@ class SettingRepository extends RepositoryRessource
 
     public function findWatermark()
     {
+        
      return $this->getFirst("type", SettingTypeEnum::WATERMARK->value)?->with(['image:imageable_id,url'])
      ->select('refType','updated_at','id')->first();
     }
