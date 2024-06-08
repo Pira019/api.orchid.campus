@@ -15,7 +15,7 @@ class GetProgramAmssionDateResource extends JsonResource
      */
     public function toArray($request)
     {
-        return[
+        return[ 
             "logo" => $this->logo,
             "updated_at" => $this->updated_at,
             "programs" => ProgramResource::collection($this->programs)

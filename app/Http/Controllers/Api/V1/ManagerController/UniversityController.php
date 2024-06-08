@@ -125,15 +125,21 @@ class UniversityController extends Controller
     }
 
     //id = university id
-    public function getProgramAndAdmissionDateById(Request $request,$universityId)
+    public function getProgramAndAdmissionDateById(Request $request,$universityId,$year=null)
     {
-        $request->merge(['universityId' => $request->route('universityId')]);
+         
+        $request->merge(['universityId' => $universityId]);
         $request->validate([
             'universityId' => 'required|integer|exists:universities,id'
         ]);
 
-       return new GetProgramAmssionDateResource( $this->universityRepository->getProgramAndAdmissionDate($universityId));
-     //return $this->universityRepository->getProgramAndAdmissionDate($universityId);
+        $response = $this->universityRepository->getProgramAndAdmissionDate($universityId,$year);
+
+        if(!$response){
+            return null;
+        }
+      return new GetProgramAmssionDateResource($response);
     }
 
 }
+
