@@ -104,7 +104,7 @@ Route::prefix('orchid-campus/manager')->group(function () {
             Route::post('update/{id}', 'update');
             Route::post('update-address/{university_id}', 'updateAddress');
 
-            Route::get('{universityId}/programs-date', 'getProgramAndAdmissionDateById');
+            Route::get('{universityId}/programs-date/{year?}', 'getProgramAndAdmissionDateById');
             Route::get('/list/country/{idCountry}', 'getUniversitiesByCountryId');
             Route::get('/{id}', 'show');
 
