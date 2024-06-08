@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\ManagerController\AuthController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryController as ManagerControllerCountryController;
 use App\Http\Controllers\Api\V1\ManagerController\CountryStepController;
 use App\Http\Controllers\Api\V1\ManagerController\ExtraTutorialController;
+use App\Http\Controllers\Api\V1\ManagerController\ProfileController;
 use App\Http\Controllers\Api\v1\ManagerController\ServiceController;
 use App\Http\Controllers\Api\V1\ManagerController\SettingController;
 use App\Http\Controllers\Api\V1\ManagerController\TutorialsController;
@@ -29,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 //CustomerController
 
 Route::prefix('orchid-campus')->group(function () {
+
 
     //User routes
     Route::controller(UserController::class)->group(function () {
@@ -56,6 +58,8 @@ Route::prefix('orchid-campus')->group(function () {
 //Manager Controllers
 Route::prefix('orchid-campus/manager')->group(function () {
 
+
+
     //For Admin
     Route::middleware(['auth:sanctum', 'role:Admin'])->group(function () {
 
@@ -68,6 +72,9 @@ Route::prefix('orchid-campus/manager')->group(function () {
 
     //For Admin, Manager
     Route::middleware(['auth:sanctum', 'role:Admin|Manager'])->group(function () {
+
+        //Profil
+        Route::apiSingleton('profile', ProfileController::class);
 
          //route service
          Route::apiResource('service',ServiceController::class);
