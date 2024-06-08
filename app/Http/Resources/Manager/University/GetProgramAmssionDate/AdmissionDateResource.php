@@ -19,8 +19,7 @@ class AdmissionDateResource extends JsonResource
             "start_at" => $this->start_at,
             "end_at" => $this->end_at,
             "session_admission" => $this->session_admission,
-            "updated_at" => $this->updated_at,
-            "year" => $this->year,
+            "updated_at" => $this->updated_at, 
         ];
     }
 }
