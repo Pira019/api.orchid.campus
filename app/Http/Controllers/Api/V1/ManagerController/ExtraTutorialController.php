@@ -20,8 +20,8 @@ class ExtraTutorialController extends Controller
         $request->validate([
             'id' =>'required|integer|exists:extra_tutorials,id',
             'video_identifier' =>'required',
-        ]); 
-        
+        ]);
+
          return $this->extraTutorialService->deleteVideo($id,$videoId);
     }
 }
